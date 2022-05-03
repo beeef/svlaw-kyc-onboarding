@@ -1,12 +1,28 @@
 import React, { Component } from "react";
-import { Button, Card, Col, DatePicker, Form, Input, Row, Select } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Radio,
+  Row,
+  Select
+} from "antd";
+import {
+  BankOutlined,
+  LeftOutlined,
+  RightOutlined,
+  UserOutlined
+} from "@ant-design/icons";
 import strings from "../locale/strings.json";
 import countries from "i18n-iso-countries";
 
 class Step1 extends Component {
   state = {
-    countries: null
+    countries: null,
+    selectedType: null
   };
 
   constructor(props) {
@@ -16,9 +32,11 @@ class Step1 extends Component {
     this.state.countries = countries.getNames("de", { select: "official" });
   }
 
+  validate = () => {};
+
   render() {
-    const { countries } = this.state;
-    const { currentLang, gotoPrev, gotoNext } = this.props;
+    const { countries, selectedType } = this.state;
+    const { currentLang, onChangeFormData } = this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
@@ -26,40 +44,8 @@ class Step1 extends Component {
     };
 
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%"
-        }}
-      >
-        <h2>Bitte auswählen</h2>
-        <div>
-          <Button onClick={gotoNext}>Natürliche Person</Button>{" "}
-          <Button onClick={gotoNext}>Juristische Person</Button>
-        </div>
-      </div>
-    );
-
-    /*
-    return (
-      <Card
-        title={strings[currentLang].nat.STEP1_TITLE}
-        className="box-shadow"
-        extra={
-          <Button type="primary">
-            Next <RightOutlined />
-          </Button>
-        }
-        actions={[
-          <Button icon={<LeftOutlined />}>Back</Button>,
-          <Button type="primary">
-            Next <RightOutlined />
-          </Button>
-        ]}
-      >
+      <>
+        <h2>{strings[currentLang].nat.STEP1_TITLE}</h2>
         <Form {...formLayout} labelAlign="left">
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
@@ -74,7 +60,11 @@ class Step1 extends Component {
             </Col>
             <Col xs={24} md={12}>
               <Form.Item label={strings[currentLang].nat.DATE_OF_BIRTH}>
-                <DatePicker format="DD.MM.YYYY" allowClear />
+                <DatePicker
+                  format="DD.MM.YYYY"
+                  allowClear
+                  style={{ width: "100%" }}
+                />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
@@ -126,9 +116,8 @@ class Step1 extends Component {
             </Col>
           </Row>
         </Form>
-      </Card>
+      </>
     );
-    */
   }
 }
 

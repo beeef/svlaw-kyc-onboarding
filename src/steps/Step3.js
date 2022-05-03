@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Card } from "antd";
 import strings from "../locale/strings.json";
 
 class Step3 extends Component {
   state = {};
 
   render() {
-    const { currentLang } = this.props;
+    const { currentLang, gotoPrev, gotoNext } = this.props;
 
     return (
       <>

@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 // import required modules
-import { Pagination, Navigation } from "swiper";
+import { Pagination } from "swiper";
 import "antd/dist/antd.css";
 import "./styles.css";
 import strings from "./locale/strings.json";
@@ -17,9 +17,25 @@ import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
 import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
+import { Button, Row } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+
+import svlawLogo from "./svlaw-logo.png";
+import StepNatJurPerson from "./steps/StepNatJurPerson";
 
 class App extends Component {
-  state = { currentStep: 0, currentLang: "de", swiperInstance: null };
+  state = {
+    currentStep: 0,
+    currentLang: "de",
+    swiperInstance: null,
+    formData: {}
+  };
+
+  handleChangeFormData = (key, value) => {
+    this.setState((state) => ({
+      formData: { ...state.formData, [key]: value }
+    }));
+  };
 
   gotoPrevStep = () => {
     const { swiperInstance } = this.state;
@@ -32,35 +48,16 @@ class App extends Component {
   };
 
   render() {
-    const { currentStep, currentLang } = this.state;
+    const { currentLang, swiperInstance } = this.state;
 
     return (
       <div className="App">
         <div className="main-container">
           <div className="left">
-            {/*
-            <PageHeader title="KYC Formular" subTitle="Natürliche Person">
-              <Steps
-                direction="horizontal"
-                current={currentStep}
-                progressDot
-                onChange={(current) => {
-                  this.setState({ currentStep: current });
-                  this.carouselRef.current.goTo(current);
-                }}
-              >
-                <Steps.Step title={strings[currentLang].nat.STEP1_TITLE} />
-                <Steps.Step title={strings[currentLang].nat.STEP2_TITLE} />
-                <Steps.Step title={strings[currentLang].nat.STEP3_TITLE} />
-                <Steps.Step title={strings[currentLang].nat.STEP4_TITLE} />
-                <Steps.Step title={strings[currentLang].nat.STEP5_TITLE} />
-              </Steps>
-            </PageHeader>
-              */}
             <div className="content">
-              <h1>SV.LAW OnBoarding</h1>
+              <h1>OnBoarding</h1>
               <Swiper
-                allowTouchMove={true}
+                allowTouchMove={false}
                 pagination={{
                   type: "progressbar"
                 }}
@@ -68,22 +65,26 @@ class App extends Component {
                 modules={[Pagination]}
                 className="mySwiper"
                 onSwiper={(swiper) => {
+                  swiper.on("activeIndexChange", (swiper) => {
+                    this.setState({ swiperInstance: swiper });
+                  });
                   this.setState({ swiperInstance: swiper });
                 }}
               >
                 <SwiperSlide>
-                  <Step1
+                  <StepNatJurPerson
                     currentLang={currentLang}
-                    gotoPrev={this.gotoPrevStep}
-                    gotoNext={this.gotoNextStep}
+                    onChangeFormData={this.handleChangeFormData}
                   />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step2
+                  <Step1
                     currentLang={currentLang}
-                    gotoPrev={this.gotoPrevStep}
-                    gotoNext={this.gotoNextStep}
+                    onChangeFormData={this.handleChangeFormData}
                   />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Step2 currentLang={currentLang} />
                 </SwiperSlide>
                 <SwiperSlide>
                   <Step3 currentLang={currentLang} />
@@ -95,9 +96,30 @@ class App extends Component {
                   <Step5 currentLang={currentLang} />
                 </SwiperSlide>
               </Swiper>
+              <Row
+                justify="space-between"
+                style={{ marginTop: "24px", margin: "12px 24px" }}
+              >
+                <Button
+                  icon={<LeftOutlined />}
+                  onClick={this.gotoPrevStep}
+                  disabled={!swiperInstance || swiperInstance.activeIndex === 0}
+                >
+                  Zurück
+                </Button>
+                <Button onClick={this.gotoNextStep}>
+                  Weiter <RightOutlined />
+                </Button>
+              </Row>
             </div>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <img
+              src={svlawLogo}
+              className="svlaw-logo"
+              alt="STADLER VÖLKEL Logo"
+            />
+          </div>
         </div>
       </div>
     );

@@ -63,14 +63,6 @@ class Step2 extends Component {
             </Radio>
           </Space>
         </Radio.Group>
-        <Row justify="space-between" style={{ marginTop: "24px" }}>
-          <Button icon={<LeftOutlined />} onClick={gotoPrev}>
-            Back
-          </Button>
-          <Button onClick={gotoNext}>
-            Next <RightOutlined />
-          </Button>
-        </Row>
       </>
     );
   }

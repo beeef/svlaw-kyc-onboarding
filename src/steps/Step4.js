@@ -8,11 +8,7 @@ class Step4 extends Component {
   render() {
     const { currentLang } = this.props;
 
-    return (
-      <Card title={strings[currentLang].nat.STEP4_TITLE} className="box-shadow">
-        asdf
-      </Card>
-    );
+    return <>asdf</>;
   }
 }
 
