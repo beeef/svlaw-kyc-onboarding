@@ -1,0 +1,24 @@
+{
+  "de": {
+    "nat": {
+      "STEP1_TITLE": "Angaben zur Person",
+      "STEP2_TITLE": "Angaben zum betreffenden Rechtsgeschäft",
+      "STEP3_TITLE": "Weitere Angaben zur Person",
+      "STEP4_TITLE": "Beilagen",
+      "STEP5_TITLE": "Zusammenfassung",
+      "FIRST_AND_LAST_NAME": "Vor- und Zuname",
+      "DATE_OF_BIRTH": "Geburtsdatum",
+      "NATIONALITY": "Staatsbürgerschaft",
+      "ADDRESS": "Zustellanschrift",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "STREET": "Straße",
+      "STREET_NUMBER": "Hausnummer",
+      "POSTAL_CODE": "Postleitzahl",
+      "POSTAL_CODE_SHORT": "PLZ",
+      "CITY": "Stadt",
+      "COUNTRY": "Land",
+      "SELECT_COUNTRY": "Land auswählen ..."
+    }
+  }
+}

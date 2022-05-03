@@ -1,0 +1,216 @@
+body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #2f426b;
+  font-family: Roboto;
+  overflow: hidden;
+}
+
+body:before,
+body:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  min-width: 300vw;
+  min-height: 300vw;
+  background-color: #d3dde1;
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+body:before {
+  bottom: 15vh;
+  border-radius: 45%;
+  animation-duration: 110s;
+}
+
+body:after {
+  bottom: 12vh;
+  opacity: 0.5;
+  border-radius: 37%;
+  animation-duration: 110s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, 0) rotateZ(0deg);
+  }
+  50% {
+    transform: translate(-50%, -2%) rotateZ(180deg);
+  }
+  100% {
+    transform: translate(-50%, 0%) rotateZ(360deg);
+  }
+}
+
+h1 {
+  font-family: kansasnew;
+  font-weight: 800;
+}
+
+h2 {
+  font-family: marigny;
+  font-weight: 400;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.9em;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.4em;
+  margin: 18px 0;
+}
+
+.App {
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  display: flex;
+  width: 90vw;
+  max-width: 1100px;
+  overflow: hidden;
+  height: 90vh;
+  flex-direction: column-reverse;
+  border-radius: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 999;
+}
+
+.main-container .left {
+  display: block;
+  width: 100%;
+  height: calc(100% - 160px);
+  background-color: #fafafa;
+  overflow: auto;
+}
+
+.main-container .left .content {
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 70px);
+  padding: 12px 0;
+}
+
+.main-container .right {
+  background-image: url(./svlaw-haus.jpg);
+  background-size: cover;
+  background-position: 80% 20%;
+  display: block;
+  width: 100%;
+  height: 160px;
+  padding: 0;
+}
+
+.main-container .mySwiper {
+  height: 100%;
+}
+
+.main-container .mySwiper .swiper-slide {
+  padding-top: 12px;
+  overflow: scroll;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 24px;
+}
+
+.main-container .mySwiper .swiper-horizontal > .swiper-pagination-progressbar,
+.swiper-pagination-progressbar.swiper-pagination-horizontal {
+  height: 3px;
+  box-shadow: 0 0px 6px rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (min-width: 900px) {
+  h1 {
+    text-align: left;
+    font-size: 2.4em;
+  }
+
+  h2 {
+    text-align: left;
+    font-size: 1.6em;
+  }
+  .main-container {
+    flex-direction: row;
+    height: 70vh;
+    max-height: 600px;
+  }
+
+  .main-container .left {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: block;
+    width: 60%;
+    height: 100%;
+    background-color: #fafafa;
+    overflow: auto;
+  }
+
+  .main-container .left .content {
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 70px);
+    padding: 48px;
+  }
+
+  .main-container .right {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-position: 80% center;
+    width: 40%;
+    height: 100%;
+    padding: 24px;
+  }
+}
+
+.main-container .left .content .ant-carousel,
+.main-container .left .content .ant-carousel .slick-slider {
+  height: calc(100%);
+}
+
+.main-container .left .carousel .slick-list,
+.main-container .left .carousel .slick-track,
+.main-container .left .carousel .slick-slide,
+.main-container .left .carousel .slick-slide > div {
+  height: calc(100% - 24px);
+}
+
+.box-shadow {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.ant-carousel .ant-card {
+  margin: 32px;
+  border: 0;
+}
+
+.ant-carousel .carousel-dots {
+  position: absolute !important;
+  bottom: 10px;
+  margin: 12px 0;
+}
+
+.ant-carousel .carousel-dots li button {
+  background: #333333;
+}
+
+.ant-carousel .carousel-dots li.slick-active button,
+.carousel-dots li.slick-active button {
+  background: #333333;
+}
+
+.ant-card {
+  border-radius: 12px;
+}
