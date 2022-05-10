@@ -1,5 +1,75 @@
 {
+  "en": {
+    "SELECT_CLIENT_TYPE_HEADER": "The client is a:",
+    "NATURAL_PERSON": "Natural person",
+    "LEGAL_ENTITY": "Legal entity",
+    "BACK": "Back",
+    "NEXT": "Next",
+    "YES": "Yes",
+    "NO": "No",
+    "CHECKBOX_TICK_ALL_THAT_APPLY": "Tick all that apply",
+    "nat": {
+      "STEP_CLIENT_INFORMATION": "Please provide the following information about the client:",
+      "STEP_CLIENT_SUBJECT_TO_TAXATION": "Is the client subject to taxation in Austria?",
+      "STEP_SELECT_COUNTRY_FOR_TAXATION": "Please indicate in which country the client is subject to taxation.",
+      "STEP_WHAT_LEGAL_SERVICES": "What kind of legal services will be provided?",
+      "STEP_PEP" : "Do any of the following persons qualify as a politically exposed person (PEP)?",
+      "STEP5_TITLE": "Zusammenfassung",
+      "FIRST_AND_LAST_NAME": "Full name",
+      "DATE_OF_BIRTH": "Date of birth",
+      "NATIONALITY": "Nationality",
+      "ADDRESS": "Residential address",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "STREET": "Street",
+      "STREET_NUMBER": "Street number",
+      "POSTAL_CODE": "Postal code / ZIP",
+      "POSTAL_CODE_SHORT": "ZIP",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "SELECT_COUNTRY": "Select country ...",
+      "VAT_NUMBER": "VAT identification number",
+      "EMAIL_ADDRESS": "Email address",
+      "PURCHASE_OR_SALE_OF_REAL_ESTATE": "The purchase or sale of real estate or companies",
+      "ADMINISTRATION_OF_MONEY": "The administration of money, securities or other assets (e.g., digital assets), the opening or administration of bank, savings or securities accounts",
+      "FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST": "The formation, operation or administration of any trust, company, foundation or similar structure, including raising the funds necessary for the formation, operation or administration of companies (e.g., ICOs/STOs)",
+      "OTHER": "Other",
+      "LEGAL_SERVICES_FOR_CLIENT_OR_SOMEONE_ELSE": "Will the legal services be provided for the client or on behalf of someone else?",
+      "CLIENT": "Client",
+      "SOMEONE_ELSE": "Someone else",
+      "FAMILY_MEMBER_OF_CLIENT": "Family member of the client",
+      "CLOSE_ASSOCIATE_OF_CLIENT": "Close associate of the client",
+      "NONE_OF_ABOVE": "None of the above"
+    },
+    "jur": {
+      "STEP1_TITLE": "Angaben zur juristischen Person",
+      "STEP2_TITLE": "Angaben zum betreffenden Rechtsgeschäft",
+      "STEP3_TITLE": "Weitere Angaben zur Person",
+      "STEP4_TITLE": "Beilagen",
+      "STEP5_TITLE": "Zusammenfassung",
+      "FIRST_AND_LAST_NAME": "Vor- und Zuname",
+      "DATE_OF_BIRTH": "Geburtsdatum",
+      "NATIONALITY": "Staatsbürgerschaft",
+      "ADDRESS": "Zustellanschrift",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "STREET": "Straße",
+      "STREET_NUMBER": "Hausnummer",
+      "POSTAL_CODE": "Postleitzahl",
+      "POSTAL_CODE_SHORT": "PLZ",
+      "CITY": "Stadt",
+      "COUNTRY": "Land",
+      "SELECT_COUNTRY": "Land auswählen ...",
+      "VAT_NUMBER": "VAT identification number",
+      "EMAIL_ADDRESS": "Email address"
+    }
+  },
   "de": {
+    "SELECT_CLIENT_TYPE_HEADER": "Der Mandant ist eine:",
+    "NATURAL_PERSON": "Natürliche Person",
+    "LEGAL_ENTITY": "Juristische Person",
+    "BACK": "Zurück",
+    "NEXT": "Weiter",
     "nat": {
       "STEP1_TITLE": "Angaben zur Person",
       "STEP2_TITLE": "Angaben zum betreffenden Rechtsgeschäft",
@@ -18,7 +88,36 @@
       "POSTAL_CODE_SHORT": "PLZ",
       "CITY": "Stadt",
       "COUNTRY": "Land",
-      "SELECT_COUNTRY": "Land auswählen ..."
+      "SELECT_COUNTRY": "Land auswählen ...",
+      "VAT_NUMBER": "VAT identification number",
+      "EMAIL_ADDRESS": "Email address"
+    },
+    "jur": {
+      "STEP1_TITLE": "Angaben zur juristischen Person",
+      "STEP2_TITLE": "Angaben zum betreffenden Rechtsgeschäft",
+      "STEP3_TITLE": "Weitere Angaben zur Person",
+      "STEP4_TITLE": "Beilagen",
+      "STEP5_TITLE": "Zusammenfassung",
+      "FIRST_AND_LAST_NAME": "Vor- und Zuname",
+      "DATE_OF_BIRTH": "Geburtsdatum",
+      "NATIONALITY": "Staatsbürgerschaft",
+      "ADDRESS": "Zustellanschrift",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "STREET": "Straße",
+      "STREET_NUMBER": "Hausnummer",
+      "POSTAL_CODE": "Postleitzahl",
+      "POSTAL_CODE_SHORT": "PLZ",
+      "CITY": "Stadt",
+      "COUNTRY": "Land",
+      "SELECT_COUNTRY": "Land auswählen ...",
+      "VAT_NUMBER": "VAT identification number",
+      "EMAIL_ADDRESS": "Email address"
+    }
+  },
+  "definitions": {
+    "pep": {
+      "en": "Politically exposed persons are those natural persons who have been or are entrusted with prominent public functions and their immediate family members or persons known to be close associates (Art. 3 para 8 of the Directive 2005/60/EC of the European Parliament and the Council of 26.10.2005) include especially (§ 8e RAO):\n      \n      1. heads of State, heads of government, ministers, deputy ministers and assistant ministers; in Austria this especially concerns the Federal President, the Federal Chancellor and the members of the federal government and the government of the Federal States;\n    \n      2. members of parliament or similar legislative bodies; in Austria this especially concerns the members of the National Council and the Federal Council;\n\n      3. members of the governing bodies of political parties; in Austria this especially concerns the members of the governing bodies of the political parties represented in the National Council;\n    \n      4. members of Supreme Courts, of Constitutional Courts or of other high level judicial bodies, the decisions of which are not subject to further appeal, except in exceptional circumstances; in Austria this especially concerns the judges of the Constitutional Court, the Administrative Court and the Supreme Court;\n\n      5. members of Courts of Auditors or of the Boards of Central Banks; in Austria this especially concerns the President of the Court of Audit  as well as the directors of the Courts of Audit of the Federal States and the members of the directorate of the Austrian National Bank;\n\n      6. ambassadors, chargés d’affaires and high ranking officers in the armed forces; in Austria this especially concerns officers of the armed forces, especially military persons starting with the rank Lt.General;\n\n      7. members of the administrative, management or supervisory bodies of State owned enterprises; in Austria this especially concerns enterprises in which the Federation or a Land has an interest of at least 50 % of the nominal-, original- or proprietary capital or which the Federation or a Land operate alone or which are under control of the Federation or a Land through financial or other economic or effective measures in effect; \n    \n      8. directors, deputy directors and members of the board or equivalent function of an international organization.\n    \n    No public function referred to in no. 1 to 8 shall be understood as covering middle-ranking or more junior officials.\n    Family members of politically exposed persons especially are:\n\n      1. the spouse of a politically exposed person, a person to be equivalent to a spouse of a politically exposed person or the life companion in the sense of § 72 para 2 Austrian Criminal Code;\n    \n      2. the children (including adoptive- or foster children) of a politically exposed person and his / her spouse or persons considered to be equivalent to a spouse or to a life companion in the sense of § 72 para 2 Austrian Criminal Code;\n    \n      3. the parents of a politically exposed person.\n    \n    Politically exposed persons known to be close associates are:\n    \n      1.  e been set up for the de facto benefit of a politically exposed person."
     }
   }
 }

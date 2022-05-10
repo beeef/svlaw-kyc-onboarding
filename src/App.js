@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Button, Row } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-// import required modules
+// Core modules imports are same as usual
 import { Pagination } from "swiper";
+// Direct React component imports
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
+
+// Styles must use direct files imports
+import "swiper/swiper.scss"; // core Swiper
+import "swiper/modules/navigation/navigation.scss"; // Navigation module
+import "swiper/modules/pagination/pagination.scss"; // Pagination module
+
 import "antd/dist/antd.css";
 import "./styles.css";
 import strings from "./locale/strings.json";
@@ -17,23 +20,25 @@ import Step2 from "./steps/Step2";
 import Step3 from "./steps/Step3";
 import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
-import { Button, Row } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 import svlawLogo from "./svlaw-logo.png";
 import StepNatJurPerson from "./steps/StepNatJurPerson";
+import NatStammdaten from "./steps/nat/NatStammdaten";
+import JurStammdaten from "./steps/jur/JurStammdaten";
+import NatMandantSteuerpflichtig from "./steps/nat/NatMandantSteuerpflichtig";
+import NatRechtsgeschaefte from "./steps/nat/NatRechtsgeschaefte";
 
 class App extends Component {
   state = {
     currentStep: 0,
-    currentLang: "de",
+    currentLang: "en",
     swiperInstance: null,
-    formData: {}
+    formData: {},
   };
 
   handleChangeFormData = (key, value) => {
     this.setState((state) => ({
-      formData: { ...state.formData, [key]: value }
+      formData: { ...state.formData, [key]: value },
     }));
   };
 
@@ -48,7 +53,9 @@ class App extends Component {
   };
 
   render() {
-    const { currentLang, swiperInstance } = this.state;
+    const { currentLang, swiperInstance, formData } = this.state;
+
+    const CT = formData && formData.clientType;
 
     return (
       <div className="App">
@@ -59,7 +66,7 @@ class App extends Component {
               <Swiper
                 allowTouchMove={false}
                 pagination={{
-                  type: "progressbar"
+                  type: "progressbar",
                 }}
                 navigation={false}
                 modules={[Pagination]}
@@ -78,16 +85,58 @@ class App extends Component {
                   />
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step1
-                    currentLang={currentLang}
-                    onChangeFormData={this.handleChangeFormData}
-                  />
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step2 currentLang={currentLang} />
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatMandantSteuerpflichtig
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step3 currentLang={currentLang} />
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatRechtsgeschaefte
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
                 </SwiperSlide>
                 <SwiperSlide>
                   <Step4 currentLang={currentLang} />
@@ -105,10 +154,10 @@ class App extends Component {
                   onClick={this.gotoPrevStep}
                   disabled={!swiperInstance || swiperInstance.activeIndex === 0}
                 >
-                  Zurück
+                  {strings[currentLang].BACK}
                 </Button>
                 <Button onClick={this.gotoNextStep}>
-                  Weiter <RightOutlined />
+                  {strings[currentLang].NEXT} <RightOutlined />
                 </Button>
               </Row>
             </div>
