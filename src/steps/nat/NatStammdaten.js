@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
+import countriesDE from "i18n-iso-countries/langs/de.json";
+import countriesEN from "i18n-iso-countries/langs/en.json";
 
 class NatStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -11,9 +13,7 @@ class NatStammdaten extends Component {
 
     const { currentLang } = props;
 
-    countries.registerLocale(
-      require(`i18n-iso-countries/langs/${currentLang}.json`)
-    );
+    countries.registerLocale(currentLang === "de" ? countriesDE : countriesEN);
     this.state.countries = countries.getNames(currentLang, {
       select: "official",
     });

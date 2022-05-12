@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
+import countriesDE from "i18n-iso-countries/langs/de.json";
+import countriesEN from "i18n-iso-countries/langs/en.json";
 import { Checkbox, Form, Radio, Select, Space } from "antd";
 
 class NatMandantSteuerpflichtig extends Component {
@@ -11,9 +13,7 @@ class NatMandantSteuerpflichtig extends Component {
 
     const { currentLang } = props;
 
-    countries.registerLocale(
-      require(`i18n-iso-countries/langs/${currentLang}.json`)
-    );
+    countries.registerLocale(currentLang === "de" ? countriesDE : countriesEN);
     this.state.countries = countries.getNames(currentLang, {
       select: "official",
     });
