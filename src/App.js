@@ -15,11 +15,6 @@ import "swiper/modules/pagination/pagination.scss"; // Pagination module
 import "antd/dist/antd.css";
 import "./styles.css";
 import strings from "./locale/strings.json";
-import Step1 from "./steps/Step1";
-import Step2 from "./steps/Step2";
-import Step3 from "./steps/Step3";
-import Step4 from "./steps/Step4";
-import Step5 from "./steps/Step5";
 
 import svlawLogo from "./svlaw-logo.png";
 import StepNatJurPerson from "./steps/StepNatJurPerson";
@@ -27,6 +22,11 @@ import NatStammdaten from "./steps/nat/NatStammdaten";
 import JurStammdaten from "./steps/jur/JurStammdaten";
 import NatMandantSteuerpflichtig from "./steps/nat/NatMandantSteuerpflichtig";
 import NatRechtsgeschaefte from "./steps/nat/NatRechtsgeschaefte";
+import NatFuerWenLeistungen from "./steps/nat/NatFuerWenLeistungen";
+import NatPEP from "./steps/nat/NatPEP";
+import NatDokumentUpload from "./steps/nat/NatDokumentUpload";
+import NatZusaetzlicheInformationen from "./steps/nat/NatZusaetzlicheInformationen";
+import NatZusammenfassung from "./steps/nat/NatZusammenfassung";
 
 class App extends Component {
   state = {
@@ -139,10 +139,95 @@ class App extends Component {
                   )}
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step4 currentLang={currentLang} />
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatFuerWenLeistungen
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Step5 currentLang={currentLang} />
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatPEP
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
+                </SwiperSlide>
+                <SwiperSlide>
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatDokumentUpload
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
+                </SwiperSlide>
+                <SwiperSlide>
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatZusaetzlicheInformationen
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
+                </SwiperSlide>
+                <SwiperSlide>
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatZusammenfassung
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                          formData={formData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
                 </SwiperSlide>
               </Swiper>
               <Row

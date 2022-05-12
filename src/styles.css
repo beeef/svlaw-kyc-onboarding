@@ -224,3 +224,25 @@ h2 {
 .ant-card {
   border-radius: 12px;
 }
+
+.ant-upload.ant-upload-drag.uploader {
+  border: 2px dashed #2a4f86;
+  height: auto;
+  border-radius: 12px;
+}
+
+.ant-upload.ant-upload-drag.uploader .icon {
+  font-size: 42pt;
+  margin: 24px 0;
+  color: #2a4f86;
+}
+
+.ant-upload.ant-upload-drag.uploader .upload-text {
+  font-size: 16pt;
+  color: #333333;
+}
+
+.ant-upload.ant-upload-drag.uploader .upload-hint {
+  font-size: 12pt;
+  color: #666666;
+}
