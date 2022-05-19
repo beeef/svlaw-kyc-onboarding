@@ -130,7 +130,7 @@ h2 {
 
 .main-container .mySwiper .swiper-slide {
   padding-top: 12px;
-  overflow: scroll;
+  overflow-y: auto;
   padding-left: 12px;
   padding-right: 12px;
   padding-bottom: 24px;
@@ -152,10 +152,11 @@ h2 {
     text-align: left;
     font-size: 1.6em;
   }
+
   .main-container {
     flex-direction: row;
-    height: 70vh;
-    max-height: 700px;
+    height: 90vh;
+    max-height: 960px;
   }
 
   .main-container .left {
