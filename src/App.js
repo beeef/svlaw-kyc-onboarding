@@ -27,6 +27,7 @@ import NatPEP from "./steps/nat/NatPEP";
 import NatDokumentUpload from "./steps/nat/NatDokumentUpload";
 import NatZusaetzlicheInformationen from "./steps/nat/NatZusaetzlicheInformationen";
 import NatZusammenfassung from "./steps/nat/NatZusammenfassung";
+import NatAusfuellerInformation from "./steps/nat/NatAusfuellerInformation";
 
 class App extends Component {
   state = {
@@ -107,6 +108,7 @@ class App extends Component {
                     <>
                       {CT === "nat" && (
                         <NatMandantSteuerpflichtig
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
@@ -125,24 +127,6 @@ class App extends Component {
                     <>
                       {CT === "nat" && (
                         <NatRechtsgeschaefte
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurStammdaten
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatFuerWenLeistungen
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
@@ -179,6 +163,25 @@ class App extends Component {
                     <>
                       {CT === "nat" && (
                         <NatDokumentUpload
+                          formData={formData}
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                      {CT === "jur" && (
+                        <JurStammdaten
+                          currentLang={currentLang}
+                          onChangeFormData={this.handleChangeFormData}
+                        />
+                      )}
+                    </>
+                  )}
+                </SwiperSlide>
+                <SwiperSlide>
+                  {CT && (
+                    <>
+                      {CT === "nat" && (
+                        <NatAusfuellerInformation
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
@@ -242,7 +245,15 @@ class App extends Component {
                   {strings[currentLang].BACK}
                 </Button>
                 <Button onClick={this.gotoNextStep}>
-                  {strings[currentLang].NEXT} <RightOutlined />
+                  {swiperInstance &&
+                  swiperInstance.activeIndex !==
+                    swiperInstance.slides.length - 1 ? (
+                    <>
+                      {strings[currentLang].NEXT} <RightOutlined />
+                    </>
+                  ) : (
+                    strings[currentLang].SUBMIT
+                  )}
                 </Button>
               </Row>
             </div>

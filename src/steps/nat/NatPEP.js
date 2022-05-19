@@ -65,13 +65,18 @@ class NatPEP extends Component {
           </Space>
         </Radio.Group>
 
-        {selectedAnswer != null &&
-          selectedAnswer !== strings[currentLang].nat.NONE_OF_ABOVE && (
-            <div style={{ marginTop: "24px" }}>
-              <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
-              <Input.TextArea rows={4} placeholder="Enter some text" />
-            </div>
-          )}
+        <div
+          style={{ marginTop: "24px" }}
+          className={
+            selectedAnswer != null &&
+            selectedAnswer !== strings[currentLang].nat.NONE_OF_ABOVE
+              ? "fade-in"
+              : "fade-out"
+          }
+        >
+          <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
+          <Input.TextArea rows={4} placeholder="Enter some text" />
+        </div>
       </>
     );
   }

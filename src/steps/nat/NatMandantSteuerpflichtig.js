@@ -21,13 +21,36 @@ class NatMandantSteuerpflichtig extends Component {
 
   validate = () => {};
 
+  insertNameIntoHeader = (firstName, lastName, header) => {
+    let newHeader = header.replace("[FIRST_NAME]", firstName);
+    newHeader = newHeader.replace("[LAST_NAME]", lastName);
+
+    return newHeader;
+  };
+
   render() {
     const { countries, selectedAnswer } = this.state;
-    const { currentLang, onChangeFormData } = this.props;
+    const { currentLang, formData, onChangeFormData } = this.props;
+
+    const { clientData } = formData;
+
+    let firstName = "";
+    let lastName = "";
+
+    if (clientData) {
+      firstName = clientData.firstName;
+      lastName = clientData.lastName;
+    }
 
     return (
       <>
-        <h2>{strings[currentLang].nat.STEP_CLIENT_SUBJECT_TO_TAXATION}</h2>
+        <h2>
+          {this.insertNameIntoHeader(
+            firstName,
+            lastName,
+            strings[currentLang].nat.STEP_CLIENT_SUBJECT_TO_TAXATION
+          )}
+        </h2>
         <Space direction="vertical" size="large">
           <Radio.Group
             onChange={(e) => {
@@ -45,22 +68,28 @@ class NatMandantSteuerpflichtig extends Component {
             </Space>
           </Radio.Group>
 
-          {selectedAnswer && selectedAnswer === "0" && (
-            <div>
-              <h3>
-                {strings[currentLang].nat.STEP_SELECT_COUNTRY_FOR_TAXATION}
-              </h3>
-              <Select
-                placeholder={strings[currentLang].nat.SELECT_COUNTRY}
-                options={Object.keys(countries).map((countryCode) => ({
-                  label: countries[countryCode],
-                  value: countryCode,
-                }))}
-                optionFilterProp="label"
-                showSearch
-              />
-            </div>
-          )}
+          <div
+            className={
+              selectedAnswer && selectedAnswer === "0" ? "fade-in" : "fade-out"
+            }
+          >
+            <h3>
+              {this.insertNameIntoHeader(
+                firstName,
+                lastName,
+                strings[currentLang].nat.STEP_SELECT_COUNTRY_FOR_TAXATION
+              )}
+            </h3>
+            <Select
+              placeholder={strings[currentLang].nat.SELECT_COUNTRY}
+              options={Object.keys(countries).map((countryCode) => ({
+                label: countries[countryCode],
+                value: countryCode,
+              }))}
+              optionFilterProp="label"
+              showSearch
+            />
+          </div>
         </Space>
       </>
     );

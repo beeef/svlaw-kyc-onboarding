@@ -42,9 +42,15 @@ class NatRechtsgeschaefte extends Component {
               .FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST
           )}
           {createCheckbox(strings[currentLang].nat.OTHER)}
-          {questionChecked(strings[currentLang].nat.OTHER) && (
+          <div
+            className={
+              questionChecked(strings[currentLang].nat.OTHER)
+                ? "fade-in"
+                : "fade-out"
+            }
+          >
             <Input placeholder="Enter some Text" />
-          )}
+          </div>
         </Space>
       </>
     );

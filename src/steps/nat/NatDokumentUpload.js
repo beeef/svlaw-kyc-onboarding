@@ -8,7 +8,16 @@ class NatDokumentUpload extends Component {
 
   render() {
     const { selectedFiles } = this.state;
-    const { currentLang } = this.props;
+    const { currentLang, formData } = this.props;
+
+    const { clientData } = formData;
+    let firstName = "";
+    let lastName = "";
+
+    if (clientData) {
+      firstName = clientData.firstName;
+      lastName = clientData.lastName;
+    }
 
     const uploadProps = {
       className: "uploader",
@@ -34,6 +43,15 @@ class NatDokumentUpload extends Component {
     return (
       <>
         <h2>{strings[currentLang].nat.STEP_UPLOAD_OFFICIAL_DOCUMENT}</h2>
+        {firstName && lastName && (
+          <ul>
+            <li>
+              <span style={{ fontSize: "14pt", fontWeight: "lighter" }}>
+                {firstName} {lastName}
+              </span>
+            </li>
+          </ul>
+        )}
         <Upload.Dragger {...uploadProps}>
           <InboxOutlined className="icon" />
           <p className="upload-text">
