@@ -57,6 +57,7 @@
       "STEP_CLIENT_SUBJECT_TO_TAXATION": "Is [NAME_LEGAL_ENTITY] subject to taxation in Austria?",
       "STEP_SELECT_COUNTRY_FOR_TAXATION": "Please indicate in which country [NAME_LEGAL_ENTITY] is subject to taxation.",
       "STEP_WHAT_LEGAL_SERVICES": "What kind of legal services will be provided?",
+      "STEP_PROVIDE_INFORMATION_ABOUT_MANAGING_DIRECTORS": "Please provide the following information about the managing director(s) of [NAME_LEGAL_ENTITY]",
       "PURCHASE_OR_SALE_OF_REAL_ESTATE": "The purchase or sale of real estate or companies",
       "ADMINISTRATION_OF_MONEY": "The administration of money, securities or other assets (e.g., digital assets), the opening or administration of bank, savings or securities accounts",
       "FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST": "The formation, operation or administration of any trust, company, foundation or similar structure, including raising the funds necessary for the formation, operation or administration of companies (e.g., ICOs/STOs)",

@@ -31,6 +31,7 @@ import NatAusfuellerInformation from "./steps/nat/NatAusfuellerInformation";
 import JurFuerWenLeistungen from "./steps/jur/JurFuerWenLeistungen";
 import JurMandantSteuerpflichtig from "./steps/jur/JurMandantSteuerpflichtig";
 import JurRechtsgeschaefte from "./steps/jur/JurRechtsgeschaefte";
+import JurGeschaeftsfuehrer from "./steps/jur/JurGeschaeftsfuehrer/JurGeschaeftsfuehrer";
 
 class App extends Component {
   state = {
@@ -154,7 +155,8 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurStammdaten
+                        <JurGeschaeftsfuehrer
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
