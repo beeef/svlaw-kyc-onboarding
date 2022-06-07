@@ -1,8 +1,8 @@
-import { Checkbox, Input, Radio, Space } from "antd";
 import React, { Component } from "react";
+import { Checkbox, Input, Space } from "antd";
 import strings from "../../locale/strings.json";
 
-class NatRechtsgeschaefte extends Component {
+class JurRechtsgeschaefte extends Component {
   state = { checkedAnswers: [] };
 
   render() {
@@ -30,21 +30,21 @@ class NatRechtsgeschaefte extends Component {
 
     return (
       <>
-        <h2>{strings[currentLang].nat.STEP_WHAT_LEGAL_SERVICES}</h2>
+        <h2>{strings[currentLang].jur.STEP_WHAT_LEGAL_SERVICES}</h2>
         <h3>{strings[currentLang].CHECKBOX_TICK_ALL_THAT_APPLY}</h3>
         <Space direction="vertical">
           {createCheckbox(
-            strings[currentLang].nat.PURCHASE_OR_SALE_OF_REAL_ESTATE
+            strings[currentLang].jur.PURCHASE_OR_SALE_OF_REAL_ESTATE
           )}
-          {createCheckbox(strings[currentLang].nat.ADMINISTRATION_OF_MONEY)}
+          {createCheckbox(strings[currentLang].jur.ADMINISTRATION_OF_MONEY)}
           {createCheckbox(
             strings[currentLang].nat
               .FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST
           )}
-          {createCheckbox(strings[currentLang].nat.OTHER)}
+          {createCheckbox(strings[currentLang].jur.OTHER)}
           <div
             className={
-              questionChecked(strings[currentLang].nat.OTHER)
+              questionChecked(strings[currentLang].jur.OTHER)
                 ? "fade-in"
                 : "fade-out"
             }
@@ -57,4 +57,4 @@ class NatRechtsgeschaefte extends Component {
   }
 }
 
-export default NatRechtsgeschaefte;
+export default JurRechtsgeschaefte;

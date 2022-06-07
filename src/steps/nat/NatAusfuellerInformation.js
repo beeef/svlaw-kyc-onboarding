@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Checkbox, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import strings from "../../locale/strings.json";
-import countries from "i18n-iso-countries";
-import countriesDE from "i18n-iso-countries/langs/de.json";
-import countriesEN from "i18n-iso-countries/langs/en.json";
 
 class NatAusfuellerInformation extends Component {
   state = { userData: {}, sameInformationAsPrevious: false };
