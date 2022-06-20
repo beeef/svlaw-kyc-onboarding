@@ -22,16 +22,16 @@ import NatStammdaten from "./steps/nat/NatStammdaten";
 import JurStammdaten from "./steps/jur/JurStammdaten";
 import NatMandantSteuerpflichtig from "./steps/nat/NatMandantSteuerpflichtig";
 import NatRechtsgeschaefte from "./steps/nat/NatRechtsgeschaefte";
-import NatFuerWenLeistungen from "./steps/nat/NatFuerWenLeistungen";
 import NatPEP from "./steps/nat/NatPEP";
 import NatDokumentUpload from "./steps/nat/NatDokumentUpload";
 import NatZusaetzlicheInformationen from "./steps/nat/NatZusaetzlicheInformationen";
 import NatZusammenfassung from "./steps/nat/NatZusammenfassung";
 import NatAusfuellerInformation from "./steps/nat/NatAusfuellerInformation";
-import JurFuerWenLeistungen from "./steps/jur/JurFuerWenLeistungen";
 import JurMandantSteuerpflichtig from "./steps/jur/JurMandantSteuerpflichtig";
 import JurRechtsgeschaefte from "./steps/jur/JurRechtsgeschaefte";
 import JurGeschaeftsfuehrer from "./steps/jur/JurGeschaeftsfuehrer/JurGeschaeftsfuehrer";
+import JurPEP from "./steps/jur/JurPEP";
+import JurPEP2 from "./steps/jur/JurPEP2";
 
 class App extends Component {
   state = {
@@ -175,7 +175,7 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurStammdaten
+                        <JurPEP
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
@@ -193,7 +193,7 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurStammdaten
+                        <JurPEP2
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />

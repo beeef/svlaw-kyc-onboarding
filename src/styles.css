@@ -261,3 +261,11 @@ h2 {
   font-size: 12pt;
   color: #666666;
 }
+
+.content .ant-form .ant-row.ant-form-item {
+  margin-bottom: 8px;
+}
+
+.content .ant-form .ant-col.ant-form-item-label {
+  padding: 0;
+}

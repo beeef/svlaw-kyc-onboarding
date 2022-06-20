@@ -13,6 +13,7 @@
     "CLICK_OR_DRAG_TO_UPLOAD": "Click or drag file to this area to upload",
     "CHOOSE_MULTIPLE_FILES": "You can choose multiple files. Only PDF and JPEG files are allowed.",
     "IF_APPLICABLE": "if applicable",
+    "PLEASE_CHOOSE": "Please choose ..",
     "nat": {
       "STEP_CLIENT_INFORMATION": "The legal services will be provided to:",
       "STEP_CLIENT_SUBJECT_TO_TAXATION": "Is [FIRST_NAME] [LAST_NAME] subject to taxation in Austria?",
@@ -58,6 +59,8 @@
       "STEP_SELECT_COUNTRY_FOR_TAXATION": "Please indicate in which country [NAME_LEGAL_ENTITY] is subject to taxation.",
       "STEP_WHAT_LEGAL_SERVICES": "What kind of legal services will be provided?",
       "STEP_PROVIDE_INFORMATION_ABOUT_MANAGING_DIRECTORS": "Please provide the following information about the managing director(s) of [NAME_LEGAL_ENTITY]",
+      "STEP_PEP": "Do any of the managing directors qualify as a politically exposed person (PEP)?",
+      "STEP_PEP2": "Do any of the beneficial owners have a family member or close associate of a politically exposed person (PEP)?",
       "PURCHASE_OR_SALE_OF_REAL_ESTATE": "The purchase or sale of real estate or companies",
       "ADMINISTRATION_OF_MONEY": "The administration of money, securities or other assets (e.g., digital assets), the opening or administration of bank, savings or securities accounts",
       "FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST": "The formation, operation or administration of any trust, company, foundation or similar structure, including raising the funds necessary for the formation, operation or administration of companies (e.g., ICOs/STOs)",
@@ -81,7 +84,11 @@
       "SELECT_COUNTRY": "Select country ...",
       "VAT_NUMBER": "VAT identification number",
       "EMAIL_ADDRESS": "Email address",
-      "PHONE_NUMBER": "Phone number"
+      "PHONE_NUMBER": "Phone number",
+      "RESIDENTIAL_ADDRESS": "Residential address",
+      "POWER_OF_REPRESENTATION": "Power of representation",
+      "POWER_OF_REPRESENTATION_HELP": "e.g. sole, jointly with one other authorized person",
+      "MANAGING_DIRECTOR": "Managing Director"
     }
   },
   "de": {
@@ -132,7 +139,8 @@
       "COUNTRY": "Land",
       "SELECT_COUNTRY": "Land auswählen ...",
       "VAT_NUMBER": "VAT identification number",
-      "EMAIL_ADDRESS": "Email address"
+      "EMAIL_ADDRESS": "Email address",
+      "RESIDENTIAL_ADDRESS": "Wohnanschrift"
     }
   }
 }
