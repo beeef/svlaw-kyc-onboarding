@@ -81,7 +81,7 @@ class JurGeschaeftsfuehrer extends Component {
                 icon={<PlusOutlined />}
                 onClick={this.addNewManagingDirector}
               >
-                Add person
+                Add managing director
               </Button>
             </Col>
           </Row>
