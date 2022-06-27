@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { Col, DatePicker, Form, Input, Popover, Row, Select } from "antd";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 class JurStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -53,7 +54,24 @@ class JurStammdaten extends Component {
         <Form {...formLayout} labelAlign="left">
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.NAME_LEGAL_ENTITY}>
+              <Form.Item
+                required
+                label={
+                  <>
+                    {strings[currentLang].jur.NAME_LEGAL_ENTITY}{" "}
+                    <Popover
+                      content={
+                        <p>
+                          Please state the name exactly as it appears in a
+                          current companies register excerpt.
+                        </p>
+                      }
+                    >
+                      <QuestionCircleOutlined style={{ marginLeft: "4px" }} />
+                    </Popover>
+                  </>
+                }
+              >
                 <Input
                   placeholder={strings[currentLang].jur.NAME_LEGAL_ENTITY}
                   onChange={(e) => {
@@ -63,7 +81,10 @@ class JurStammdaten extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.REGISTRATION_NUMBER}>
+              <Form.Item
+                label={strings[currentLang].jur.REGISTRATION_NUMBER}
+                required
+              >
                 <Input
                   placeholder={strings[currentLang].jur.REGISTRATION_NUMBER}
                   onChange={(e) => {
@@ -73,9 +94,12 @@ class JurStammdaten extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.BUSINESS_ADDRESS}>
+              <Form.Item
+                label={strings[currentLang].jur.BUSINESS_ADDRESS}
+                required
+              >
                 <Input
-                  placeholder={`${strings[currentLang].jur.STREET}, ${strings[currentLang].jur.STREET_NUMBER}`}
+                  placeholder={strings[currentLang].jur.BUSINESS_ADDRESS}
                   onChange={(e) => {
                     onValChange("businessAddress", e.target.value);
                   }}
@@ -83,7 +107,17 @@ class JurStammdaten extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.POSTAL_CODE}>
+              <Form.Item label={strings[currentLang].jur.CITY} required>
+                <Input
+                  placeholder={strings[currentLang].jur.CITY}
+                  onChange={(e) => {
+                    onValChange("city", e.target.value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item label={strings[currentLang].jur.POSTAL_CODE} required>
                 <Input
                   placeholder={strings[currentLang].jur.POSTAL_CODE_SHORT}
                   onChange={(e) => {
@@ -95,6 +129,7 @@ class JurStammdaten extends Component {
             <Col xs={24} md={12}>
               <Form.Item
                 label={strings[currentLang].jur.COUNTRY_OF_REGISTRATION}
+                required
               >
                 <Select
                   placeholder={strings[currentLang].jur.SELECT_COUNTRY}
@@ -112,7 +147,41 @@ class JurStammdaten extends Component {
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label={`${strings[currentLang].jur.VAT_NUMBER} (${strings[currentLang].IF_APPLICABLE})`}
+                label={
+                  <>
+                    {strings[currentLang].nat.EMAIL_ADDRESS}{" "}
+                    <Popover
+                      content={
+                        <p>
+                          Please provide an email address that can be used by us
+                          for billing purposes only. You can enter your personal
+                          email address at a later stage.
+                        </p>
+                      }
+                    >
+                      <QuestionCircleOutlined style={{ marginLeft: "4px" }} />
+                    </Popover>
+                  </>
+                }
+                required
+                help={
+                  <span style={{ fontSize: "0.75rem" }}>
+                    This email address is used by us to submit invoices.
+                  </span>
+                }
+              >
+                <Input
+                  placeholder={strings[currentLang].nat.EMAIL_ADDRESS}
+                  onChange={(e) => {
+                    onValChange("email", e.target.value);
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                label={`${strings[currentLang].jur.VAT_NUMBER}`}
+                required
               >
                 <Input
                   placeholder={strings[currentLang].jur.VAT_NUMBER}

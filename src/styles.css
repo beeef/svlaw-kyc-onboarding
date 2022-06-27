@@ -68,7 +68,7 @@ h1 {
 }
 
 h2 {
-  font-family: marigny;
+  font-family: "Calibri Light", sans-serif;
   font-weight: 400;
 }
 
@@ -116,8 +116,8 @@ h2 {
 .main-container .left .content {
   justify-content: center;
   align-items: center;
-  height: calc(100% - 70px);
-  padding: 12px 0;
+  height: calc(100% - 150px);
+  padding: 12px 12px;
 }
 
 .main-container .right {
@@ -186,7 +186,7 @@ h2 {
   .main-container .left .content {
     justify-content: center;
     align-items: center;
-    height: calc(100% - 70px);
+    height: calc(100% - 120px);
     padding: 48px;
   }
 

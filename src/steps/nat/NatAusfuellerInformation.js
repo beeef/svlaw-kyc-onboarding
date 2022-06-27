@@ -43,7 +43,7 @@ class NatAusfuellerInformation extends Component {
               this.setState({ sameInformationAsPrevious: e.target.checked });
             }}
           >
-            Same information as provided previously
+            I, [FIRST_NAME] [LAST_NAME], filled out this form by myself.
           </Checkbox>
         </div>
         <Form
@@ -53,7 +53,7 @@ class NatAusfuellerInformation extends Component {
         >
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.FIRST_NAME}>
+              <Form.Item label={strings[currentLang].nat.FIRST_NAME} required>
                 <Input
                   placeholder={strings[currentLang].nat.FIRST_NAME}
                   onChange={(e) => {
@@ -63,7 +63,7 @@ class NatAusfuellerInformation extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.LAST_NAME}>
+              <Form.Item label={strings[currentLang].nat.LAST_NAME} required>
                 <Input
                   placeholder={strings[currentLang].nat.LAST_NAME}
                   onChange={(e) => {
@@ -73,7 +73,10 @@ class NatAusfuellerInformation extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.EMAIL_ADDRESS}>
+              <Form.Item
+                label={strings[currentLang].nat.EMAIL_ADDRESS}
+                required
+              >
                 <Input
                   placeholder={strings[currentLang].nat.EMAIL_ADDRESS}
                   onChange={(e) => {
@@ -83,8 +86,9 @@ class NatAusfuellerInformation extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.PHONE_NUMBER}>
+              <Form.Item label={strings[currentLang].nat.PHONE_NUMBER} required>
                 <Input
+                  placeholder={strings[currentLang].nat.PHONE_NUMBER}
                   onChange={(e) => {
                     onValChange("phone", e.target.value);
                   }}

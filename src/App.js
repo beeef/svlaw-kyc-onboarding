@@ -67,7 +67,7 @@ class App extends Component {
         <div className="main-container">
           <div className="left">
             <div className="content">
-              <h1>OnBoarding</h1>
+              <h1>Client Onboarding</h1>
               <Swiper
                 allowTouchMove={false}
                 pagination={{
@@ -261,6 +261,20 @@ class App extends Component {
                     strings[currentLang].SUBMIT
                   )}
                 </Button>
+              </Row>
+              <Row>
+                <span style={{ fontSize: "0.8rem", color: "#666666" }}>
+                  All data you provide is stored and transferred to us encrypted
+                  and is not accessible to third parties. For details, please
+                  refer to our{" "}
+                  <a
+                    href="https://www.sv.law/en/data-protection-declaration"
+                    target="_blank"
+                  >
+                    Data Protection Policy
+                  </a>
+                  .
+                </span>
               </Row>
             </div>
           </div>

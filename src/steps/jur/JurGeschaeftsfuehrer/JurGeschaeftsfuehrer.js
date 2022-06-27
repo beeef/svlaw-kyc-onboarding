@@ -98,9 +98,11 @@ class JurGeschaeftsfuehrer extends Component {
                 {(managingDirectors || []).map((x) => (
                   <Collapse.Panel
                     key={x.key}
-                    header={`${strings[currentLang].jur.MANAGING_DIRECTOR} ${
-                      x.firstName || ""
-                    } ${x.lastName || ""}`}
+                    header={`${
+                      !x.firstName
+                        ? strings[currentLang].jur.MANAGING_DIRECTOR
+                        : " "
+                    }${x.firstName || ""} ${x.lastName || ""}`}
                     extra={
                       <Button
                         type="link"
