@@ -37,7 +37,7 @@ import JurWirtschaftlicherEigentuemer from "./steps/jur/JurWirtschaftlicherEigen
 import JurPEP3 from "./steps/jur/JurPEP3";
 import JurPEP4 from "./steps/jur/JurPEP4";
 import JurWirtschaftlicherEigentuemerDokumentUpload from "./steps/jur/JurWirtschaftlicherEigentuemerDokumentUpload";
-import JurKontaktperson from "./steps/jur/JurKontaktPerson";
+import JurKontaktperson from "./steps/jur/JurKontaktPerson/JurKontaktPerson";
 
 class App extends Component {
   state = {
