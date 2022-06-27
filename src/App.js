@@ -32,6 +32,12 @@ import JurRechtsgeschaefte from "./steps/jur/JurRechtsgeschaefte";
 import JurGeschaeftsfuehrer from "./steps/jur/JurGeschaeftsfuehrer/JurGeschaeftsfuehrer";
 import JurPEP from "./steps/jur/JurPEP";
 import JurPEP2 from "./steps/jur/JurPEP2";
+import JurGeschaeftsfuehrerDokumentUpload from "./steps/jur/JurGeschaeftsfuehrerDokumentUpload";
+import JurWirtschaftlicherEigentuemer from "./steps/jur/JurWirtschaftlicherEigentuemer/JurWirtschaftlicherEigentuemer";
+import JurPEP3 from "./steps/jur/JurPEP3";
+import JurPEP4 from "./steps/jur/JurPEP4";
+import JurWirtschaftlicherEigentuemerDokumentUpload from "./steps/jur/JurWirtschaftlicherEigentuemerDokumentUpload";
+import JurKontaktperson from "./steps/jur/JurKontaktPerson";
 
 class App extends Component {
   state = {
@@ -140,6 +146,7 @@ class App extends Component {
                         <JurRechtsgeschaefte
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          formData={formData}
                         />
                       )}
                     </>
@@ -211,9 +218,10 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurStammdaten
+                        <JurGeschaeftsfuehrerDokumentUpload
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          formData={formData}
                         />
                       )}
                     </>
@@ -230,7 +238,8 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurStammdaten
+                        <JurWirtschaftlicherEigentuemer
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                         />
@@ -238,6 +247,42 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurPEP3
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurPEP4
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurWirtschaftlicherEigentuemerDokumentUpload
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurKontaktperson
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
               </Swiper>
               <Row
                 justify="space-between"

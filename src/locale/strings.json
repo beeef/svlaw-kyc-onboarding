@@ -59,8 +59,16 @@
       "STEP_SELECT_COUNTRY_FOR_TAXATION": "Please indicate in which country [NAME_LEGAL_ENTITY] is subject to taxation.",
       "STEP_WHAT_LEGAL_SERVICES": "What kind of legal services does [NAME_LEGAL_ENTITY] require?",
       "STEP_PROVIDE_INFORMATION_ABOUT_MANAGING_DIRECTORS": "Please provide the following information about the managing director(s) of [NAME_LEGAL_ENTITY]",
+      "STEP_PROVIDE_INFORMATION_ABOUT_BENEFICIAL_OWNERS": "Please provide the following information about the beneficial owner(s) of [NAME_LEGAL_ENTITY]",
       "STEP_PEP": "Do any of the managing directors qualify as a politically exposed person (PEP)?",
-      "STEP_PEP2": "Do any of the beneficial owners have a family member or close associate of a politically exposed person (PEP)?",
+      "STEP_PEP2": "Do any of the managing directors have a family member or close associate of a politically exposed person (PEP)?",
+      "STEP_PEP3": "Do any of the beneficial owners qualify as a politically exposed person (PEP)?",
+      "STEP_PEP4": "Do any of the beneficial owners have a family member or close associate of a politically exposed person (PEP)?",
+      "STEP_UPLOAD_OFFICIAL_DOCUMENT_FOR_EACH_MANAGING_DIRECTOR": "Please upload a copy of an official photo ID of each of the managing directors:",
+      "STEP_UPLOAD_OFFICIAL_DOCUMENT_FOR_EACH_BENEFICIAL_OWNER": "Please upload a copy of an official photo ID of each of the beneficial owners:",
+      "STEP_CONTACT_PERSON": "Who will act as point of contact between [NAME_LEGAL_ENTITY] and us?",
+      "STEP_PROVIDE_USER_INFORMATION": "Please provide the name and contact information of the person who filled out this form:",
+      "STEP_ADDITIONAL_REMARKS": "Additional remarks (optional):",
       "PURCHASE_OR_SALE_OF_REAL_ESTATE": "The purchase or sale of real estate or companies",
       "ADMINISTRATION_OF_MONEY": "The administration of money, securities or other assets (e.g., digital assets), the opening or administration of bank, savings or securities accounts",
       "FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST": "The formation, operation or administration of any trust, company, foundation or similar structure, including raising the funds necessary for the formation, operation or administration of companies (e.g., ICOs/STOs)",
@@ -88,7 +96,8 @@
       "RESIDENTIAL_ADDRESS": "Residential address",
       "POWER_OF_REPRESENTATION": "Power of representation",
       "POWER_OF_REPRESENTATION_HELP": "e.g. sole, jointly with one other authorized person",
-      "MANAGING_DIRECTOR": "Managing Director"
+      "MANAGING_DIRECTOR": "Managing Director",
+      "BENEFICIAL_OWNER": "Beneficial Owner"
     }
   },
   "de": {

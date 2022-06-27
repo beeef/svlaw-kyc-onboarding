@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, DatePicker, Form, Input, Popover, Row, Select } from "antd";
+import { Col, Form, Input, Popover, Row, Select } from "antd";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
@@ -24,7 +24,7 @@ class JurStammdaten extends Component {
 
   render() {
     const { countries } = this.state;
-    const { currentLang, onChangeFormData } = this.props;
+    const { currentLang } = this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },

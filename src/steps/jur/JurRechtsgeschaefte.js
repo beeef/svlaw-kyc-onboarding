@@ -7,7 +7,7 @@ class JurRechtsgeschaefte extends Component {
 
   render() {
     const { checkedAnswers } = this.state;
-    const { currentLang } = this.props;
+    const { currentLang, formData } = this.props;
 
     const createCheckbox = (question) => (
       <Checkbox
@@ -26,11 +26,19 @@ class JurRechtsgeschaefte extends Component {
       </Checkbox>
     );
 
+    const insertNameIntoHeader = (name, header) =>
+      header.replace("[NAME_LEGAL_ENTITY]", name);
+
     const questionChecked = (question) => checkedAnswers.indexOf(question) >= 0;
 
     return (
       <>
-        <h2>{strings[currentLang].jur.STEP_WHAT_LEGAL_SERVICES}</h2>
+        <h2>
+          {insertNameIntoHeader(
+            formData.clientData ? formData.clientData.nameLegalEntity : "",
+            strings[currentLang].jur.STEP_WHAT_LEGAL_SERVICES
+          )}
+        </h2>
         <h3>{strings[currentLang].CHECKBOX_TICK_ALL_THAT_APPLY}</h3>
         <Space direction="vertical">
           {createCheckbox(

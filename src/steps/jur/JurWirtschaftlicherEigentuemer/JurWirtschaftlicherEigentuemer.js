@@ -1,62 +1,62 @@
 import React, { Component } from "react";
 import { Button, Col, Collapse, Modal, Row, Space } from "antd";
 import { v4 as uuidv4 } from "uuid";
-import JurGeschaeftsfuehrerCard from "./JurGeschaeftsfuehrerCard";
+import JurWirtschaftlicherEigentuemerCard from "./JurWirtschaftlicherEigentuemerCard";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import strings from "../../../locale/strings.json";
 
-class JurGeschaeftsfuehrer extends Component {
+class JurWirtschaftlicherEigentuemer extends Component {
   state = {};
 
   componentDidMount = () => {
     const { onChangeFormData, formData } = this.props;
-    const { managingDirectors } = formData;
+    const { beneficialOwners } = formData;
 
-    if (!managingDirectors) {
-      onChangeFormData("managingDirectors", [{ key: uuidv4() }]);
+    if (!beneficialOwners) {
+      onChangeFormData("beneficialOwners", [{ key: uuidv4() }]);
     }
   };
 
   insertNameIntoHeader = (nameLegalEntity, header) =>
     header.replace("[NAME_LEGAL_ENTITY]", nameLegalEntity);
 
-  addNewManagingDirector = () => {
+  addNewBeneficialOwner = () => {
     const { onChangeFormData, formData } = this.props;
-    const { managingDirectors } = formData;
+    const { beneficialOwners } = formData;
 
-    if (managingDirectors) {
-      onChangeFormData("managingDirectors", [
-        ...managingDirectors,
+    if (beneficialOwners) {
+      onChangeFormData("beneficialOwners", [
+        ...beneficialOwners,
         { key: uuidv4() },
       ]);
     } else {
-      onChangeFormData("managingDirectors", [{ key: uuidv4() }]);
+      onChangeFormData("beneficialOwners", [{ key: uuidv4() }]);
     }
   };
 
-  removeManagingDirector = (key) => {
+  removeBeneficialOwner = (key) => {
     const { onChangeFormData, formData } = this.props;
-    const { managingDirectors } = formData;
+    const { beneficialOwners } = formData;
 
     onChangeFormData(
-      "managingDirectors",
-      managingDirectors.filter((md) => md.key !== key)
+      "beneficialOwners",
+      beneficialOwners.filter((md) => md.key !== key)
     );
   };
 
-  changeManagingDirectorData = (mdKey, key, value) => {
+  changeBeneficialOwnerData = (mdKey, key, value) => {
     const { onChangeFormData, formData } = this.props;
-    const { managingDirectors } = formData;
+    const { beneficialOwners } = formData;
 
-    const index = managingDirectors.findIndex((md) => md.key === mdKey);
-    managingDirectors[index][key] = value;
+    const index = beneficialOwners.findIndex((md) => md.key === mdKey);
+    beneficialOwners[index][key] = value;
 
-    onChangeFormData("managingDirectors", managingDirectors);
+    onChangeFormData("beneficialOwners", beneficialOwners);
   };
 
   render() {
     const { formData, currentLang } = this.props;
-    const { managingDirectors: managingDirectors } = formData;
+    const { beneficialOwners } = formData;
     let nameLegalEntity = "";
 
     if (formData && formData.clientData) {
@@ -69,7 +69,7 @@ class JurGeschaeftsfuehrer extends Component {
           {this.insertNameIntoHeader(
             nameLegalEntity,
             strings[currentLang].jur
-              .STEP_PROVIDE_INFORMATION_ABOUT_MANAGING_DIRECTORS
+              .STEP_PROVIDE_INFORMATION_ABOUT_BENEFICIAL_OWNERS
           )}
         </h2>
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
@@ -79,9 +79,9 @@ class JurGeschaeftsfuehrer extends Component {
               <Button
                 size="small"
                 icon={<PlusOutlined />}
-                onClick={this.addNewManagingDirector}
+                onClick={this.addNewBeneficialOwner}
               >
-                Add managing director
+                Add beneficial owner
               </Button>
             </Col>
           </Row>
@@ -90,17 +90,17 @@ class JurGeschaeftsfuehrer extends Component {
               <Collapse
                 accordion
                 defaultActiveKey={
-                  managingDirectors && managingDirectors.length > 0
-                    ? managingDirectors[0].key
+                  beneficialOwners && beneficialOwners.length > 0
+                    ? beneficialOwners[0].key
                     : null
                 }
               >
-                {(managingDirectors || []).map((x) => (
+                {(beneficialOwners || []).map((x) => (
                   <Collapse.Panel
                     key={x.key}
                     header={`${
                       !x.firstName
-                        ? strings[currentLang].jur.MANAGING_DIRECTOR
+                        ? strings[currentLang].jur.BENEFICIAL_OWNER
                         : " "
                     }${x.firstName || ""} ${x.lastName || ""}`}
                     extra={
@@ -126,7 +126,7 @@ class JurGeschaeftsfuehrer extends Component {
                               type: "link",
                             },
                             onOk: () => {
-                              this.removeManagingDirector(x.key);
+                              this.removeBeneficialOwner(x.key);
                             },
                           });
                           return false;
@@ -134,10 +134,10 @@ class JurGeschaeftsfuehrer extends Component {
                       />
                     }
                   >
-                    <JurGeschaeftsfuehrerCard
+                    <JurWirtschaftlicherEigentuemerCard
                       currentLang={currentLang}
-                      onChangeManagingDirectorData={(key, value) => {
-                        this.changeManagingDirectorData(x.key, key, value);
+                      onChangeBeneficialOwnerData={(key, value) => {
+                        this.changeBeneficialOwnerData(x.key, key, value);
                       }}
                     />
                   </Collapse.Panel>
@@ -145,7 +145,7 @@ class JurGeschaeftsfuehrer extends Component {
               </Collapse>
             </Col>
           </Row>
-          {/* {managingDirectors && managingDirectors.length > 0 && (
+          {/* {beneficialOwners && beneficialOwners.length > 0 && (
             <Row gutter={[24, 24]}>
               <Col xs={24}>
                 <Button
@@ -164,4 +164,4 @@ class JurGeschaeftsfuehrer extends Component {
   }
 }
 
-export default JurGeschaeftsfuehrer;
+export default JurWirtschaftlicherEigentuemer;

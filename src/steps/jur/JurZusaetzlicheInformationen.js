@@ -2,7 +2,7 @@ import { Input } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
-class NatZusaetzlicheInformationen extends Component {
+class JurZusaetzlicheInformationen extends Component {
   state = {};
 
   render() {
@@ -10,11 +10,11 @@ class NatZusaetzlicheInformationen extends Component {
 
     return (
       <>
-        <h2>{strings[currentLang].nat.STEP_ADDITIONAL_REMARKS}</h2>
+        <h2>{strings[currentLang].jur.STEP_ADDITIONAL_REMARKS}</h2>
         <Input.TextArea rows={5} />
       </>
     );
   }
 }
 
-export default NatZusaetzlicheInformationen;
+export default JurZusaetzlicheInformationen;

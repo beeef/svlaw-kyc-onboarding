@@ -1,21 +1,6 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Radio,
-  Row,
-  Select,
-} from "antd";
-import {
-  BankOutlined,
-  LeftOutlined,
-  RightOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { Button } from "antd";
+import { BankOutlined, UserOutlined } from "@ant-design/icons";
 import strings from "../locale/strings.json";
 import countries from "i18n-iso-countries";
 import ButtonGroup from "antd/lib/button/button-group";
@@ -36,13 +21,8 @@ class StepNatJurPerson extends Component {
   validate = () => {};
 
   render() {
-    const { countries, selectedType } = this.state;
+    const { selectedType } = this.state;
     const { currentLang, onChangeFormData } = this.props;
-
-    const formLayout = {
-      wrapperCol: { xs: 24, xl: 24 },
-      labelCol: { xs: 24, xl: 24 },
-    };
 
     return (
       <div
