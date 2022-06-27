@@ -1,5 +1,5 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
+import { message, Upload } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
