@@ -21,6 +21,31 @@ class JurKontaktperson extends Component {
     }
   };
 
+  handleRemoveContact = (index) => {
+    const { formData, onChangeFormData } = this.props;
+    const { contactData } = formData;
+
+    if (contactData) {
+      onChangeFormData(
+        "contactData",
+        contactData.filter((cd, i) => i !== index)
+      );
+    }
+  };
+
+  handleContactDataChange = (index, key, value) => {
+    const { formData, onChangeFormData } = this.props;
+    const { contactData } = formData;
+
+    if (contactData) {
+      contactData[index][key] = value;
+      onChangeFormData("contactData", contactData);
+    }
+  };
+
+  insertNameIntoHeader = (nameLegalEntity, header) =>
+    header.replace("[NAME_LEGAL_ENTITY]", nameLegalEntity);
+
   render() {
     const { currentLang, formData } = this.props;
 
@@ -52,16 +77,18 @@ class JurKontaktperson extends Component {
 
     return (
       <>
-        <h2>{strings[currentLang].jur.STEP_CONTACT_PERSON}</h2>
+        <h2>
+          {this.insertNameIntoHeader(
+            formData.clientData ? formData.clientData.nameLegalEntity : "",
+            strings[currentLang].jur.STEP_CONTACT_PERSON
+          )}
+        </h2>
         <Row>
           <Col xs={12}>
             {managingDirectors && (
               <>
                 {managingDirectors.map((md) => (
-                  <Checkbox
-                    key={`md-${md.firstName}-${md.lastName}`}
-                    value={`${md.firstName} ${md.lastName}`}
-                  >
+                  <Checkbox key={md.key}>
                     {md.firstName} {md.lastName}
                   </Checkbox>
                 ))}
@@ -70,10 +97,7 @@ class JurKontaktperson extends Component {
             {beneficialOwners && (
               <>
                 {beneficialOwners.map((bo) => (
-                  <Checkbox
-                    value={`bo-${bo.firstName}-${bo.lastName}`}
-                    key={`${bo.firstName} ${bo.lastName}`}
-                  >
+                  <Checkbox key={bo.key}>
                     {bo.firstName} {bo.lastName}
                   </Checkbox>
                 ))}
@@ -94,10 +118,18 @@ class JurKontaktperson extends Component {
 
         {contactData && contactData.length > 0 ? (
           <Row gutter={[12, 12]} style={{ marginTop: "24px" }}>
-            {contactData.map((cd) => (
+            {contactData.map((cd, index) => (
               <Col xs={24} key={cd.key}>
                 <Card>
-                  <JurKontaktPersonCard currentLang={currentLang} />
+                  <JurKontaktPersonCard
+                    currentLang={currentLang}
+                    onRemove={() => {
+                      this.handleRemoveContact(index);
+                    }}
+                    onChange={(key, value) => {
+                      this.handleContactDataChange(index, key, value);
+                    }}
+                  />
                 </Card>
               </Col>
             ))}

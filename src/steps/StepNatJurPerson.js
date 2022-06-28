@@ -3,7 +3,6 @@ import { Button } from "antd";
 import { BankOutlined, UserOutlined } from "@ant-design/icons";
 import strings from "../locale/strings.json";
 import countries from "i18n-iso-countries";
-import ButtonGroup from "antd/lib/button/button-group";
 
 class StepNatJurPerson extends Component {
   state = {
@@ -45,7 +44,7 @@ class StepNatJurPerson extends Component {
             rowGap: "12px",
           }}
         >
-          <ButtonGroup>
+          <Button.Group>
             <Button
               type={selectedType === "nat" ? "primary" : "default"}
               size="large"
@@ -68,7 +67,7 @@ class StepNatJurPerson extends Component {
             >
               {strings[currentLang].LEGAL_ENTITY}
             </Button>
-          </ButtonGroup>
+          </Button.Group>
         </div>
       </div>
     );

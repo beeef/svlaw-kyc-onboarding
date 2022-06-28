@@ -38,6 +38,9 @@ import JurPEP3 from "./steps/jur/JurPEP3";
 import JurPEP4 from "./steps/jur/JurPEP4";
 import JurWirtschaftlicherEigentuemerDokumentUpload from "./steps/jur/JurWirtschaftlicherEigentuemerDokumentUpload";
 import JurKontaktperson from "./steps/jur/JurKontaktPerson/JurKontaktPerson";
+import JurAusfuellerInformation from "./steps/jur/JurAusfuellerInformation";
+import JurZusaetzlicheDokumenteUpload from "./steps/jur/JurZusaetzlicheDokumenteUpload";
+import JurZusaetzlicheInformationen from "./steps/jur/JurZusaetzlicheInformationen";
 
 class App extends Component {
   state = {
@@ -277,6 +280,33 @@ class App extends Component {
                 {CT && CT === "jur" && (
                   <SwiperSlide>
                     <JurKontaktperson
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurAusfuellerInformation
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurZusaetzlicheDokumenteUpload
+                      formData={formData}
+                      currentLang={currentLang}
+                      onChangeFormData={this.handleChangeFormData}
+                    />
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    <JurZusaetzlicheInformationen
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
