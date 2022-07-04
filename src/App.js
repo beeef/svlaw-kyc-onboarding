@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Row } from "antd";
+import { Button, Row, Steps } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 // Core modules imports are same as usual
@@ -48,6 +48,7 @@ class App extends Component {
     currentLang: "en",
     swiperInstance: null,
     formData: {},
+    validSteps: {},
   };
 
   handleChangeFormData = (key, value) => {
@@ -59,15 +60,46 @@ class App extends Component {
   gotoPrevStep = () => {
     const { swiperInstance } = this.state;
     swiperInstance.slidePrev(400);
+    this.setState((state) => ({
+      currentStep: state.currentStep - 1,
+    }));
   };
 
   gotoNextStep = () => {
     const { swiperInstance } = this.state;
     swiperInstance.slideNext(400);
+    this.setState((state) => ({
+      currentStep: state.currentStep + 1,
+    }));
+  };
+
+  onStepClick = (index) => {
+    this.setState({ currentStep: index });
+
+    const { swiperInstance } = this.state;
+    swiperInstance.slideTo(index, 400);
+  };
+
+  isNextStepValid = () => {
+    const { currentStep } = this.state;
+
+    return this.isStepValid(currentStep);
+  };
+
+  isStepValid = (stepIndex) => {
+    const { validSteps } = this.state;
+
+    return validSteps[stepIndex];
+  };
+
+  setCurrentStepValid = (valid) => {
+    const { validSteps, currentStep } = this.state;
+
+    this.setState({ validSteps: { ...validSteps, [currentStep]: valid } });
   };
 
   render() {
-    const { currentLang, swiperInstance, formData } = this.state;
+    const { currentLang, swiperInstance, formData, currentStep } = this.state;
 
     const CT = formData && formData.clientType;
 
@@ -96,6 +128,7 @@ class App extends Component {
                   <StepNatJurPerson
                     currentLang={currentLang}
                     onChangeFormData={this.handleChangeFormData}
+                    setCurrentStepValid={this.setCurrentStepValid}
                   />
                 </SwiperSlide>
                 <SwiperSlide>
@@ -105,12 +138,14 @@ class App extends Component {
                         <NatStammdaten
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
                         <JurStammdaten
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -124,6 +159,7 @@ class App extends Component {
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
@@ -131,6 +167,7 @@ class App extends Component {
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -143,6 +180,7 @@ class App extends Component {
                         <NatRechtsgeschaefte
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
@@ -150,6 +188,7 @@ class App extends Component {
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                           formData={formData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -162,6 +201,7 @@ class App extends Component {
                         <NatPEP
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
@@ -169,6 +209,7 @@ class App extends Component {
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -182,12 +223,14 @@ class App extends Component {
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
                         <JurPEP
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -200,12 +243,14 @@ class App extends Component {
                         <NatAusfuellerInformation
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
                         <JurPEP2
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -218,6 +263,7 @@ class App extends Component {
                         <NatZusaetzlicheInformationen
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
@@ -225,6 +271,7 @@ class App extends Component {
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                           formData={formData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -238,6 +285,7 @@ class App extends Component {
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                           formData={formData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                       {CT === "jur" && (
@@ -245,6 +293,7 @@ class App extends Component {
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
                     </>
@@ -256,6 +305,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -265,6 +315,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -274,6 +325,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -283,6 +335,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -292,6 +345,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -301,6 +355,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -310,6 +365,7 @@ class App extends Component {
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
+                      setCurrentStepValid={this.setCurrentStepValid}
                     />
                   </SwiperSlide>
                 )}
@@ -325,7 +381,10 @@ class App extends Component {
                 >
                   {strings[currentLang].BACK}
                 </Button>
-                <Button onClick={this.gotoNextStep}>
+                <Button
+                  onClick={this.gotoNextStep}
+                  disabled={!this.isNextStepValid()}
+                >
                   {swiperInstance &&
                   swiperInstance.activeIndex !==
                     swiperInstance.slides.length - 1 ? (
@@ -359,6 +418,99 @@ class App extends Component {
               className="svlaw-logo"
               alt="STADLER VÖLKEL Logo"
             />
+            {CT && CT === "nat" && (
+              <Steps
+                direction="vertical"
+                className="progress-steps"
+                current={currentStep}
+              >
+                <Steps.Step
+                  title="Type of entity"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Personal information"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
+                <Steps.Step
+                  title="Legal services"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                <Steps.Step
+                  title="Document Upload"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Contact information"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Additional remarks"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="Summary" onStepClick={this.onStepClick} />
+              </Steps>
+            )}
+            {CT && CT === "jur" && (
+              <Steps
+                direction="vertical"
+                className="progress-steps"
+                current={currentStep}
+              >
+                <Steps.Step
+                  title="Type of entity"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Entity information"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
+                <Steps.Step
+                  title="Legal services"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Managing directors"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                <Steps.Step title="PEP 2" onStepClick={this.onStepClick} />
+                <Steps.Step
+                  title="Documents of managing directors"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Beneficial owners"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                <Steps.Step title="PEP 2" onStepClick={this.onStepClick} />
+                <Steps.Step
+                  title="Documents of beneficial owners"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Contact information"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Personal information"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Additional documents"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step
+                  title="Additional remarks"
+                  onStepClick={this.onStepClick}
+                />
+                <Steps.Step title="Summary" onStepClick={this.onStepClick} />
+              </Steps>
+            )}
           </div>
         </div>
       </div>

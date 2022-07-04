@@ -17,11 +17,9 @@ class StepNatJurPerson extends Component {
     this.state.countries = countries.getNames("de", { select: "official" });
   }
 
-  validate = () => {};
-
   render() {
     const { selectedType } = this.state;
-    const { currentLang, onChangeFormData } = this.props;
+    const { currentLang, onChangeFormData, setCurrentStepValid } = this.props;
 
     return (
       <div
@@ -52,6 +50,7 @@ class StepNatJurPerson extends Component {
               onClick={() => {
                 onChangeFormData("clientType", "nat");
                 this.setState({ selectedType: "nat" });
+                setCurrentStepValid(true);
               }}
             >
               {strings[currentLang].NATURAL_PERSON}
@@ -63,6 +62,7 @@ class StepNatJurPerson extends Component {
               onClick={() => {
                 onChangeFormData("clientType", "jur");
                 this.setState({ selectedType: "jur" });
+                setCurrentStepValid(true);
               }}
             >
               {strings[currentLang].LEGAL_ENTITY}

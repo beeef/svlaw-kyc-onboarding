@@ -5,6 +5,7 @@ import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { validateEmail } from "../../util/validation";
 
 class JurStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -23,7 +24,7 @@ class JurStammdaten extends Component {
   validate = () => {};
 
   render() {
-    const { countries } = this.state;
+    const { countries, clientData } = this.state;
     const { currentLang } = this.props;
 
     const formLayout = {
@@ -77,6 +78,7 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("nameLegalEntity", e.target.value);
                   }}
+                  maxLength={90}
                 />
               </Form.Item>
             </Col>
@@ -90,6 +92,7 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("registrationNumber", e.target.value);
                   }}
+                  maxLength={24}
                 />
               </Form.Item>
             </Col>
@@ -103,6 +106,7 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("businessAddress", e.target.value);
                   }}
+                  maxLength={90}
                 />
               </Form.Item>
             </Col>
@@ -113,6 +117,7 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("city", e.target.value);
                   }}
+                  maxLength={90}
                 />
               </Form.Item>
             </Col>
@@ -123,6 +128,7 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("postalCode", e.target.value);
                   }}
+                  maxLength={16}
                 />
               </Form.Item>
             </Col>
@@ -138,7 +144,6 @@ class JurStammdaten extends Component {
                     value: countryCode,
                   }))}
                   optionFilterProp="label"
-                  showSearch
                   onChange={(country) => {
                     onValChange("countryOfRegistration", country);
                   }}
@@ -175,14 +180,19 @@ class JurStammdaten extends Component {
                   onChange={(e) => {
                     onValChange("email", e.target.value);
                   }}
+                  maxLength={90}
+                  status={
+                    clientData &&
+                    clientData.email &&
+                    !validateEmail(clientData.email)
+                      ? "error"
+                      : null
+                  }
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item
-                label={`${strings[currentLang].jur.VAT_NUMBER}`}
-                required
-              >
+              <Form.Item label={`${strings[currentLang].jur.VAT_NUMBER}`}>
                 <Input
                   placeholder={strings[currentLang].jur.VAT_NUMBER}
                   onChange={(e) => {

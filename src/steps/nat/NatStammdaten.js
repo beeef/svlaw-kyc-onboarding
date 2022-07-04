@@ -5,6 +5,7 @@ import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { validateEmail, validatePhoneNumber } from "../../util/validation";
 
 class NatStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -20,11 +21,35 @@ class NatStammdaten extends Component {
     });
   }
 
-  validate = () => {};
+  validate = () => {
+    const { setCurrentStepValid } = this.props;
+    const { clientData } = this.state;
+
+    if (clientData) {
+      if (
+        clientData.firstName &&
+        clientData.lastName &&
+        clientData.dateOfBirth &&
+        clientData.nationality &&
+        clientData.streetAndNumber &&
+        clientData.postalCode &&
+        clientData.city &&
+        clientData.country &&
+        validateEmail(clientData.email) &&
+        validatePhoneNumber(clientData.phone)
+      ) {
+        setCurrentStepValid(true);
+      } else {
+        setCurrentStepValid(false);
+      }
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
 
   render() {
     const { countries } = this.state;
-    const { currentLang, onChangeFormData } = this.props;
+    const { currentLang } = this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
@@ -44,6 +69,7 @@ class NatStammdaten extends Component {
         },
         () => {
           onChangeFormData("clientData", this.state.clientData);
+          this.validate();
         }
       );
     };
