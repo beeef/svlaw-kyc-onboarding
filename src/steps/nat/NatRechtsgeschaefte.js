@@ -10,6 +10,8 @@ class NatRechtsgeschaefte extends Component {
     const { legalServices } = formData;
 
     if (legalServices && legalServices.length > 0) {
+      if (legalServices.indexOf(strings[currentLang].nat.OTHER) >= 0) {
+      }
       setCurrentStepValid(true);
     } else {
       setCurrentStepValid(false);
