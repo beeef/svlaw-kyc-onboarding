@@ -51,10 +51,13 @@ class App extends Component {
     validSteps: {},
   };
 
-  handleChangeFormData = (key, value) => {
-    this.setState((state) => ({
-      formData: { ...state.formData, [key]: value },
-    }));
+  handleChangeFormData = (key, value, callback) => {
+    this.setState(
+      (state) => ({
+        formData: { ...state.formData, [key]: value },
+      }),
+      callback
+    );
   };
 
   gotoPrevStep = () => {
@@ -178,6 +181,7 @@ class App extends Component {
                     <>
                       {CT === "nat" && (
                         <NatRechtsgeschaefte
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                           setCurrentStepValid={this.setCurrentStepValid}
@@ -423,6 +427,7 @@ class App extends Component {
                 direction="vertical"
                 className="progress-steps"
                 current={currentStep}
+                progressDot
               >
                 <Steps.Step
                   title="Type of entity"
@@ -458,6 +463,7 @@ class App extends Component {
                 direction="vertical"
                 className="progress-steps"
                 current={currentStep}
+                progressDot
               >
                 <Steps.Step
                   title="Type of entity"

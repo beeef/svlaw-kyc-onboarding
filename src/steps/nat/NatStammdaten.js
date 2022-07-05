@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Col, DatePicker, Form, Input, Popover, Row, Select } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
-import { QuestionCircleOutlined } from "@ant-design/icons";
 import { validateEmail, validatePhoneNumber } from "../../util/validation";
 
 class NatStammdaten extends Component {

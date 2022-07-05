@@ -3,30 +3,53 @@ import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
 class NatRechtsgeschaefte extends Component {
-  state = { checkedAnswers: [] };
+  state = {};
+
+  validate = () => {
+    const { formData, setCurrentStepValid } = this.props;
+    const { legalServices } = formData;
+
+    if (legalServices && legalServices.length > 0) {
+      setCurrentStepValid(true);
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
+
+  onCheckLegalService = (question, checked) => {
+    const { formData, onChangeFormData } = this.props;
+    const { legalServices } = formData;
+
+    if (checked) {
+      if (legalServices)
+        onChangeFormData("legalServices", [...legalServices, question]);
+      else onChangeFormData("legalServices", [question]);
+    } else {
+      onChangeFormData(
+        "legalServices",
+        legalServices.filter((ls) => ls !== question)
+      );
+    }
+  };
 
   render() {
-    const { checkedAnswers } = this.state;
-    const { currentLang } = this.props;
+    const { currentLang, formData } = this.props;
+
+    const { legalServices } = formData;
+
+    const questionChecked = (question) =>
+      formData && legalServices && legalServices.indexOf(question) >= 0;
 
     const createCheckbox = (question) => (
       <Checkbox
-        checked={checkedAnswers.indexOf(question) >= 0}
+        checked={questionChecked(question)}
         onChange={(e) => {
-          if (e.target.checked) {
-            this.setState({ checkedAnswers: [...checkedAnswers, question] });
-          } else {
-            this.setState({
-              checkedAnswers: checkedAnswers.filter((c) => c !== question),
-            });
-          }
+          this.onCheckLegalService(question, e.target.checked);
         }}
       >
         {question}
       </Checkbox>
     );
-
-    const questionChecked = (question) => checkedAnswers.indexOf(question) >= 0;
 
     return (
       <>

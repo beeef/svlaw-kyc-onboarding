@@ -3,10 +3,10 @@ import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
-import { Checkbox, Form, Radio, Select, Space } from "antd";
+import { Radio, Select, Space } from "antd";
 
 class NatMandantSteuerpflichtig extends Component {
-  state = { countries: null, selectedType: null, selectedAnswer: null };
+  state = { countries: null, selectedAnswer: null };
 
   constructor(props) {
     super(props);
@@ -19,7 +19,40 @@ class NatMandantSteuerpflichtig extends Component {
     });
   }
 
-  validate = () => {};
+  validate = () => {
+    const { setCurrentStepValid, formData } = this.props;
+    const { selectedAnswer } = this.state;
+
+    if (selectedAnswer != null) {
+      if (selectedAnswer === "1") {
+        console.log("valid");
+        setCurrentStepValid(true);
+      } else if (
+        formData &&
+        formData.clientSubjectToTaxationInCountry != null
+      ) {
+        setCurrentStepValid(true);
+        console.log("valid");
+      } else {
+        console.log("not valid 1");
+        setCurrentStepValid(false);
+      }
+    } else {
+      console.log("not valid 2");
+      setCurrentStepValid(false);
+    }
+
+    console.log("formData", formData);
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (
+      prevProps.formData.clientSubjectToTaxationInCountry !==
+      this.props.formData.clientSubjectToTaxationInCountry
+    ) {
+      this.validate();
+    }
+  };
 
   insertNameIntoHeader = (firstName, lastName, header) => {
     let newHeader = header.replace("[FIRST_NAME]", firstName);
@@ -54,10 +87,14 @@ class NatMandantSteuerpflichtig extends Component {
         <Space direction="vertical" size="large">
           <Radio.Group
             onChange={(e) => {
-              this.setState({ selectedAnswer: e.target.value });
+              this.setState({ selectedAnswer: e.target.value }, this.validate);
               onChangeFormData(
                 "clientSubjectToTaxationInAustria",
                 e.target.value
+              );
+              onChangeFormData(
+                "clientSubjectToTaxationInCountry",
+                e.target.value === "1" ? "AT" : null
               );
             }}
             value={selectedAnswer}
@@ -88,6 +125,12 @@ class NatMandantSteuerpflichtig extends Component {
               }))}
               optionFilterProp="label"
               showSearch
+              onChange={(countryCode) => {
+                onChangeFormData(
+                  "clientSubjectToTaxationInCountry",
+                  countryCode
+                );
+              }}
             />
           </div>
         </Space>
