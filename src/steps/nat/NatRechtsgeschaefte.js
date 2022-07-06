@@ -3,15 +3,16 @@ import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
 class NatRechtsgeschaefte extends Component {
-  state = {};
+  state = { otherChecked: false };
 
   validate = () => {
+    const { otherChecked } = this.state;
     const { formData, setCurrentStepValid } = this.props;
-    const { legalServices } = formData;
+    const { legalServices, otherLegalService } = formData;
 
-    if (legalServices && legalServices.length > 0) {
-      if (legalServices.indexOf(strings[currentLang].nat.OTHER) >= 0) {
-      }
+    if (otherChecked) {
+      setCurrentStepValid(otherLegalService && otherLegalService.length > 0);
+    } else if (legalServices && legalServices.length > 0) {
       setCurrentStepValid(true);
     } else {
       setCurrentStepValid(false);
@@ -34,7 +35,19 @@ class NatRechtsgeschaefte extends Component {
     }
   };
 
+  onOtherLegalServiceChange = (text) => {
+    const { onChangeFormData } = this.props;
+    onChangeFormData("otherLegalService", text);
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.formData !== this.props.formData) {
+      this.validate();
+    }
+  };
+
   render() {
+    const { otherChecked } = this.state;
     const { currentLang, formData } = this.props;
 
     const { legalServices } = formData;
@@ -66,15 +79,22 @@ class NatRechtsgeschaefte extends Component {
             strings[currentLang].nat
               .FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST
           )}
-          {createCheckbox(strings[currentLang].nat.OTHER)}
-          <div
-            className={
-              questionChecked(strings[currentLang].nat.OTHER)
-                ? "fade-in"
-                : "fade-out"
-            }
+          <Checkbox
+            checked={otherChecked}
+            onChange={(e) => {
+              this.setState({ otherChecked: e.target.checked }, this.validate);
+            }}
           >
-            <Input placeholder={strings[currentLang].PLEASE_EXPLAIN} />
+            {strings[currentLang].nat.OTHER}
+          </Checkbox>
+          <div className={otherChecked ? "fade-in" : "fade-out"}>
+            <Input
+              placeholder={strings[currentLang].PLEASE_EXPLAIN}
+              // value={otherLegalService}
+              onChange={(e) => {
+                this.onOtherLegalServiceChange(e.target.value);
+              }}
+            />
           </div>
         </Space>
       </>

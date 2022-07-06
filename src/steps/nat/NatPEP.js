@@ -5,7 +5,7 @@ import strings from "../../locale/strings.json";
 import pepDefinitionMd from "../../locale/PEP_en.md";
 
 class NatPEP extends Component {
-  state = { selectedAnswer: null, pepDefinition: null };
+  state = { selectedAnswer: null, explanation: null, pepDefinition: null };
 
   constructor(props) {
     super(props);
@@ -16,6 +16,22 @@ class NatPEP extends Component {
         this.state.pepDefinition = text;
       });
   }
+
+  validate = () => {
+    const { selectedAnswer, explanation } = this.state;
+    const { currentLang, setCurrentStepValid } = this.props;
+
+    if (
+      selectedAnswer &&
+      selectedAnswer === strings[currentLang].nat.NONE_OF_ABOVE
+    ) {
+      setCurrentStepValid(true);
+    } else if (selectedAnswer && explanation && explanation.length > 0) {
+      setCurrentStepValid(true);
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
 
   render() {
     const { selectedAnswer, pepDefinition } = this.state;
@@ -46,7 +62,7 @@ class NatPEP extends Component {
         <Radio.Group
           value={selectedAnswer}
           onChange={(e) => {
-            this.setState({ selectedAnswer: e.target.value });
+            this.setState({ selectedAnswer: e.target.value }, this.validate);
           }}
         >
           <Space direction="vertical">
@@ -75,7 +91,13 @@ class NatPEP extends Component {
           }
         >
           <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
-          <Input.TextArea rows={4} placeholder="Enter some text" />
+          <Input.TextArea
+            rows={4}
+            placeholder="Enter some text"
+            onChange={(e) => {
+              this.setState({ explanation: e.target.value }, this.validate);
+            }}
+          />
         </div>
       </>
     );

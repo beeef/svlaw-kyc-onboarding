@@ -1,15 +1,75 @@
 import React, { Component } from "react";
-import { Checkbox, Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { Checkbox, Col, Form, Input, Row } from "antd";
 import strings from "../../locale/strings.json";
 
 class NatAusfuellerInformation extends Component {
-  state = { userData: {}, sameInformationAsPrevious: false };
+  state = {
+    userData: { firstName: "", lastName: "", email: "", phone: "" },
+    sameInformationAsPrevious: false,
+  };
 
-  validate = () => {};
+  validate = () => {
+    const { userData } = this.state;
+    const { setCurrentStepValid } = this.props;
+
+    if (
+      userData.firstName &&
+      userData.lastName &&
+      userData.email &&
+      userData.phone
+    ) {
+      setCurrentStepValid(true);
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
+
+  onValChange = (key, value) => {
+    const { userData } = this.state;
+
+    this.setState({ userData: { ...userData, [key]: value } }, this.validate);
+  };
+
+  insertUserData = () => {
+    const { userData } = this.state;
+    const { formData } = this.props;
+    const { clientData } = formData;
+
+    if (clientData && clientData.firstName && clientData.lastName) {
+      this.setState(
+        {
+          userData: {
+            ...userData,
+            firstName: clientData.firstName,
+            lastName: clientData.lastName,
+          },
+        },
+        this.validate
+      );
+    }
+  };
+
+  resetUserData = () => {
+    this.setState(
+      {
+        userData: { firstName: "", lastName: "", email: "", phone: "" },
+      },
+      this.validate
+    );
+  };
 
   render() {
-    const { sameInformationAsPrevious } = this.state;
-    const { currentLang, onChangeFormData } = this.props;
+    const { sameInformationAsPrevious, userData } = this.state;
+    const { currentLang, formData } = this.props;
+
+    const { clientData } = formData;
+    let firstName = "";
+    let lastName = "";
+
+    if (clientData) {
+      firstName = clientData.firstName;
+      lastName = clientData.lastName;
+    }
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
@@ -29,6 +89,7 @@ class NatAusfuellerInformation extends Component {
         },
         () => {
           onChangeFormData("userData", this.state.userData);
+          this.validate();
         }
       );
     };
@@ -40,17 +101,16 @@ class NatAusfuellerInformation extends Component {
           <Checkbox
             checked={sameInformationAsPrevious}
             onChange={(e) => {
-              this.setState({ sameInformationAsPrevious: e.target.checked });
+              this.setState(
+                { sameInformationAsPrevious: e.target.checked },
+                e.target.checked ? this.insertUserData : this.resetUserData
+              );
             }}
           >
-            I, [FIRST_NAME] [LAST_NAME], filled out this form by myself.
+            I, {firstName} {lastName}, filled out this form by myself.
           </Checkbox>
         </div>
-        <Form
-          {...formLayout}
-          labelAlign="left"
-          className={!sameInformationAsPrevious ? "fade-in" : "fade-out"}
-        >
+        <Form {...formLayout} labelAlign="left">
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
               <Form.Item label={strings[currentLang].nat.FIRST_NAME} required>
@@ -59,6 +119,7 @@ class NatAusfuellerInformation extends Component {
                   onChange={(e) => {
                     onValChange("firstName", e.target.value);
                   }}
+                  value={userData.firstName}
                 />
               </Form.Item>
             </Col>
@@ -69,6 +130,7 @@ class NatAusfuellerInformation extends Component {
                   onChange={(e) => {
                     onValChange("lastName", e.target.value);
                   }}
+                  value={userData.lastName}
                 />
               </Form.Item>
             </Col>
@@ -82,6 +144,7 @@ class NatAusfuellerInformation extends Component {
                   onChange={(e) => {
                     onValChange("email", e.target.value);
                   }}
+                  value={userData.email}
                 />
               </Form.Item>
             </Col>
@@ -92,6 +155,7 @@ class NatAusfuellerInformation extends Component {
                   onChange={(e) => {
                     onValChange("phone", e.target.value);
                   }}
+                  value={userData.phone}
                 />
               </Form.Item>
             </Col>

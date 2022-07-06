@@ -245,6 +245,7 @@ class App extends Component {
                     <>
                       {CT === "nat" && (
                         <NatAusfuellerInformation
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
                           setCurrentStepValid={this.setCurrentStepValid}

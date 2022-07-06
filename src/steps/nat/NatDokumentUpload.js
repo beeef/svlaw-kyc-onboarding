@@ -6,6 +6,13 @@ import strings from "../../locale/strings.json";
 class NatDokumentUpload extends Component {
   state = { selectedFiles: [] };
 
+  validate = () => {
+    const { selectedFiles } = this.state;
+    const { setCurrentStepValid } = this.props;
+
+    setCurrentStepValid(selectedFiles && selectedFiles.length > 0);
+  };
+
   render() {
     const { selectedFiles } = this.state;
     const { currentLang, formData } = this.props;
@@ -20,23 +27,17 @@ class NatDokumentUpload extends Component {
     }
 
     const uploadProps = {
+      accept: ".pdf,.jpg,.jpeg",
       className: "uploader",
       name: "file",
       multiple: true,
       action: "",
-      onChange(info) {
-        const { status } = info.file;
-        if (status !== "uploading") {
-          console.log(info.file, info.fileList);
-        }
-        if (status === "done") {
-          message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
-        }
+      beforeUpload: (file) => {
+        this.setState({ selectedFiles: [file] }, this.validate);
+        return false;
       },
-      onDrop(e) {
-        console.log("Dropped files", e.dataTransfer.files);
+      onRemove: () => {
+        this.setState({ selectedFiles: [] }, this.validate);
       },
     };
 
@@ -52,7 +53,7 @@ class NatDokumentUpload extends Component {
             </li>
           </ul>
         )}
-        <Upload.Dragger {...uploadProps}>
+        <Upload.Dragger {...uploadProps} fileList={selectedFiles}>
           <InboxOutlined className="icon" />
           <p className="upload-text">
             {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}

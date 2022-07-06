@@ -26,14 +26,14 @@ body:after {
 body:before {
   bottom: 15vh;
   border-radius: 45%;
-  animation-duration: 110s;
+  animation-duration: 180s;
 }
 
 body:after {
   bottom: 12vh;
   opacity: 0.5;
   border-radius: 37%;
-  animation-duration: 110s;
+  animation-duration: 170s;
 }
 
 @keyframes rotate {
