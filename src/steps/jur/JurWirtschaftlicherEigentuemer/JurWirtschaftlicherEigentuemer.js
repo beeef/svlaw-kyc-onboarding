@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Col, Collapse, Modal, Row, Space } from "antd";
+import { Button, Col, Collapse, Modal, Row, Space, Tag } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import JurWirtschaftlicherEigentuemerCard from "./JurWirtschaftlicherEigentuemerCard";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
@@ -98,11 +98,19 @@ class JurWirtschaftlicherEigentuemer extends Component {
                 {(beneficialOwners || []).map((x) => (
                   <Collapse.Panel
                     key={x.key}
-                    header={`${
-                      !x.firstName
-                        ? strings[currentLang].jur.BENEFICIAL_OWNER
-                        : " "
-                    }${x.firstName || ""} ${x.lastName || ""}`}
+                    header={
+                      <>
+                        {!x.firstName
+                          ? strings[currentLang].jur.BENEFICIAL_OWNER
+                          : " "}
+                        {x.firstName || ""} {x.lastName || ""}
+                        {
+                          <Tag color="coral" style={{ marginLeft: "6px" }}>
+                            Information inclomplete
+                          </Tag>
+                        }
+                      </>
+                    }
                     extra={
                       <Button
                         type="link"

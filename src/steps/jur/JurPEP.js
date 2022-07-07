@@ -29,6 +29,30 @@ class JurPEP extends Component {
     if (selectedAnswer1 && selectedAnswer1 === strings[currentLang].NO) {
       if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
         setCurrentStepValid(true);
+      } else if (
+        selectedAnswer2 &&
+        selectedAnswer2 === strings[currentLang].YES &&
+        managingDirectorsPepExplanation2
+      ) {
+        setCurrentStepValid(true);
+      } else {
+        setCurrentStepValid(false);
+      }
+    } else if (
+      selectedAnswer1 &&
+      selectedAnswer1 === strings[currentLang].YES &&
+      managingDirectorsPepExplanation1
+    ) {
+      if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
+        setCurrentStepValid(true);
+      } else if (
+        selectedAnswer2 &&
+        selectedAnswer2 === strings[currentLang].YES &&
+        managingDirectorsPepExplanation2
+      ) {
+        setCurrentStepValid(true);
+      } else {
+        setCurrentStepValid(false);
       }
     }
   };
