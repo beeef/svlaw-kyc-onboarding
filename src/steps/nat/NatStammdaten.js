@@ -53,7 +53,7 @@ class NatStammdaten extends Component {
   };
 
   render() {
-    const { countries } = this.state;
+    const { countries, clientData } = this.state;
     const { currentLang } = this.props;
 
     const formLayout = {
@@ -192,6 +192,13 @@ class NatStammdaten extends Component {
                 }
               >
                 <Input
+                  status={
+                    clientData &&
+                    clientData.email &&
+                    !validateEmail(clientData.email)
+                      ? "error"
+                      : null
+                  }
                   placeholder={strings[currentLang].nat.EMAIL_ADDRESS}
                   onChange={(e) => {
                     onValChange("email", e.target.value);
