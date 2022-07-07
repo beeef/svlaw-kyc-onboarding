@@ -25,24 +25,18 @@ class NatMandantSteuerpflichtig extends Component {
 
     if (selectedAnswer != null) {
       if (selectedAnswer === "1") {
-        console.log("valid");
         setCurrentStepValid(true);
       } else if (
         formData &&
         formData.clientSubjectToTaxationInCountry != null
       ) {
         setCurrentStepValid(true);
-        console.log("valid");
       } else {
-        console.log("not valid 1");
         setCurrentStepValid(false);
       }
     } else {
-      console.log("not valid 2");
       setCurrentStepValid(false);
     }
-
-    console.log("formData", formData);
   };
 
   componentDidUpdate = (prevProps) => {
