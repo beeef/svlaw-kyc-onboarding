@@ -4,6 +4,7 @@ import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
 import strings from "../../../locale/strings.json";
+import { validateEmail, validatePhoneNumber } from "../../../util/validation";
 
 class JurGeschaeftsfuehrerCard extends Component {
   state = {};
@@ -19,9 +20,55 @@ class JurGeschaeftsfuehrerCard extends Component {
     });
   }
 
+  validate = () => {
+    const { managingDirectorData, onValidated } = this.props;
+
+    const {
+      firstName,
+      lastName,
+      dateOfBirth,
+      nationality,
+      street,
+      zip,
+      city,
+      country,
+      email,
+      phoneAreaCode,
+      phone,
+      powerOfRepresentation,
+    } = managingDirectorData;
+
+    if (
+      firstName &&
+      lastName &&
+      dateOfBirth &&
+      nationality &&
+      street &&
+      zip &&
+      city &&
+      country &&
+      email &&
+      phoneAreaCode &&
+      phone &&
+      powerOfRepresentation &&
+      validateEmail(email) &&
+      validatePhoneNumber(`+${phoneAreaCode}${phone}`)
+    ) {
+      onValidated(true);
+    } else {
+      onValidated(false);
+    }
+  };
+
+  componentDidMount = () => {
+    const { onChangeManagingDirectorData } = this.props;
+    onChangeManagingDirectorData("powerOfRepresentation", "sole");
+  };
+
   render() {
     const { countries } = this.state;
-    const { currentLang, onChangeManagingDirectorData, style } = this.props;
+    const { currentLang, onChangeManagingDirectorData, managingDirectorData } =
+      this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
@@ -33,27 +80,32 @@ class JurGeschaeftsfuehrerCard extends Component {
         <Form {...formLayout}>
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.FIRST_NAME}>
+              <Form.Item label={strings[currentLang].jur.FIRST_NAME} required>
                 <Input
                   placeholder={strings[currentLang].jur.FIRST_NAME}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("firstName", e.target.value);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.LAST_NAME}>
+              <Form.Item label={strings[currentLang].jur.LAST_NAME} required>
                 <Input
                   placeholder={strings[currentLang].jur.LAST_NAME}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("lastName", e.target.value);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.DATE_OF_BIRTH}>
+              <Form.Item
+                label={strings[currentLang].jur.DATE_OF_BIRTH}
+                required
+              >
                 <DatePicker
                   format="DD.MM.YYYY"
                   allowClear
@@ -63,12 +115,13 @@ class JurGeschaeftsfuehrerCard extends Component {
                       "dateOfBirth",
                       date.format("YYYY-MM-DD")
                     );
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.NATIONALITY}>
+              <Form.Item label={strings[currentLang].jur.NATIONALITY} required>
                 <Select
                   placeholder={strings[currentLang].jur.SELECT_COUNTRY}
                   options={Object.keys(countries).map((countryCode) => ({
@@ -79,42 +132,49 @@ class JurGeschaeftsfuehrerCard extends Component {
                   showSearch
                   onChange={(country) => {
                     onChangeManagingDirectorData("nationality", country);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.RESIDENTIAL_ADDRESS}>
+              <Form.Item
+                label={strings[currentLang].jur.RESIDENTIAL_ADDRESS}
+                required
+              >
                 <Input
                   placeholder={`${strings[currentLang].jur.STREET}, ${strings[currentLang].jur.STREET_NUMBER}`}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("street", e.target.value);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.POSTAL_CODE}>
+              <Form.Item label={strings[currentLang].jur.POSTAL_CODE} required>
                 <Input
                   placeholder={strings[currentLang].jur.POSTAL_CODE_SHORT}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("zip", e.target.value);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.CITY}>
+              <Form.Item label={strings[currentLang].jur.CITY} required>
                 <Input
                   placeholder={strings[currentLang].jur.CITY}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("city", e.target.value);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.COUNTRY}>
+              <Form.Item label={strings[currentLang].jur.COUNTRY} required>
                 <Select
                   placeholder={strings[currentLang].jur.SELECT_COUNTRY}
                   options={Object.keys(countries).map((countryCode) => ({
@@ -125,39 +185,72 @@ class JurGeschaeftsfuehrerCard extends Component {
                   showSearch
                   onChange={(country) => {
                     onChangeManagingDirectorData("country", country);
+                    this.validate();
                   }}
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.EMAIL_ADDRESS}>
+              <Form.Item
+                label={strings[currentLang].jur.EMAIL_ADDRESS}
+                required
+              >
                 <Input
                   placeholder={strings[currentLang].jur.EMAIL_ADDRESS}
                   onBlur={(e) => {
                     onChangeManagingDirectorData("email", e.target.value);
+                    this.validate();
                   }}
+                  status={
+                    managingDirectorData &&
+                    managingDirectorData.email &&
+                    !validateEmail(managingDirectorData.email)
+                      ? "error"
+                      : null
+                  }
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.PHONE_NUMBER}>
-                <Input
-                  placeholder={strings[currentLang].jur.PHONE_NUMBER}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("phone", e.target.value);
-                  }}
-                />
+              <Form.Item
+                label={strings[currentLang].nat.PHONE_NUMBER}
+                required
+                help="Please provide the number in the following format: +43 1 23456789"
+              >
+                <Input.Group compact>
+                  <Input
+                    onChange={(e) => {
+                      onChangeManagingDirectorData(
+                        "phoneAreaCode",
+                        e.target.value
+                      );
+                      this.validate();
+                    }}
+                    placeholder="43"
+                    prefix="+"
+                    style={{ width: "28%" }}
+                  />
+                  <Input
+                    onChange={(e) => {
+                      onChangeManagingDirectorData("phone", e.target.value);
+                      this.validate();
+                    }}
+                    placeholder="12345"
+                    style={{ width: "72%" }}
+                  />
+                </Input.Group>
               </Form.Item>
             </Col>
             <Col xs={24} md={24}>
               <Form.Item
                 label={strings[currentLang].jur.POWER_OF_REPRESENTATION}
                 help={strings[currentLang].jur.POWER_OF_REPRESENTATION_HELP}
+                required
               >
                 <Select
                   placeholder={strings[currentLang].PLEASE_CHOOSE}
+                  defaultValue="sole"
                   options={[
-                    { label: "None", value: "none" },
                     { label: "Sole", value: "sole" },
                     {
                       label: "Jointly with one other authorized person",
@@ -165,10 +258,8 @@ class JurGeschaeftsfuehrerCard extends Component {
                     },
                   ]}
                   onChange={(val) => {
-                    onChangeManagingDirectorData(
-                      "powerOfRepresentation",
-                      e.target.value
-                    );
+                    onChangeManagingDirectorData("powerOfRepresentation", val);
+                    this.validate();
                   }}
                 />
               </Form.Item>

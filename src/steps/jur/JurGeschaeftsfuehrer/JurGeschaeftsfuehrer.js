@@ -1,19 +1,45 @@
 import React, { Component } from "react";
-import { Button, Col, Collapse, Modal, Row, Space } from "antd";
+import { Button, Col, Collapse, Modal, Row, Space, Tag } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import JurGeschaeftsfuehrerCard from "./JurGeschaeftsfuehrerCard";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import strings from "../../../locale/strings.json";
+import _, { unset } from "lodash";
 
 class JurGeschaeftsfuehrer extends Component {
-  state = {};
+  state = { managingDirectorKeyValid: {} };
 
   componentDidMount = () => {
     const { onChangeFormData, formData } = this.props;
     const { managingDirectors } = formData;
 
+    const uuid = uuidv4();
+
     if (!managingDirectors) {
-      onChangeFormData("managingDirectors", [{ key: uuidv4() }]);
+      onChangeFormData("managingDirectors", [{ key: uuid }]);
+      this.setState({ managingDirectorKeyValid: { [uuid]: false } });
+    }
+  };
+
+  validate = () => {
+    const { managingDirectorKeyValid } = this.state;
+    const { setCurrentStepValid } = this.props;
+
+    if (
+      managingDirectorKeyValid &&
+      Object.keys(managingDirectorKeyValid).length > 0
+    ) {
+      if (
+        Object.values(managingDirectorKeyValid).findIndex(
+          (val) => val === false
+        ) >= 0
+      ) {
+        setCurrentStepValid(false);
+      } else {
+        setCurrentStepValid(true);
+      }
+    } else {
+      setCurrentStepValid(true);
     }
   };
 
@@ -23,18 +49,30 @@ class JurGeschaeftsfuehrer extends Component {
   addNewManagingDirector = () => {
     const { onChangeFormData, formData } = this.props;
     const { managingDirectors } = formData;
+    const uuid = uuidv4();
 
     if (managingDirectors) {
       onChangeFormData("managingDirectors", [
         ...managingDirectors,
-        { key: uuidv4() },
+        { key: uuid },
       ]);
     } else {
-      onChangeFormData("managingDirectors", [{ key: uuidv4() }]);
+      onChangeFormData("managingDirectors", [{ key: uuid }]);
     }
+
+    this.setState(
+      ({ managingDirectorKeyValid }) => ({
+        managingDirectorKeyValid: {
+          ...managingDirectorKeyValid,
+          [uuid]: false,
+        },
+      }),
+      this.validate
+    );
   };
 
   removeManagingDirector = (key) => {
+    const { managingDirectorKeyValid } = this.state;
     const { onChangeFormData, formData } = this.props;
     const { managingDirectors } = formData;
 
@@ -42,6 +80,10 @@ class JurGeschaeftsfuehrer extends Component {
       "managingDirectors",
       managingDirectors.filter((md) => md.key !== key)
     );
+
+    unset(managingDirectorKeyValid, key);
+
+    this.setState({ managingDirectorKeyValid }, this.validate);
   };
 
   changeManagingDirectorData = (mdKey, key, value) => {
@@ -54,7 +96,20 @@ class JurGeschaeftsfuehrer extends Component {
     onChangeFormData("managingDirectors", managingDirectors);
   };
 
+  componentDidUpdate = (prevProps) => {
+    const { formData: prevFormData } = prevProps;
+    const { formData } = this.props;
+
+    const { managingDirectors: prevManagingDirectors } = prevFormData;
+    const { managingDirectors } = formData;
+
+    if (!_.isEqual(managingDirectors, prevManagingDirectors)) {
+      this.validate();
+    }
+  };
+
   render() {
+    const { managingDirectorKeyValid } = this.state;
     const { formData, currentLang } = this.props;
     const { managingDirectors: managingDirectors } = formData;
     let nameLegalEntity = "";
@@ -98,11 +153,19 @@ class JurGeschaeftsfuehrer extends Component {
                 {(managingDirectors || []).map((x) => (
                   <Collapse.Panel
                     key={x.key}
-                    header={`${
-                      !x.firstName
-                        ? strings[currentLang].jur.MANAGING_DIRECTOR
-                        : " "
-                    }${x.firstName || ""} ${x.lastName || ""}`}
+                    header={
+                      <>
+                        {!x.firstName
+                          ? strings[currentLang].jur.MANAGING_DIRECTOR
+                          : " "}
+                        {x.firstName || ""} {x.lastName || ""}
+                        {!managingDirectorKeyValid[x.key] && (
+                          <Tag color="coral" style={{ marginLeft: "6px" }}>
+                            Information inclomplete
+                          </Tag>
+                        )}
+                      </>
+                    }
                     extra={
                       <Button
                         type="link"
@@ -138,6 +201,16 @@ class JurGeschaeftsfuehrer extends Component {
                       currentLang={currentLang}
                       onChangeManagingDirectorData={(key, value) => {
                         this.changeManagingDirectorData(x.key, key, value);
+                      }}
+                      managingDirectorData={x}
+                      onValidated={(valid) => {
+                        const { managingDirectorKeyValid } = this.state;
+                        managingDirectorKeyValid[x.key] = valid;
+
+                        this.setState(
+                          { managingDirectorKeyValid },
+                          this.validate()
+                        );
                       }}
                     />
                   </Collapse.Panel>

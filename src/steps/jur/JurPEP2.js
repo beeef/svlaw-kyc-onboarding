@@ -4,8 +4,8 @@ import ReactMarkdown from "react-markdown";
 import strings from "../../locale/strings.json";
 import pepDefinitionMd from "../../locale/PEP_en.md";
 
-class JurPEP2 extends Component {
-  state = { selectedAnswer: null, pepDefinition: null };
+class JurPEP3 extends Component {
+  state = { selectedAnswer1: null, selectedAnswer2: null, pepDefinition: null };
 
   constructor(props) {
     super(props);
@@ -18,15 +18,12 @@ class JurPEP2 extends Component {
   }
 
   render() {
-    const { selectedAnswer, pepDefinition } = this.state;
-    const { currentLang } = this.props;
+    const { selectedAnswer1, selectedAnswer2, pepDefinition } = this.state;
+    const { currentLang, onChangeFormData } = this.props;
 
     return (
       <>
-        <h2 style={{ marginBottom: 0, padding: 0 }}>
-          {strings[currentLang].jur.STEP_PEP2}
-        </h2>
-        <div style={{ marginBottom: "24px" }}>
+        <div style={{ marginTop: "24px" }}>
           <Button
             size="small"
             type="link"
@@ -43,10 +40,14 @@ class JurPEP2 extends Component {
             What is a PEP?
           </Button>
         </div>
+        <h2 style={{ marginBottom: 0, padding: 0 }}>
+          {strings[currentLang].jur.STEP_PEP3}
+        </h2>
+
         <Radio.Group
-          value={selectedAnswer}
+          value={selectedAnswer1}
           onChange={(e) => {
-            this.setState({ selectedAnswer: e.target.value });
+            this.setState({ selectedAnswer1: e.target.value });
           }}
         >
           <Space direction="vertical">
@@ -62,18 +63,69 @@ class JurPEP2 extends Component {
         <div
           style={{ marginTop: "24px" }}
           className={
-            selectedAnswer != null &&
-            selectedAnswer === strings[currentLang].YES
+            selectedAnswer1 != null &&
+            selectedAnswer1 === strings[currentLang].YES
               ? "fade-in"
               : "fade-out"
           }
         >
           <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
-          <Input.TextArea rows={4} />
+          <Input.TextArea
+            rows={4}
+            style={{ resize: "none" }}
+            onChange={(e) => {
+              onChangeFormData(
+                "beneficialOwnerPepExplanation1",
+                e.target.value
+              );
+            }}
+          />
+        </div>
+
+        <h2 style={{ marginBottom: 0, padding: 0 }}>
+          {strings[currentLang].jur.STEP_PEP4}
+        </h2>
+
+        <Radio.Group
+          value={selectedAnswer2}
+          onChange={(e) => {
+            this.setState({ selectedAnswer2: e.target.value });
+          }}
+        >
+          <Space direction="vertical">
+            <Radio value={strings[currentLang].YES}>
+              {strings[currentLang].YES}
+            </Radio>
+            <Radio value={strings[currentLang].NO}>
+              {strings[currentLang].NO}
+            </Radio>
+          </Space>
+        </Radio.Group>
+
+        <div
+          style={{ marginTop: "24px" }}
+          className={
+            selectedAnswer2 != null &&
+            selectedAnswer2 === strings[currentLang].YES
+              ? "fade-in"
+              : "fade-out"
+          }
+        >
+          <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
+          <Input.TextArea
+            rows={4}
+            style={{ resize: "none" }}
+            onChange={(e) => {
+              onChangeFormData(
+                "beneficialOwnerPepExplanation2",
+                e.target.value
+              );
+            }}
+          />
         </div>
       </>
     );
   }
 }
 
-export default JurPEP2;
+export default JurPEP3;

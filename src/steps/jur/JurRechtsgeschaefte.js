@@ -3,23 +3,71 @@ import { Checkbox, Input, Space } from "antd";
 import strings from "../../locale/strings.json";
 
 class JurRechtsgeschaefte extends Component {
-  state = { checkedAnswers: [] };
+  state = { otherChecked: false };
+
+  validate = () => {
+    const { otherChecked } = this.state;
+    const { formData, setCurrentStepValid } = this.props;
+    const { legalServices, otherLegalService } = formData;
+
+    if (otherChecked) {
+      setCurrentStepValid(otherLegalService && otherLegalService.length > 0);
+    } else if (legalServices && legalServices.length > 0) {
+      setCurrentStepValid(true);
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
+
+  onCheckLegalService = (question, checked) => {
+    const { formData, onChangeFormData } = this.props;
+    const { legalServices } = formData;
+
+    if (checked) {
+      if (legalServices)
+        onChangeFormData("legalServices", [...legalServices, question]);
+      else onChangeFormData("legalServices", [question]);
+    } else {
+      onChangeFormData(
+        "legalServices",
+        legalServices.filter((ls) => ls !== question)
+      );
+    }
+  };
+
+  onOtherLegalServiceChange = (text) => {
+    const { onChangeFormData } = this.props;
+    onChangeFormData("otherLegalService", text);
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (
+      (prevProps.formData.legalServices ||
+        prevProps.formData.otherLegalService) &&
+      (!_.isEqual(
+        prevProps.formData.legalServices,
+        this.props.formData.legalServices
+      ) ||
+        !_.isEqual(
+          prevProps.formData.otherLegalService,
+          this.props.formData.otherLegalService
+        ))
+    ) {
+      this.validate();
+    }
+  };
 
   render() {
-    const { checkedAnswers } = this.state;
+    const { otherChecked } = this.state;
     const { currentLang, formData } = this.props;
+
+    const { legalServices } = formData;
 
     const createCheckbox = (question) => (
       <Checkbox
-        checked={checkedAnswers.indexOf(question) >= 0}
+        checked={questionChecked(question)}
         onChange={(e) => {
-          if (e.target.checked) {
-            this.setState({ checkedAnswers: [...checkedAnswers, question] });
-          } else {
-            this.setState({
-              checkedAnswers: checkedAnswers.filter((c) => c !== question),
-            });
-          }
+          this.onCheckLegalService(question, e.target.checked);
         }}
       >
         {question}
@@ -29,7 +77,8 @@ class JurRechtsgeschaefte extends Component {
     const insertNameIntoHeader = (name, header) =>
       header.replace("[NAME_LEGAL_ENTITY]", name);
 
-    const questionChecked = (question) => checkedAnswers.indexOf(question) >= 0;
+    const questionChecked = (question) =>
+      formData && legalServices && legalServices.indexOf(question) >= 0;
 
     return (
       <>
@@ -49,15 +98,22 @@ class JurRechtsgeschaefte extends Component {
             strings[currentLang].nat
               .FORMATION_OR_OPERATION_OR_ADMINISTRATION_OF_ANY_TRUST
           )}
-          {createCheckbox(strings[currentLang].jur.OTHER)}
-          <div
-            className={
-              questionChecked(strings[currentLang].jur.OTHER)
-                ? "fade-in"
-                : "fade-out"
-            }
+          <Checkbox
+            checked={otherChecked}
+            onChange={(e) => {
+              this.setState({ otherChecked: e.target.checked }, this.validate);
+            }}
           >
-            <Input placeholder={strings[currentLang].PLEASE_EXPLAIN} />
+            {strings[currentLang].jur.OTHER}
+          </Checkbox>
+          <div className={otherChecked ? "fade-in" : "fade-out"}>
+            <Input
+              placeholder={strings[currentLang].PLEASE_EXPLAIN}
+              // value={otherLegalService}
+              onChange={(e) => {
+                this.onOtherLegalServiceChange(e.target.value);
+              }}
+            />
           </div>
         </Space>
       </>

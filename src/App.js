@@ -34,8 +34,6 @@ import JurPEP from "./steps/jur/JurPEP";
 import JurPEP2 from "./steps/jur/JurPEP2";
 import JurGeschaeftsfuehrerDokumentUpload from "./steps/jur/JurGeschaeftsfuehrerDokumentUpload";
 import JurWirtschaftlicherEigentuemer from "./steps/jur/JurWirtschaftlicherEigentuemer/JurWirtschaftlicherEigentuemer";
-import JurPEP3 from "./steps/jur/JurPEP3";
-import JurPEP4 from "./steps/jur/JurPEP4";
 import JurWirtschaftlicherEigentuemerDokumentUpload from "./steps/jur/JurWirtschaftlicherEigentuemerDokumentUpload";
 import JurKontaktperson from "./steps/jur/JurKontaktPerson/JurKontaktPerson";
 import JurAusfuellerInformation from "./steps/jur/JurAusfuellerInformation";
@@ -252,9 +250,10 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurPEP2
+                        <JurGeschaeftsfuehrerDokumentUpload
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
+                          formData={formData}
                           setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
@@ -272,10 +271,10 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurGeschaeftsfuehrerDokumentUpload
+                        <JurWirtschaftlicherEigentuemer
+                          formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
-                          formData={formData}
                           setCurrentStepValid={this.setCurrentStepValid}
                         />
                       )}
@@ -294,7 +293,7 @@ class App extends Component {
                         />
                       )}
                       {CT === "jur" && (
-                        <JurWirtschaftlicherEigentuemer
+                        <JurPEP2
                           formData={formData}
                           currentLang={currentLang}
                           onChangeFormData={this.handleChangeFormData}
@@ -304,26 +303,6 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                {CT && CT === "jur" && (
-                  <SwiperSlide>
-                    <JurPEP3
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
-                  </SwiperSlide>
-                )}
-                {CT && CT === "jur" && (
-                  <SwiperSlide>
-                    <JurPEP4
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
-                  </SwiperSlide>
-                )}
                 {CT && CT === "jur" && (
                   <SwiperSlide>
                     <JurWirtschaftlicherEigentuemerDokumentUpload
@@ -357,16 +336,6 @@ class App extends Component {
                 {CT && CT === "jur" && (
                   <SwiperSlide>
                     <JurZusaetzlicheDokumenteUpload
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
-                  </SwiperSlide>
-                )}
-                {CT && CT === "jur" && (
-                  <SwiperSlide>
-                    <JurZusaetzlicheInformationen
                       formData={formData}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
@@ -484,7 +453,6 @@ class App extends Component {
                   onStepClick={this.onStepClick}
                 />
                 <Steps.Step title="PEP" onStepClick={this.onStepClick} />
-                <Steps.Step title="PEP 2" onStepClick={this.onStepClick} />
                 <Steps.Step
                   title="Documents of managing directors"
                   onStepClick={this.onStepClick}
@@ -494,7 +462,6 @@ class App extends Component {
                   onStepClick={this.onStepClick}
                 />
                 <Steps.Step title="PEP" onStepClick={this.onStepClick} />
-                <Steps.Step title="PEP 2" onStepClick={this.onStepClick} />
                 <Steps.Step
                   title="Documents of beneficial owners"
                   onStepClick={this.onStepClick}
@@ -509,10 +476,6 @@ class App extends Component {
                 />
                 <Steps.Step
                   title="Additional documents"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Additional remarks"
                   onStepClick={this.onStepClick}
                 />
                 <Steps.Step title="Summary" onStepClick={this.onStepClick} />

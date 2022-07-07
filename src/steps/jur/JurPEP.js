@@ -5,7 +5,7 @@ import strings from "../../locale/strings.json";
 import pepDefinitionMd from "../../locale/PEP_en.md";
 
 class JurPEP extends Component {
-  state = { selectedAnswer: null, pepDefinition: null };
+  state = { selectedAnswer1: null, selectedAnswer2: null, pepDefinition: null };
 
   constructor(props) {
     super(props);
@@ -17,16 +17,29 @@ class JurPEP extends Component {
       });
   }
 
+  validate = () => {
+    const { selectedAnswer1, selectedAnswer2 } = this.state;
+    const { formData, setCurrentStepValid } = this.props;
+
+    const {
+      managingDirectorsPepExplanation1,
+      managingDirectorsPepExplanation2,
+    } = formData;
+
+    if (selectedAnswer1 && selectedAnswer1 === strings[currentLang].NO) {
+      if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
+        setCurrentStepValid(true);
+      }
+    }
+  };
+
   render() {
-    const { selectedAnswer, pepDefinition } = this.state;
-    const { currentLang } = this.props;
+    const { selectedAnswer1, selectedAnswer2, pepDefinition } = this.state;
+    const { currentLang, onChangeFormData } = this.props;
 
     return (
       <>
-        <h2 style={{ marginBottom: 0, padding: 0 }}>
-          {strings[currentLang].jur.STEP_PEP}
-        </h2>
-        <div style={{ marginBottom: "24px" }}>
+        <div style={{ marginTop: "24px" }}>
           <Button
             size="small"
             type="link"
@@ -43,10 +56,14 @@ class JurPEP extends Component {
             What is a PEP?
           </Button>
         </div>
+        <h2 style={{ marginBottom: 0, padding: 0 }}>
+          {strings[currentLang].jur.STEP_PEP}
+        </h2>
+
         <Radio.Group
-          value={selectedAnswer}
+          value={selectedAnswer1}
           onChange={(e) => {
-            this.setState({ selectedAnswer: e.target.value });
+            this.setState({ selectedAnswer1: e.target.value });
           }}
         >
           <Space direction="vertical">
@@ -62,14 +79,65 @@ class JurPEP extends Component {
         <div
           style={{ marginTop: "24px" }}
           className={
-            selectedAnswer != null &&
-            selectedAnswer === strings[currentLang].YES
+            selectedAnswer1 != null &&
+            selectedAnswer1 === strings[currentLang].YES
               ? "fade-in"
               : "fade-out"
           }
         >
           <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
-          <Input.TextArea rows={4} />
+          <Input.TextArea
+            rows={3}
+            style={{ resize: "none" }}
+            onChange={(e) => {
+              onChangeFormData(
+                "managingDirectorsPepExplanation1",
+                e.target.value
+              );
+            }}
+          />
+        </div>
+
+        <h2 style={{ marginBottom: 0, padding: 0 }}>
+          {strings[currentLang].jur.STEP_PEP2}
+        </h2>
+
+        <Radio.Group
+          value={selectedAnswer2}
+          onChange={(e) => {
+            this.setState({ selectedAnswer2: e.target.value });
+          }}
+        >
+          <Space direction="vertical">
+            <Radio value={strings[currentLang].YES}>
+              {strings[currentLang].YES}
+            </Radio>
+            <Radio value={strings[currentLang].NO}>
+              {strings[currentLang].NO}
+            </Radio>
+          </Space>
+        </Radio.Group>
+
+        <div
+          style={{ marginTop: "24px" }}
+          className={
+            selectedAnswer2 != null &&
+            selectedAnswer2 === strings[currentLang].YES
+              ? "fade-in"
+              : "fade-out"
+          }
+        >
+          <h3>{strings[currentLang].PLEASE_EXPLAIN}</h3>
+          <Input.TextArea
+            rows={3}
+            style={{ resize: "none" }}
+            onChange={(e) => {
+              onChangeFormData(
+                "managingDirectorsPepExplanation2",
+                e.target.value
+              );
+            }}
+          />
         </div>
       </>
     );

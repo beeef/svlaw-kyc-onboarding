@@ -19,10 +19,37 @@ class JurMandantSteuerpflichtig extends Component {
     });
   }
 
-  validate = () => {};
+  validate = () => {
+    const { setCurrentStepValid, formData } = this.props;
+    const { selectedAnswer } = this.state;
+
+    if (selectedAnswer != null) {
+      if (selectedAnswer === "1") {
+        setCurrentStepValid(true);
+      } else if (
+        formData &&
+        formData.clientSubjectToTaxationInCountry != null
+      ) {
+        setCurrentStepValid(true);
+      } else {
+        setCurrentStepValid(false);
+      }
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
 
   insertNameIntoHeader = (nameLegalEntity, header) =>
     header.replace("[NAME_LEGAL_ENTITY]", nameLegalEntity);
+
+  componentDidUpdate = (prevProps) => {
+    if (
+      prevProps.formData.clientSubjectToTaxationInCountry !==
+      this.props.formData.clientSubjectToTaxationInCountry
+    ) {
+      this.validate();
+    }
+  };
 
   render() {
     const { countries, selectedAnswer } = this.state;
@@ -47,11 +74,15 @@ class JurMandantSteuerpflichtig extends Component {
         <Space direction="vertical" size="large">
           <Radio.Group
             onChange={(e) => {
-              this.setState({ selectedAnswer: e.target.value });
+              this.setState({ selectedAnswer: e.target.value }, this.validate);
               onChangeFormData(
                 "clientSubjectToTaxationInAustria",
                 e.target.value
               );
+
+              if (e.target.value === "1") {
+                onChangeFormData("clientSubjectToTaxationInCountry", "AT");
+              }
             }}
             value={selectedAnswer}
           >
@@ -80,6 +111,12 @@ class JurMandantSteuerpflichtig extends Component {
               }))}
               optionFilterProp="label"
               showSearch
+              onChange={(countryCode) => {
+                onChangeFormData(
+                  "clientSubjectToTaxationInCountry",
+                  countryCode
+                );
+              }}
             />
           </div>
         </Space>

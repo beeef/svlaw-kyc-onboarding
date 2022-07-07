@@ -21,7 +21,35 @@ class JurStammdaten extends Component {
     });
   }
 
-  validate = () => {};
+  validate = () => {
+    const { clientData } = this.state;
+    const { setCurrentStepValid } = this.props;
+
+    const {
+      nameLegalEntity,
+      registrationNumber,
+      businessAddress,
+      city,
+      postalCode,
+      countryOfRegistration,
+      email,
+    } = clientData;
+
+    if (
+      nameLegalEntity &&
+      registrationNumber &&
+      businessAddress &&
+      city &&
+      postalCode &&
+      countryOfRegistration &&
+      email &&
+      validateEmail(email)
+    ) {
+      setCurrentStepValid(true);
+    } else {
+      setCurrentStepValid(false);
+    }
+  };
 
   render() {
     const { countries, clientData } = this.state;
@@ -45,6 +73,7 @@ class JurStammdaten extends Component {
         },
         () => {
           onChangeFormData("clientData", this.state.clientData);
+          this.validate();
         }
       );
     };
