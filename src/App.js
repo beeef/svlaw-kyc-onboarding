@@ -63,17 +63,11 @@ class App extends Component {
   gotoPrevStep = () => {
     const { swiperInstance } = this.state;
     swiperInstance.slidePrev(400);
-    this.setState((state) => ({
-      currentStep: state.currentStep - 1,
-    }));
   };
 
   gotoNextStep = () => {
     const { swiperInstance } = this.state;
     swiperInstance.slideNext(400);
-    this.setState((state) => ({
-      currentStep: state.currentStep + 1,
-    }));
   };
 
   onStepClick = (index) => {
@@ -97,6 +91,8 @@ class App extends Component {
 
   setCurrentStepValid = (valid) => {
     const { validSteps, currentStep } = this.state;
+
+    console.log("setCurrentStepValid", validSteps, currentStep, valid);
 
     this.setState({ validSteps: { ...validSteps, [currentStep]: valid } });
   };
@@ -122,7 +118,11 @@ class App extends Component {
                 className="mySwiper"
                 onSwiper={(swiper) => {
                   swiper.on("activeIndexChange", (swiper) => {
-                    this.setState({ swiperInstance: swiper });
+                    this.setState({
+                      swiperInstance: swiper,
+                      currentStep: swiper.activeIndex,
+                    });
+                    console.log("index changed", swiper.activeIndex);
                   });
                   this.setState({ swiperInstance: swiper });
                 }}

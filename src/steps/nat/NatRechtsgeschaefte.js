@@ -1,4 +1,5 @@
 import { Checkbox, Input, Radio, Space } from "antd";
+import _ from "lodash";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
@@ -41,7 +42,18 @@ class NatRechtsgeschaefte extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.formData !== this.props.formData) {
+    if (
+      (prevProps.formData.legalServices ||
+        prevProps.formData.otherLegalService) &&
+      (!_.isEqual(
+        prevProps.formData.legalServices,
+        this.props.formData.legalServices
+      ) ||
+        !_.isEqual(
+          prevProps.formData.otherLegalService,
+          this.props.formData.otherLegalService
+        ))
+    ) {
       this.validate();
     }
   };

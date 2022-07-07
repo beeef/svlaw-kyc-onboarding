@@ -35,14 +35,19 @@ class NatStammdaten extends Component {
         clientData.postalCode &&
         clientData.city &&
         clientData.country &&
+        clientData.phoneAreaCode &&
+        clientData.phone &&
         validateEmail(clientData.email) &&
-        validatePhoneNumber(clientData.phone)
+        validatePhoneNumber(`+${clientData.phoneAreaCode}${clientData.phone}`)
       ) {
         setCurrentStepValid(true);
+        console.log("hier1");
       } else {
+        console.log("hier2");
         setCurrentStepValid(false);
       }
     } else {
+      console.log("hier3");
       setCurrentStepValid(false);
     }
   };
@@ -195,12 +200,28 @@ class NatStammdaten extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.PHONE_NUMBER} required>
-                <Input
-                  onChange={(e) => {
-                    onValChange("phone", e.target.value);
-                  }}
-                />
+              <Form.Item
+                label={strings[currentLang].nat.PHONE_NUMBER}
+                required
+                help="Please provide the number in the following format: +43 1 23456789"
+              >
+                <Input.Group compact>
+                  <Input
+                    onChange={(e) => {
+                      onValChange("phoneAreaCode", e.target.value);
+                    }}
+                    placeholder="43"
+                    prefix="+"
+                    style={{ width: "28%" }}
+                  />
+                  <Input
+                    onChange={(e) => {
+                      onValChange("phone", e.target.value);
+                    }}
+                    placeholder="12345"
+                    style={{ width: "72%" }}
+                  />
+                </Input.Group>
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>

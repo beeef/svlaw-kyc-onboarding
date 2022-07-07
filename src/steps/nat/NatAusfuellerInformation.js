@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Checkbox, Col, Form, Input, Row } from "antd";
 import strings from "../../locale/strings.json";
+import { validateEmail, validatePhoneNumber } from "../../util/validation";
 
 class NatAusfuellerInformation extends Component {
   state = {
@@ -16,7 +17,10 @@ class NatAusfuellerInformation extends Component {
       userData.firstName &&
       userData.lastName &&
       userData.email &&
-      userData.phone
+      userData.phoneAreaCode &&
+      userData.phone &&
+      validateEmail(userData.email) &&
+      validatePhoneNumber(`+${userData.phoneAreaCode}${userData.phone}`)
     ) {
       setCurrentStepValid(true);
     } else {
@@ -149,14 +153,28 @@ class NatAusfuellerInformation extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].nat.PHONE_NUMBER} required>
-                <Input
-                  placeholder={strings[currentLang].nat.PHONE_NUMBER}
-                  onChange={(e) => {
-                    onValChange("phone", e.target.value);
-                  }}
-                  value={userData.phone}
-                />
+              <Form.Item
+                label={strings[currentLang].nat.PHONE_NUMBER}
+                required
+                help="Please provide the number in the following format: +43 1 23456789"
+              >
+                <Input.Group compact>
+                  <Input
+                    onChange={(e) => {
+                      onValChange("phoneAreaCode", e.target.value);
+                    }}
+                    placeholder="43"
+                    prefix="+"
+                    style={{ width: "28%" }}
+                  />
+                  <Input
+                    onChange={(e) => {
+                      onValChange("phone", e.target.value);
+                    }}
+                    placeholder="12345"
+                    style={{ width: "72%" }}
+                  />
+                </Input.Group>
               </Form.Item>
             </Col>
           </Row>
