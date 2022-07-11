@@ -96,18 +96,12 @@ class JurStammdaten extends Component {
               />
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item
-                label={strings[currentLang].jur.REGISTRATION_NUMBER}
+              <TextInput
                 required
-              >
-                <Input
-                  placeholder={strings[currentLang].jur.REGISTRATION_NUMBER}
-                  onChange={(e) => {
-                    onValChange("registrationNumber", e.target.value);
-                  }}
-                  maxLength={24}
-                />
-              </Form.Item>
+                label={strings[currentLang].jur.REGISTRATION_NUMBER}
+                name="registrationNumber"
+                maxLength={24}
+              />
             </Col>
             <Col xs={24} md={12}>
               <Form.Item

@@ -5,14 +5,12 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 // Core modules imports are same as usual
 import { Pagination } from "swiper";
 // Direct React component imports
-import { Swiper, SwiperSlide } from "swiper/react/swiper-react.js";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-// Styles must use direct files imports
-import "swiper/swiper.scss"; // core Swiper
-import "swiper/modules/navigation/navigation.scss"; // Navigation module
-import "swiper/modules/pagination/pagination.scss"; // Pagination module
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-import "antd/dist/antd.css";
 import "./styles.css";
 import strings from "./locale/strings.json";
 

@@ -14,13 +14,13 @@
     "react-dom": "16.14.0",
     "react-json-view": "^1.21.3",
     "react-markdown": "^8.0.3",
-    "react-scripts": "4.0.3",
-    "swiper": "8.1.4",
-    "uuid": "^8.3.2",
-    "validate-vat": "^0.8.0"
+    "react-scripts": "^5.0.1",
+    "swiper": "^8.3.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.30.1",
     "react-error-overlay": "^6.0.9",
