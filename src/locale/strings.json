@@ -16,6 +16,8 @@
     "PLEASE_CHOOSE": "Please choose ..",
     "REMOVE": "Remove",
     "OTHER_PERSON": "Other person",
+    "WELCOME_TEXT": "Welcome at STADLER VÖLKEL!\n\nWe look forward to providing first-class legal services to you. In order to complete client onboarding, please provide the information requested on the following pages.",
+    "CLICK_TO_SWITCH_BETWEEN_STEPS": "Click to switch between steps",
     "nat": {
       "STEP_CLIENT_INFORMATION": "Please provide the following information:",
       "STEP_CLIENT_SUBJECT_TO_TAXATION": "Is [FIRST_NAME] [LAST_NAME] subject to taxation in Austria?",
@@ -53,7 +55,8 @@
       "FAMILY_MEMBER_OF_CLIENT": "Family member of the client",
       "CLOSE_ASSOCIATE_OF_CLIENT": "Close associate of the client",
       "NONE_OF_ABOVE": "None of the above",
-      "I_CONFIRM_PROVIDED_INFORMATION": "I hereby confirm that the information provided in this form is complete, true and correct to the best of my knowledge."
+      "I_CONFIRM_PROVIDED_INFORMATION": "I hereby confirm that the information provided in this form is complete, true and correct to the best of my knowledge.",
+      "WELCOME_INFORMATION_TEXT": "Please [download our terms of engagement](https://svlaw.at/AMB.pdf \"Terms of Engagement\") as you will be required to provide a signed copy in the course of the onboarding process.\n\nFurther, please keep a copy of an official ID ready as you will be required to upload it."
     },
     "jur": {
       "STEP_CLIENT_INFORMATION": "The legal services will be provided to:",
@@ -105,7 +108,8 @@
       "POWER_OF_REPRESENTATION": "Power of representation",
       "POWER_OF_REPRESENTATION_HELP": "e.g. sole, jointly with one other authorized person",
       "MANAGING_DIRECTOR": "Managing Director",
-      "BENEFICIAL_OWNER": "Beneficial Owner"
+      "BENEFICIAL_OWNER": "Beneficial Owner",
+      "WELCOME_INFORMATION_TEXT": "Please [download our terms of engagement](https://svlaw.at/AMB.pdf \"Terms of Engagement\") as you will be required to provide a signed copy in the course of the onboarding process.\n\nFurther, please keep a copy of an official ID of all managing director(s) ready as you will be required to upload it/them."
     }
   },
   "de": {

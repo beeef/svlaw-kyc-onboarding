@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Button } from "antd";
-import { BankOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Col, Row } from "antd";
+import { BankOutlined, FilePdfOutlined, UserOutlined } from "@ant-design/icons";
 import strings from "../locale/strings.json";
 import countries from "i18n-iso-countries";
+import ReactMarkdown from "react-markdown";
 
 class StepNatJurPerson extends Component {
   state = {
@@ -31,7 +32,10 @@ class StepNatJurPerson extends Component {
           height: "100%",
         }}
       >
+        <ReactMarkdown>{strings[currentLang].WELCOME_TEXT}</ReactMarkdown>
+
         <h2>{strings[currentLang].SELECT_CLIENT_TYPE_HEADER}</h2>
+
         <div
           style={{
             display: "flex",
@@ -69,6 +73,26 @@ class StepNatJurPerson extends Component {
             </Button>
           </Button.Group>
         </div>
+        {selectedType != null && (
+          <Row style={{ marginTop: "48px" }}>
+            <Col
+              xs={24}
+              md={4}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                marginTop: "12px",
+              }}
+            >
+              <FilePdfOutlined style={{ fontSize: "2rem", color: "coral" }} />
+            </Col>
+            <Col xs={24} md={20}>
+              <ReactMarkdown>
+                {strings[currentLang][selectedType].WELCOME_INFORMATION_TEXT}
+              </ReactMarkdown>
+            </Col>
+          </Row>
+        )}
       </div>
     );
   }

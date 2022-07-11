@@ -36,6 +36,13 @@ body:after {
   animation-duration: 170s;
 }
 
+p {
+  font-family: "Calibri Light", sans-serif;
+  font-size: 1.1rem;
+  text-align: left;
+  width: 100%;
+}
+
 @keyframes rotate {
   0% {
     transform: translate(-50%, 0) rotateZ(0deg);

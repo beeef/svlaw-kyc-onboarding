@@ -393,93 +393,103 @@ class App extends Component {
               alt="STADLER VÖLKEL Logo"
             />
             {CT && CT === "nat" && (
-              <Steps
-                direction="vertical"
-                className="progress-steps"
-                current={currentStep}
-                progressDot
-              >
-                <Steps.Step
-                  title="Type of entity"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Personal information"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
-                <Steps.Step
-                  title="Legal services"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
-                <Steps.Step
-                  title="Document Upload"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Contact information"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Additional remarks"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="Summary" onStepClick={this.onStepClick} />
-              </Steps>
+              <div style={{ width: "100%" }}>
+                <p style={{ marginTop: "auto", color: "#ffffff" }}>
+                  {strings[currentLang].CLICK_TO_SWITCH_BETWEEN_STEPS}
+                </p>
+                <Steps
+                  direction="vertical"
+                  className="progress-steps"
+                  current={currentStep}
+                  progressDot
+                >
+                  <Steps.Step
+                    title="Type of entity"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Personal information"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
+                  <Steps.Step
+                    title="Legal services"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                  <Steps.Step
+                    title="Document Upload"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Contact information"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Additional remarks"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="Summary" onStepClick={this.onStepClick} />
+                </Steps>
+              </div>
             )}
             {CT && CT === "jur" && (
-              <Steps
-                direction="vertical"
-                className="progress-steps"
-                current={currentStep}
-                progressDot
-              >
-                <Steps.Step
-                  title="Type of entity"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Entity information"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
-                <Steps.Step
-                  title="Legal services"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Managing directors"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
-                <Steps.Step
-                  title="Documents of managing directors"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Beneficial owners"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="PEP" onStepClick={this.onStepClick} />
-                <Steps.Step
-                  title="Documents of beneficial owners"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Contact information"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Personal information"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step
-                  title="Additional documents"
-                  onStepClick={this.onStepClick}
-                />
-                <Steps.Step title="Summary" onStepClick={this.onStepClick} />
-              </Steps>
+              <div style={{ width: "100%" }}>
+                <p style={{ marginTop: "auto", color: "#ffffff" }}>
+                  {strings[currentLang].CLICK_TO_SWITCH_BETWEEN_STEPS}
+                </p>
+                <Steps
+                  direction="vertical"
+                  className="progress-steps"
+                  current={currentStep}
+                  progressDot
+                >
+                  <Steps.Step
+                    title="Type of entity"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Entity information"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="Taxation" onStepClick={this.onStepClick} />
+                  <Steps.Step
+                    title="Legal services"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Managing directors"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                  <Steps.Step
+                    title="Documents of managing directors"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Beneficial owners"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="PEP" onStepClick={this.onStepClick} />
+                  <Steps.Step
+                    title="Documents of beneficial owners"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Contact information"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Personal information"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step
+                    title="Additional documents"
+                    onStepClick={this.onStepClick}
+                  />
+                  <Steps.Step title="Summary" onStepClick={this.onStepClick} />
+                </Steps>
+              </div>
             )}
           </div>
         </div>
