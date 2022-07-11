@@ -78,10 +78,12 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
 JurWirtschaftlicherEigentuemerDokumentUpload.propTypes = {
   currentLang: PropTypes.any,
   formData: PropTypes.shape({
-    beneficialOwners: PropTypes.shape({
-      length: PropTypes.number,
-      map: PropTypes.func,
-    }),
+    beneficialOwners: PropTypes.arrayOf(
+      PropTypes.shape({
+        length: PropTypes.number,
+        map: PropTypes.func,
+      })
+    ),
   }),
 };
 

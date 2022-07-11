@@ -77,18 +77,18 @@ class TextInput extends Component {
       size,
       label,
       help,
-      successMsg,
-      errorMsg,
       required,
+      onChange,
+      name,
     } = this.props;
 
     return (
       <Form.Item
         label={label}
-        help={help}
+        extra={help}
         validateStatus={loading ? "validating" : this.getValidationStatus()}
         hasFeedback
-        extra={this.getStatusMsg()}
+        help={this.getStatusMsg()}
         required={required || false}
       >
         <Input
@@ -97,13 +97,18 @@ class TextInput extends Component {
           value={currentValue}
           minLength={minLength || 2}
           maxLength={maxLength || 64}
-          onBlur={() => {
-            if (!immediateValidation) {
-              this.validateValue();
-            }
+          onBlur={(e) => {
+            this.setState({ currentValue: e.target.value.trim() }, () => {
+              if (!immediateValidation) {
+                this.validateValue();
+              }
+            });
           }}
           onChange={(e) => {
-            this.setState({ currentValue: e.target.value });
+            const value = e.target.value;
+            this.setState({ currentValue: e.target.value }, () => {
+              onChange(name, value);
+            });
             if (immediateValidation) {
               this.validateValue();
             }
@@ -126,6 +131,7 @@ TextInput.propTypes = {
   validationFunc: PropTypes.func,
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default TextInput;

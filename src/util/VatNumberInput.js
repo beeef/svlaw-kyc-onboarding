@@ -70,8 +70,8 @@ class VatNumberInput extends Component {
       size,
       label,
       help,
-      successMsg,
-      errorMsg,
+      onChange,
+      name,
     } = this.props;
 
     return (
@@ -94,6 +94,7 @@ class VatNumberInput extends Component {
             }
           }}
           onChange={(e) => {
+            onChange(name, e.target.value);
             this.setState({ currentValue: e.target.value }, () => {
               if (immediateValidation) {
                 this.validateValue();
@@ -117,6 +118,7 @@ VatNumberInput.propTypes = {
   size: PropTypes.string,
   successMsg: PropTypes.string,
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default VatNumberInput;

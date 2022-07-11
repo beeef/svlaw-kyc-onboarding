@@ -8,7 +8,6 @@ import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./styles.css";
@@ -123,14 +122,14 @@ class App extends Component {
                   this.setState({ swiperInstance: swiper });
                 }}
               >
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   <StepNatJurPerson
                     currentLang={currentLang}
                     onChangeFormData={this.handleChangeFormData}
                     setCurrentStepValid={this.setCurrentStepValid}
                   />
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -150,7 +149,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -172,7 +171,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -194,7 +193,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -215,7 +214,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -236,7 +235,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -258,7 +257,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -279,7 +278,7 @@ class App extends Component {
                     </>
                   )}
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
                   {CT && (
                     <>
                       {CT === "nat" && (
@@ -302,7 +301,7 @@ class App extends Component {
                   )}
                 </SwiperSlide>
                 {CT && CT === "jur" && (
-                  <SwiperSlide>
+                  <SwiperSlide tabIndex={-1}>
                     <JurWirtschaftlicherEigentuemerDokumentUpload
                       formData={formData}
                       currentLang={currentLang}
@@ -312,7 +311,7 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide>
+                  <SwiperSlide tabIndex={-1}>
                     <JurKontaktperson
                       formData={formData}
                       currentLang={currentLang}
@@ -322,7 +321,7 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide>
+                  <SwiperSlide tabIndex={-1}>
                     <JurAusfuellerInformation
                       formData={formData}
                       currentLang={currentLang}
@@ -332,7 +331,7 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide>
+                  <SwiperSlide tabIndex={-1}>
                     <JurZusaetzlicheDokumenteUpload
                       formData={formData}
                       currentLang={currentLang}

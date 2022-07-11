@@ -9,6 +9,7 @@ import { validateEmail } from "../../util/validation";
 import VatNumberInput from "../../util/VatNumberInput";
 import EmailInput from "../../util/EmailInput";
 import TextInput from "../../util/TextInput";
+import CustomForm from "../../util/CustomForm";
 
 class JurStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -81,8 +82,20 @@ class JurStammdaten extends Component {
       );
     };
 
+    const formItems = [
+      {
+        name: "nameLegalEntity",
+        required: true,
+        label: "asdf",
+        hint: "asdfasdfasd",
+        onChange: onValChange,
+        type: "text",
+      },
+    ];
+
     return (
       <>
+        <CustomForm formItems={formItems} />
         <h2>{strings[currentLang].jur.STEP_CLIENT_INFORMATION}</h2>
         <Form {...formLayout} labelAlign="left">
           <Row gutter={[24, 0]}>
@@ -93,6 +106,7 @@ class JurStammdaten extends Component {
                 hint="Please state the name exactly as it appears in a
                           current companies register excerpt."
                 name="nameLegalEntity"
+                onChange={onValChange}
               />
             </Col>
             <Col xs={24} md={12}>
@@ -101,43 +115,34 @@ class JurStammdaten extends Component {
                 label={strings[currentLang].jur.REGISTRATION_NUMBER}
                 name="registrationNumber"
                 maxLength={24}
+                onChange={onValChange}
               />
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item
+              <TextInput
                 label={strings[currentLang].jur.BUSINESS_ADDRESS}
                 required
-              >
-                <Input
-                  placeholder={strings[currentLang].jur.BUSINESS_ADDRESS}
-                  onChange={(e) => {
-                    onValChange("businessAddress", e.target.value);
-                  }}
-                  maxLength={90}
-                />
-              </Form.Item>
+                name="businessAddress"
+                onChange={onValChange}
+              />
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.CITY} required>
-                <Input
-                  placeholder={strings[currentLang].jur.CITY}
-                  onChange={(e) => {
-                    onValChange("city", e.target.value);
-                  }}
-                  maxLength={90}
-                />
-              </Form.Item>
+              <TextInput
+                label={strings[currentLang].jur.CITY}
+                required
+                name="city"
+                onChange={onValChange}
+                validationFunc={(val) => /^[a-zA-Z ]+$/.test(val)}
+                errorMsg="Only letters are allowed."
+              />
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.POSTAL_CODE} required>
-                <Input
-                  placeholder={strings[currentLang].jur.POSTAL_CODE_SHORT}
-                  onChange={(e) => {
-                    onValChange("postalCode", e.target.value);
-                  }}
-                  maxLength={16}
-                />
-              </Form.Item>
+              <TextInput
+                label={strings[currentLang].jur.POSTAL_CODE}
+                required
+                name="postalCode"
+                onChange={onValChange}
+              />
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
@@ -165,12 +170,16 @@ class JurStammdaten extends Component {
                 hint="Please provide an email address that can be used by us
                           for billing purposes only. You can enter your personal
                           email address at a later stage."
+                name="email"
+                onChange={onValChange}
               />
             </Col>
             <Col xs={24} md={12}>
               <VatNumberInput
                 countryCode={clientData.countryOfRegistration}
                 label={`${strings[currentLang].jur.VAT_NUMBER}`}
+                name="vatNumber"
+                onChange={onValChange}
               />
             </Col>
           </Row>

@@ -205,6 +205,11 @@ h2 {
   padding-left: 12px;
   padding-right: 12px;
   padding-bottom: 24px;
+  visibility: hidden;
+}
+
+.main-container .mySwiper .swiper-slide-active {
+  visibility: visible;
 }
 
 .main-container .mySwiper .swiper-horizontal > .swiper-pagination-progressbar,

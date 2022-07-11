@@ -78,10 +78,12 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
 JurGeschaeftsfuehrerDokumentUpload.propTypes = {
   currentLang: PropTypes.any,
   formData: PropTypes.shape({
-    managingDirectors: PropTypes.shape({
-      length: PropTypes.number,
-      map: PropTypes.func,
-    }),
+    managingDirectors: PropTypes.arrayOf(
+      PropTypes.shape({
+        length: PropTypes.number,
+        map: PropTypes.func,
+      })
+    ),
   }),
 };
 

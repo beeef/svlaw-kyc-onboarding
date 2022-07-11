@@ -82,6 +82,8 @@ class EmailInput extends Component {
       help,
       required,
       hint,
+      onChange,
+      name,
     } = this.props;
 
     return (
@@ -121,6 +123,7 @@ class EmailInput extends Component {
             }
           }}
           onChange={(e) => {
+            onChange(name, e.target.value);
             this.setState({ currentValue: e.target.value });
             if (immediateValidation) {
               this.validateValue();
@@ -145,6 +148,7 @@ EmailInput.propTypes = {
   required: PropTypes.bool,
   hint: PropTypes.string,
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default EmailInput;
