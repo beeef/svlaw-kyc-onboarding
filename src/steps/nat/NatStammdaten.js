@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Col, DatePicker, Form, Input, Popover, Row, Select } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -264,5 +265,11 @@ class NatStammdaten extends Component {
     );
   }
 }
+
+NatStammdaten.propTypes = {
+  currentLang: PropTypes.oneOf(["de", "en"]),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default NatStammdaten;

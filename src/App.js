@@ -378,6 +378,7 @@ class App extends Component {
                   <a
                     href="https://www.sv.law/en/data-protection-declaration"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     Data Protection Policy
                   </a>

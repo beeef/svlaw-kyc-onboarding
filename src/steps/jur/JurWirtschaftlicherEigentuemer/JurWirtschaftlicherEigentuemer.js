@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Col, Collapse, Modal, Row, Space, Tag } from "antd";
 import { v4 as uuidv4 } from "uuid";
@@ -6,7 +7,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import strings from "../../../locale/strings.json";
 
 class JurWirtschaftlicherEigentuemer extends Component {
-  state = {};
+  state = { loading: false };
 
   componentDidMount = () => {
     const { onChangeFormData, formData } = this.props;
@@ -171,5 +172,16 @@ class JurWirtschaftlicherEigentuemer extends Component {
     );
   }
 }
+
+JurWirtschaftlicherEigentuemer.propTypes = {
+  currentLang: PropTypes.oneOf(["de", "en"]),
+  formData: PropTypes.shape({
+    beneficialOwners: PropTypes.array,
+    clientData: PropTypes.shape({
+      nameLegalEntity: PropTypes.any,
+    }),
+  }),
+  onChangeFormData: PropTypes.func,
+};
 
 export default JurWirtschaftlicherEigentuemer;

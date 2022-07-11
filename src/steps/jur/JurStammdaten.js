@@ -1,11 +1,14 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Col, Form, Input, Popover, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select } from "antd";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
-import { QuestionCircleOutlined } from "@ant-design/icons";
 import { validateEmail } from "../../util/validation";
+import VatNumberInput from "../../util/VatNumberInput";
+import EmailInput from "../../util/EmailInput";
+import TextInput from "../../util/TextInput";
 
 class JurStammdaten extends Component {
   state = { countries: null, clientData: {} };
@@ -84,32 +87,13 @@ class JurStammdaten extends Component {
         <Form {...formLayout} labelAlign="left">
           <Row gutter={[24, 0]}>
             <Col xs={24} md={12}>
-              <Form.Item
+              <TextInput
                 required
-                label={
-                  <>
-                    {strings[currentLang].jur.NAME_LEGAL_ENTITY}{" "}
-                    <Popover
-                      content={
-                        <p>
-                          Please state the name exactly as it appears in a
-                          current companies register excerpt.
-                        </p>
-                      }
-                    >
-                      <QuestionCircleOutlined style={{ marginLeft: "4px" }} />
-                    </Popover>
-                  </>
-                }
-              >
-                <Input
-                  placeholder={strings[currentLang].jur.NAME_LEGAL_ENTITY}
-                  onChange={(e) => {
-                    onValChange("nameLegalEntity", e.target.value);
-                  }}
-                  maxLength={90}
-                />
-              </Form.Item>
+                label={strings[currentLang].jur.NAME_LEGAL_ENTITY}
+                hint="Please state the name exactly as it appears in a
+                          current companies register excerpt."
+                name="nameLegalEntity"
+              />
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
@@ -180,55 +164,20 @@ class JurStammdaten extends Component {
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item
-                label={
-                  <>
-                    {strings[currentLang].nat.EMAIL_ADDRESS}{" "}
-                    <Popover
-                      content={
-                        <p>
-                          Please provide an email address that can be used by us
-                          for billing purposes only. You can enter your personal
-                          email address at a later stage.
-                        </p>
-                      }
-                    >
-                      <QuestionCircleOutlined style={{ marginLeft: "4px" }} />
-                    </Popover>
-                  </>
-                }
+              <EmailInput
+                label={strings[currentLang].nat.EMAIL_ADDRESS}
                 required
-                help={
-                  <span style={{ fontSize: "0.75rem" }}>
-                    This email address is used by us to submit invoices.
-                  </span>
-                }
-              >
-                <Input
-                  placeholder={strings[currentLang].nat.EMAIL_ADDRESS}
-                  onChange={(e) => {
-                    onValChange("email", e.target.value);
-                  }}
-                  maxLength={90}
-                  status={
-                    clientData &&
-                    clientData.email &&
-                    !validateEmail(clientData.email)
-                      ? "error"
-                      : null
-                  }
-                />
-              </Form.Item>
+                help="This email address is used by us to submit invoices."
+                hint="Please provide an email address that can be used by us
+                          for billing purposes only. You can enter your personal
+                          email address at a later stage."
+              />
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item label={`${strings[currentLang].jur.VAT_NUMBER}`}>
-                <Input
-                  placeholder={strings[currentLang].jur.VAT_NUMBER}
-                  onChange={(e) => {
-                    onValChange("vatNumber", e.target.value);
-                  }}
-                />
-              </Form.Item>
+              <VatNumberInput
+                countryCode={clientData.countryOfRegistration}
+                label={`${strings[currentLang].jur.VAT_NUMBER}`}
+              />
             </Col>
           </Row>
         </Form>
@@ -236,5 +185,11 @@ class JurStammdaten extends Component {
     );
   }
 }
+
+JurStammdaten.propTypes = {
+  currentLang: PropTypes.oneOf(["de", "en"]),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default JurStammdaten;

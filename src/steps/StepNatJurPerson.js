@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Col, Row } from "antd";
 import { BankOutlined, FilePdfOutlined, UserOutlined } from "@ant-design/icons";
@@ -97,5 +98,11 @@ class StepNatJurPerson extends Component {
     );
   }
 }
+
+StepNatJurPerson.propTypes = {
+  currentLang: PropTypes.oneOf(["de", "en"]),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default StepNatJurPerson;
