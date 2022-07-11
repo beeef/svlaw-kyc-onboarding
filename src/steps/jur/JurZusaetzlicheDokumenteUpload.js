@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
 import { Card, message, Space, Upload } from "antd";
 import React, { Component } from "react";
@@ -128,5 +129,15 @@ class JurZusaetzlicheDokumenteUpload extends Component {
     );
   }
 }
+
+JurZusaetzlicheDokumenteUpload.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      firstName: PropTypes.any,
+      lastName: PropTypes.any,
+    }),
+  }),
+};
 
 export default JurZusaetzlicheDokumenteUpload;

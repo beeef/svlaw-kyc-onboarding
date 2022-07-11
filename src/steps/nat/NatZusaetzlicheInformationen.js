@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Input } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
@@ -16,5 +17,9 @@ class NatZusaetzlicheInformationen extends Component {
     );
   }
 }
+
+NatZusaetzlicheInformationen.propTypes = {
+  currentLang: PropTypes.any,
+};
 
 export default NatZusaetzlicheInformationen;

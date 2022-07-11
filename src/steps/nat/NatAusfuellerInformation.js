@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Checkbox, Col, Form, Input, Row } from "antd";
 import strings from "../../locale/strings.json";
@@ -183,5 +184,17 @@ class NatAusfuellerInformation extends Component {
     );
   }
 }
+
+NatAusfuellerInformation.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      firstName: PropTypes.any,
+      lastName: PropTypes.any,
+    }),
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default NatAusfuellerInformation;

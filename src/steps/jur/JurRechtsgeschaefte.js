@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Checkbox, Input, Space } from "antd";
 import strings from "../../locale/strings.json";
@@ -120,5 +121,24 @@ class JurRechtsgeschaefte extends Component {
     );
   }
 }
+
+JurRechtsgeschaefte.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      nameLegalEntity: PropTypes.any,
+    }),
+    legalServices: PropTypes.shape({
+      filter: PropTypes.func,
+      indexOf: PropTypes.func,
+      length: PropTypes.number,
+    }),
+    otherLegalService: PropTypes.shape({
+      length: PropTypes.number,
+    }),
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default JurRechtsgeschaefte;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Col, Collapse, Modal, Row, Space, Tag } from "antd";
 import { v4 as uuidv4 } from "uuid";
@@ -236,5 +237,17 @@ class JurGeschaeftsfuehrer extends Component {
     );
   }
 }
+
+JurGeschaeftsfuehrer.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      nameLegalEntity: PropTypes.any,
+    }),
+    managingDirectors: PropTypes.array,
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default JurGeschaeftsfuehrer;

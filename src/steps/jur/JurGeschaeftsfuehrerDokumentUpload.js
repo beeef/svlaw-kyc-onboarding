@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import React, { Component } from "react";
@@ -73,5 +74,15 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
     );
   }
 }
+
+JurGeschaeftsfuehrerDokumentUpload.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    managingDirectors: PropTypes.shape({
+      length: PropTypes.number,
+      map: PropTypes.func,
+    }),
+  }),
+};
 
 export default JurGeschaeftsfuehrerDokumentUpload;

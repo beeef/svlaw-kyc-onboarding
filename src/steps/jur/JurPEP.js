@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Input, Modal, Radio, Space } from "antd";
 import ReactMarkdown from "react-markdown";
@@ -167,5 +168,15 @@ class JurPEP extends Component {
     );
   }
 }
+
+JurPEP.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    managingDirectorsPepExplanation1: PropTypes.any,
+    managingDirectorsPepExplanation2: PropTypes.any,
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default JurPEP;

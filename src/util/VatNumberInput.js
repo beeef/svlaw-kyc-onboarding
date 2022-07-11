@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input } from "antd";
 import PropTypes from "prop-types";
-import validateVatNumber from "validate-vat";
 
 class VatNumberInput extends Component {
   state = {

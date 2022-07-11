@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import React, { Component } from "react";
@@ -73,5 +74,15 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
     );
   }
 }
+
+JurWirtschaftlicherEigentuemerDokumentUpload.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    beneficialOwners: PropTypes.shape({
+      length: PropTypes.number,
+      map: PropTypes.func,
+    }),
+  }),
+};
 
 export default JurWirtschaftlicherEigentuemerDokumentUpload;

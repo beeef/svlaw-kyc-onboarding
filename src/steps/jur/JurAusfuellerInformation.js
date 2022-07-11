@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Col, Form, Input, Radio, Row } from "antd";
 import strings from "../../locale/strings.json";
@@ -169,5 +170,20 @@ class JurAusfuellerInformation extends Component {
     );
   }
 }
+
+JurAusfuellerInformation.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    beneficialOwners: PropTypes.any,
+    managingDirectors: PropTypes.any,
+    userData: PropTypes.shape({
+      email: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      phone: PropTypes.string,
+    }),
+  }),
+  onChangeFormData: PropTypes.func,
+};
 
 export default JurAusfuellerInformation;

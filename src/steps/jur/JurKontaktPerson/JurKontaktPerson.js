@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Card, Checkbox, Col, Row } from "antd";
 import { v4 as uuid } from "uuid";
@@ -141,5 +142,22 @@ class JurKontaktperson extends Component {
     );
   }
 }
+
+JurKontaktperson.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    beneficialOwners: PropTypes.any,
+    clientData: PropTypes.shape({
+      nameLegalEntity: PropTypes.any,
+    }),
+    contactData: PropTypes.shape({
+      filter: PropTypes.func,
+      length: PropTypes.number,
+      map: PropTypes.func,
+    }),
+    managingDirectors: PropTypes.any,
+  }),
+  onChangeFormData: PropTypes.func,
+};
 
 export default JurKontaktperson;

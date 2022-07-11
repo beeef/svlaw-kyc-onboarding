@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import countries from "i18n-iso-countries";
@@ -179,5 +180,11 @@ class JurWirtschaftlicherEigentuemerCard extends Component {
     );
   }
 }
+
+JurWirtschaftlicherEigentuemerCard.propTypes = {
+  currentLang: PropTypes.string,
+  onChangeBeneficialOwnerData: PropTypes.func,
+  style: PropTypes.any,
+};
 
 export default JurWirtschaftlicherEigentuemerCard;

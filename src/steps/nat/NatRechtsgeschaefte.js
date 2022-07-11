@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Checkbox, Input, Radio, Space } from "antd";
 import _ from "lodash";
 import React, { Component } from "react";
@@ -113,5 +114,21 @@ class NatRechtsgeschaefte extends Component {
     );
   }
 }
+
+NatRechtsgeschaefte.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    legalServices: PropTypes.shape({
+      filter: PropTypes.func,
+      indexOf: PropTypes.func,
+      length: PropTypes.number,
+    }),
+    otherLegalService: PropTypes.shape({
+      length: PropTypes.number,
+    }),
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default NatRechtsgeschaefte;

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, Col, Form, Input, Row } from "antd";
 import strings from "../../../locale/strings.json";
@@ -66,6 +67,12 @@ const JurKontaktPersonCard = ({ currentLang, onRemove, onChange }) => {
       </Row>
     </Form>
   );
+};
+
+JurKontaktPersonCard.propTypes = {
+  currentLang: PropTypes.any,
+  onChange: PropTypes.func,
+  onRemove: PropTypes.any,
 };
 
 export default JurKontaktPersonCard;

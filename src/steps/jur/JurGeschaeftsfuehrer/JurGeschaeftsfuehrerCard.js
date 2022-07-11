@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import countries from "i18n-iso-countries";
@@ -270,5 +271,25 @@ class JurGeschaeftsfuehrerCard extends Component {
     );
   }
 }
+
+JurGeschaeftsfuehrerCard.propTypes = {
+  currentLang: PropTypes.string,
+  managingDirectorData: PropTypes.shape({
+    city: PropTypes.any,
+    country: PropTypes.any,
+    dateOfBirth: PropTypes.any,
+    email: PropTypes.any,
+    firstName: PropTypes.any,
+    lastName: PropTypes.any,
+    nationality: PropTypes.any,
+    phone: PropTypes.any,
+    phoneAreaCode: PropTypes.any,
+    powerOfRepresentation: PropTypes.any,
+    street: PropTypes.any,
+    zip: PropTypes.any,
+  }),
+  onChangeManagingDirectorData: PropTypes.func,
+  onValidated: PropTypes.func,
+};
 
 export default JurGeschaeftsfuehrerCard;

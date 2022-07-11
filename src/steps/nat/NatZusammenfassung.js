@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Checkbox, Space } from "antd";
 import ReactJson from "react-json-view";
@@ -27,5 +28,10 @@ class NatZusammenfassung extends Component {
     );
   }
 }
+
+NatZusammenfassung.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.any,
+};
 
 export default NatZusammenfassung;

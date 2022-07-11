@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
@@ -124,5 +125,17 @@ class JurMandantSteuerpflichtig extends Component {
     );
   }
 }
+
+JurMandantSteuerpflichtig.propTypes = {
+  currentLang: PropTypes.string,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      nameLegalEntity: PropTypes.any,
+    }),
+    clientSubjectToTaxationInCountry: PropTypes.any,
+  }),
+  onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default JurMandantSteuerpflichtig;

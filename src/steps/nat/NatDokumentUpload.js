@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import React, { Component } from "react";
@@ -66,5 +67,16 @@ class NatDokumentUpload extends Component {
     );
   }
 }
+
+NatDokumentUpload.propTypes = {
+  currentLang: PropTypes.any,
+  formData: PropTypes.shape({
+    clientData: PropTypes.shape({
+      firstName: PropTypes.any,
+      lastName: PropTypes.any,
+    }),
+  }),
+  setCurrentStepValid: PropTypes.func,
+};
 
 export default NatDokumentUpload;
