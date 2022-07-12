@@ -1,12 +1,46 @@
 import React, { Component } from "react";
-import { Form } from "antd";
+import { Col, Form, Row } from "antd";
 import PropTypes from "prop-types";
 import TextInput from "./TextInput";
 import EmailInput from "./EmailInput";
 import VatNumberInput from "./VatNumberInput";
+import CountrySelect from "./CountrySelect";
+import PhoneNumberInput from "./PhoneNumberInput";
+import BirthdayInput from "./BirthdayInput";
 
 class CustomForm extends Component {
-  state = {};
+  state = { valid: false, stepsValid: [] };
+
+  constructor(props) {
+    super(props);
+    const { formItems, onValid, onInvalid } = props;
+
+    const requiredItems = formItems.filter((fi) => fi.required === true);
+
+    if (requiredItems.length === 0) {
+      this.state.valid = true;
+      onValid();
+    } else {
+      this.state.valid = false;
+      onInvalid();
+    }
+
+    this.state.stepsValid = formItems.map(
+      (fi) => !fi.required || fi.required === false
+    );
+  }
+
+  setStepValid = (index, valid) => {
+    const { stepsValid } = this.state;
+    const { onValid, onInvalid } = this.props;
+
+    stepsValid[index] = valid;
+    this.setState({ stepsValid }, () => {
+      const invalidSteps = stepsValid.filter((s) => s === false);
+      if (invalidSteps.length > 0) onInvalid();
+      else onValid();
+    });
+  };
 
   render() {
     const formLayout = {
@@ -14,64 +48,128 @@ class CustomForm extends Component {
       labelCol: { xs: 24, xl: 24 },
     };
 
-    const { formItems } = this.props;
+    const { formItems, currentLang } = this.props;
 
     return (
       <Form {...formLayout} labelAlign="left">
-        {formItems.map((fi) => {
-          const { type } = fi;
+        <Row gutter={[24, 0]}>
+          {formItems.map((fi, index) => {
+            const { type } = fi;
+            if (!type || type === "text") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <TextInput
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
 
-          if (type === "text") {
-            return (
-              <TextInput
-                validationFunc={fi.validationFunc}
-                label={fi.label}
-                help={fi.help}
-                onChange={fi.onChange}
-                name={fi.name}
-                required={fi.required}
-                hint={fi.hint}
-              />
-            );
-          }
+            if (type === "email") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <EmailInput
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
 
-          if (type === "email") {
-            return (
-              <EmailInput
-                validationFunc={fi.validationFunc}
-                label={fi.label}
-                help={fi.help}
-                onChange={fi.onChange}
-                name={fi.name}
-                required={fi.required}
-                hint={fi.hint}
-              />
-            );
-          }
+            if (type === "phone") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <PhoneNumberInput
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
 
-          if (type === "vat") {
-            return (
-              <VatNumberInput
-                validationFunc={fi.validationFunc}
-                label={fi.label}
-                help={fi.help}
-                onChange={fi.onChange}
-                name={fi.name}
-                required={fi.required}
-                hint={fi.hint}
-              />
-            );
-          }
-        })}
+            if (type === "vat") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <VatNumberInput
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
+
+            if (type === "country") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <CountrySelect
+                    currentLang={currentLang}
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
+
+            if (type === "birthday") {
+              return (
+                <Col xs={24} md={12} key={fi.name}>
+                  <BirthdayInput
+                    {...fi}
+                    onValid={() => {
+                      this.setStepValid(index, true);
+                    }}
+                    onInvalid={() => {
+                      this.setStepValid(index, false);
+                    }}
+                  />
+                </Col>
+              );
+            }
+          })}
+        </Row>
       </Form>
     );
   }
 }
 
 CustomForm.propTypes = {
+  currentLang: PropTypes.oneOf(["de", "en"]),
   formItems: PropTypes.arrayOf(
     PropTypes.shape({
-      type: PropTypes.oneOf(["text", "vat", "email"]).isRequired,
+      type: PropTypes.oneOf([
+        "text",
+        "vat",
+        "email",
+        "country",
+        "birthday",
+        "phone",
+      ]),
       validationFunc: PropTypes.func,
       name: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
@@ -81,6 +179,8 @@ CustomForm.propTypes = {
       hint: PropTypes.string,
     })
   ),
+  onValid: PropTypes.func,
+  onInvalid: PropTypes.func,
 };
 
 export default CustomForm;

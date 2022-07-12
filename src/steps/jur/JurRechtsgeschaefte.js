@@ -128,14 +128,14 @@ JurRechtsgeschaefte.propTypes = {
     clientData: PropTypes.shape({
       nameLegalEntity: PropTypes.any,
     }),
-    legalServices: PropTypes.shape({
-      filter: PropTypes.func,
-      indexOf: PropTypes.func,
-      length: PropTypes.number,
-    }),
-    otherLegalService: PropTypes.shape({
-      length: PropTypes.number,
-    }),
+    legalServices: PropTypes.arrayOf(
+      PropTypes.shape({
+        filter: PropTypes.func,
+        indexOf: PropTypes.func,
+        length: PropTypes.number,
+      })
+    ),
+    otherLegalService: PropTypes.string,
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,

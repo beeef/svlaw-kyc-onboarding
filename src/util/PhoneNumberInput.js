@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Form, Input, Popover } from "antd";
 import PropTypes from "prop-types";
-import { validateEmail } from "./validation";
+import { validatePhoneNumber } from "./validation";
 
-class EmailInput extends Component {
+class PhoneNumberInput extends Component {
   state = {
+    currentAreaCode: null,
     currentValue: "",
     loading: false,
     error: null,
@@ -14,7 +15,7 @@ class EmailInput extends Component {
   };
 
   validateValue = () => {
-    const { currentValue } = this.state;
+    const { currentAreaCode, currentValue } = this.state;
     const {
       validationFunc,
       minLength,
@@ -28,10 +29,13 @@ class EmailInput extends Component {
     if (!validationFunc) {
       // valid wenn min und max length erfüllt sind && eine email adresse ist
       if (
+        currentAreaCode &&
         currentValue &&
         currentValue.length >= (minLength || 2) &&
         currentValue.length <= (maxLength || 64) &&
-        validateEmail(currentValue)
+        currentAreaCode.length >= (minLength || 2) &&
+        currentAreaCode.length <= (maxLength || 64) &&
+        validatePhoneNumber(`+${currentAreaCode}${currentValue}`)
       ) {
         this.setState(
           { inputSuccess: successMsg || true, inputError: false },
@@ -91,7 +95,7 @@ class EmailInput extends Component {
   };
 
   render() {
-    const { currentValue, loading } = this.state;
+    const { currentAreaCode, currentValue, loading } = this.state;
     const {
       minLength,
       maxLength,
@@ -127,35 +131,51 @@ class EmailInput extends Component {
         }
         help={help}
         validateStatus={loading ? "validating" : this.getValidationStatus()}
-        hasFeedback
+        hasFeedback={false}
         extra={this.getStatusMsg()}
         required={required || false}
       >
-        <Input
-          placeholder={label}
-          size={size || "middle"}
-          value={currentValue}
-          minLength={minLength || 2}
-          maxLength={maxLength || 64}
-          onBlur={() => {
-            if (!immediateValidation) {
-              this.validateValue();
-            }
-          }}
-          onChange={(e) => {
-            onChange(name, e.target.value);
-            this.setState({ currentValue: e.target.value });
-            if (immediateValidation) {
-              this.validateValue();
-            }
-          }}
-        />
+        <Input.Group compact>
+          <Input
+            onChange={(e) => {
+              this.setState({ currentAreaCode: e.target.value }, () => {
+                onChange(name, `${currentAreaCode}${currentValue}`);
+                this.validateValue();
+              });
+            }}
+            size={size || "middle"}
+            placeholder="43"
+            prefix="+"
+            style={{ width: "28%" }}
+          />
+          <Input
+            placeholder="12345"
+            size={size || "middle"}
+            value={currentValue}
+            minLength={minLength || 2}
+            maxLength={maxLength || 64}
+            onBlur={() => {
+              if (!immediateValidation) {
+                this.validateValue();
+              }
+            }}
+            onChange={(e) => {
+              this.setState({ currentValue: e.target.value }, () => {
+                onChange(name, `${currentAreaCode}${currentValue}`);
+                if (immediateValidation) {
+                  this.validateValue();
+                }
+              });
+            }}
+            style={{ width: "72%" }}
+          />
+        </Input.Group>
       </Form.Item>
     );
   }
 }
 
-EmailInput.propTypes = {
+PhoneNumberInput.propTypes = {
   errorMsg: PropTypes.string,
   help: PropTypes.string,
   immediateValidation: PropTypes.bool,
@@ -173,4 +193,4 @@ EmailInput.propTypes = {
   onInvalid: PropTypes.func,
 };
 
-export default EmailInput;
+export default PhoneNumberInput;

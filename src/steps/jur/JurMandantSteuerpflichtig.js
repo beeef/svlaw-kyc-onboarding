@@ -106,10 +106,12 @@ class JurMandantSteuerpflichtig extends Component {
             </h3>
             <Select
               placeholder={strings[currentLang].nat.SELECT_COUNTRY}
-              options={Object.keys(countries).map((countryCode) => ({
-                label: countries[countryCode],
-                value: countryCode,
-              }))}
+              options={Object.keys(countries)
+                .filter((cc) => cc !== "AT")
+                .map((countryCode) => ({
+                  label: countries[countryCode],
+                  value: countryCode,
+                }))}
               optionFilterProp="label"
               showSearch
               onChange={(countryCode) => {

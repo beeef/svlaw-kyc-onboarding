@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { Form, Input } from "antd";
+import { DatePicker, Form } from "antd";
 import React, { Component } from "react";
+import moment from "moment";
 
-class TextInput extends Component {
+class BirthdayInput extends Component {
   state = {
-    currentValue: "",
+    currentValue: null,
     loading: false,
     error: null,
     inputError: false,
@@ -15,8 +16,6 @@ class TextInput extends Component {
     const { currentValue } = this.state;
     const {
       validationFunc,
-      minLength,
-      maxLength,
       successMsg,
       errorMsg,
       required,
@@ -27,11 +26,7 @@ class TextInput extends Component {
     if (required) {
       if (!validationFunc) {
         // valid wenn min und max length erfüllt sind
-        if (
-          currentValue &&
-          currentValue.length >= (minLength || 2) &&
-          currentValue.length <= (maxLength || 64)
-        ) {
+        if (currentValue && currentValue.isValid()) {
           this.setState(
             {
               inputSuccess: successMsg || true,
@@ -98,17 +93,7 @@ class TextInput extends Component {
 
   render() {
     const { currentValue, loading } = this.state;
-    const {
-      minLength,
-      maxLength,
-      immediateValidation,
-      size,
-      label,
-      help,
-      required,
-      onChange,
-      name,
-    } = this.props;
+    const { size, label, help, required, onChange, name } = this.props;
 
     return (
       <Form.Item
@@ -119,41 +104,35 @@ class TextInput extends Component {
         help={this.getStatusMsg()}
         required={required || false}
       >
-        <Input
+        <DatePicker
+          allowClear
+          format="DD.MM.YYYY"
           size={size || "middle"}
-          placeholder={label}
+          placeholder="DD.MM.YYYY"
           value={currentValue}
-          minLength={minLength || 2}
-          maxLength={maxLength || 64}
-          onBlur={(e) => {
-            this.setState({ currentValue: e.target.value.trim() }, () => {
-              if (!immediateValidation) {
-                this.validateValue();
-              }
-            });
-          }}
-          onChange={(e) => {
-            const value = e.target.value;
-            this.setState({ currentValue: e.target.value }, () => {
-              onChange(name, value);
-            });
-            if (immediateValidation) {
+          onChange={(date) => {
+            this.setState({ currentValue: date }, () => {
+              onChange(name, date ? date.format("YYYY-MM-DD") : null);
               this.validateValue();
-            }
+            });
           }}
+          style={{ width: "100%" }}
+          //   onSelect={(date) => {
+          //     this.setState({ currentValue: date }, () => {
+          //       onChange(name, date.format("YYYY-MM-DD"));
+          //     });
+          //     this.validateValue();
+          //   }}
         />
       </Form.Item>
     );
   }
 }
 
-TextInput.propTypes = {
+BirthdayInput.propTypes = {
   errorMsg: PropTypes.string,
   help: PropTypes.string,
-  immediateValidation: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  maxLength: PropTypes.number,
-  minLength: PropTypes.number,
   size: PropTypes.string,
   successMsg: PropTypes.string,
   validationFunc: PropTypes.func,
@@ -164,4 +143,4 @@ TextInput.propTypes = {
   onInvalid: PropTypes.func,
 };
 
-export default TextInput;
+export default BirthdayInput;

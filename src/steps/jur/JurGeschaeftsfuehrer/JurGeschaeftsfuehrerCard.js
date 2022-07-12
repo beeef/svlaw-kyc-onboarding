@@ -1,60 +1,18 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Button, Card, Col, DatePicker, Form, Input, Row, Select } from "antd";
-import countries from "i18n-iso-countries";
-import countriesDE from "i18n-iso-countries/langs/de.json";
-import countriesEN from "i18n-iso-countries/langs/en.json";
+import { Col, Form, Row, Select } from "antd";
 import strings from "../../../locale/strings.json";
 import { validateEmail, validatePhoneNumber } from "../../../util/validation";
+import CustomForm from "../../../util/CustomForm";
 
 class JurGeschaeftsfuehrerCard extends Component {
-  state = {};
-
-  constructor(props) {
-    super(props);
-
-    const { currentLang } = props;
-
-    countries.registerLocale(currentLang === "de" ? countriesDE : countriesEN);
-    this.state.countries = countries.getNames(currentLang, {
-      select: "official",
-    });
-  }
+  state = { allFieldsValid: false };
 
   validate = () => {
+    const { allFieldsValid } = this.state;
     const { managingDirectorData, onValidated } = this.props;
 
-    const {
-      firstName,
-      lastName,
-      dateOfBirth,
-      nationality,
-      street,
-      zip,
-      city,
-      country,
-      email,
-      phoneAreaCode,
-      phone,
-      powerOfRepresentation,
-    } = managingDirectorData;
-
-    if (
-      firstName &&
-      lastName &&
-      dateOfBirth &&
-      nationality &&
-      street &&
-      zip &&
-      city &&
-      country &&
-      email &&
-      phoneAreaCode &&
-      phone &&
-      powerOfRepresentation &&
-      validateEmail(email) &&
-      validatePhoneNumber(`+${phoneAreaCode}${phone}`)
-    ) {
+    if (allFieldsValid === true && managingDirectorData.powerOfRepresentation) {
       onValidated(true);
     } else {
       onValidated(false);
@@ -67,181 +25,101 @@ class JurGeschaeftsfuehrerCard extends Component {
   };
 
   render() {
-    const { countries } = this.state;
-    const { currentLang, onChangeManagingDirectorData, managingDirectorData } =
-      this.props;
+    const { currentLang, onChangeManagingDirectorData } = this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
       labelCol: { xs: 24, xl: 24 },
     };
 
+    const formItems = [
+      {
+        name: "firstName",
+        required: true,
+        label: strings[currentLang].jur.FIRST_NAME,
+        onChange: onChangeManagingDirectorData,
+      },
+      {
+        name: "lastName",
+        required: true,
+        label: strings[currentLang].jur.LAST_NAME,
+        onChange: onChangeManagingDirectorData,
+      },
+      {
+        name: "dateOfBirth",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: strings[currentLang].jur.DATE_OF_BIRTH,
+        type: "birthday",
+      },
+      {
+        name: "nationality",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: strings[currentLang].jur.NATIONALITY,
+        type: "country",
+      },
+      {
+        name: "street",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: `${strings[currentLang].jur.RESIDENTIAL_ADDRESS}`,
+        validationFunc: (val) => {
+          const x = val.trim();
+          return x.indexOf(" ") > 0;
+        },
+        errorMsg: "The address must contain a street name and a number.",
+      },
+      {
+        name: "zip",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: `${strings[currentLang].jur.POSTAL_CODE}`,
+      },
+      {
+        name: "city",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: `${strings[currentLang].jur.CITY}`,
+      },
+      {
+        name: "country",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: `${strings[currentLang].jur.COUNTRY}`,
+        type: "country",
+      },
+      {
+        name: "email",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: strings[currentLang].jur.EMAIL_ADDRESS,
+        type: "email",
+      },
+      {
+        name: "phone",
+        required: true,
+        onChange: onChangeManagingDirectorData,
+        label: strings[currentLang].nat.PHONE_NUMBER,
+        type: "phone",
+        help: "Please provide the number in the following format: +43 1 23456789",
+      },
+    ];
+
     return (
       <>
+        <CustomForm
+          currentLang={currentLang}
+          formItems={formItems}
+          onValid={() => {
+            this.setState({ allFieldsValid: true }, this.validate);
+          }}
+          onInvalid={() => {
+            this.setState({ allFieldsValid: false }, this.validate);
+          }}
+        />
         <Form {...formLayout}>
           <Row gutter={[24, 0]}>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.FIRST_NAME} required>
-                <Input
-                  placeholder={strings[currentLang].jur.FIRST_NAME}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("firstName", e.target.value);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.LAST_NAME} required>
-                <Input
-                  placeholder={strings[currentLang].jur.LAST_NAME}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("lastName", e.target.value);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item
-                label={strings[currentLang].jur.DATE_OF_BIRTH}
-                required
-              >
-                <DatePicker
-                  format="DD.MM.YYYY"
-                  allowClear
-                  style={{ width: "100%" }}
-                  onChange={(date) => {
-                    onChangeManagingDirectorData(
-                      "dateOfBirth",
-                      date.format("YYYY-MM-DD")
-                    );
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.NATIONALITY} required>
-                <Select
-                  placeholder={strings[currentLang].jur.SELECT_COUNTRY}
-                  options={Object.keys(countries).map((countryCode) => ({
-                    label: countries[countryCode],
-                    value: countryCode,
-                  }))}
-                  optionFilterProp="label"
-                  showSearch
-                  onChange={(country) => {
-                    onChangeManagingDirectorData("nationality", country);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item
-                label={strings[currentLang].jur.RESIDENTIAL_ADDRESS}
-                required
-              >
-                <Input
-                  placeholder={`${strings[currentLang].jur.STREET}, ${strings[currentLang].jur.STREET_NUMBER}`}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("street", e.target.value);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.POSTAL_CODE} required>
-                <Input
-                  placeholder={strings[currentLang].jur.POSTAL_CODE_SHORT}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("zip", e.target.value);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.CITY} required>
-                <Input
-                  placeholder={strings[currentLang].jur.CITY}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("city", e.target.value);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.COUNTRY} required>
-                <Select
-                  placeholder={strings[currentLang].jur.SELECT_COUNTRY}
-                  options={Object.keys(countries).map((countryCode) => ({
-                    label: countries[countryCode],
-                    value: countryCode,
-                  }))}
-                  optionFilterProp="label"
-                  showSearch
-                  onChange={(country) => {
-                    onChangeManagingDirectorData("country", country);
-                    this.validate();
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item
-                label={strings[currentLang].jur.EMAIL_ADDRESS}
-                required
-              >
-                <Input
-                  placeholder={strings[currentLang].jur.EMAIL_ADDRESS}
-                  onBlur={(e) => {
-                    onChangeManagingDirectorData("email", e.target.value);
-                    this.validate();
-                  }}
-                  status={
-                    managingDirectorData &&
-                    managingDirectorData.email &&
-                    !validateEmail(managingDirectorData.email)
-                      ? "error"
-                      : null
-                  }
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item
-                label={strings[currentLang].nat.PHONE_NUMBER}
-                required
-                help="Please provide the number in the following format: +43 1 23456789"
-              >
-                <Input.Group compact>
-                  <Input
-                    onChange={(e) => {
-                      onChangeManagingDirectorData(
-                        "phoneAreaCode",
-                        e.target.value
-                      );
-                      this.validate();
-                    }}
-                    placeholder="43"
-                    prefix="+"
-                    style={{ width: "28%" }}
-                  />
-                  <Input
-                    onChange={(e) => {
-                      onChangeManagingDirectorData("phone", e.target.value);
-                      this.validate();
-                    }}
-                    placeholder="12345"
-                    style={{ width: "72%" }}
-                  />
-                </Input.Group>
-              </Form.Item>
-            </Col>
             <Col xs={24} md={24}>
               <Form.Item
                 label={strings[currentLang].jur.POWER_OF_REPRESENTATION}
