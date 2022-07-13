@@ -1,77 +1,67 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { Button, Col, Form, Input, Row } from "antd";
+import PropTypes from "prop-types";
+import { Button, Row } from "antd";
 import strings from "../../../locale/strings.json";
-import { DeleteOutlined } from "@ant-design/icons";
+import CustomForm from "../../../util/CustomForm";
 
-const JurKontaktPersonCard = ({ currentLang, onRemove, onChange }) => {
-  const formLayout = {
-    wrapperCol: { xs: 24, xl: 24 },
-    labelCol: { xs: 24, xl: 24 },
-  };
+const JurKontaktPersonCard = ({
+  currentLang,
+  onRemove,
+  onChange,
+  onValid,
+  onInvalid,
+}) => {
+  const formItems = [
+    {
+      name: "firstName",
+      required: true,
+      label: strings[currentLang].jur.FIRST_NAME,
+      onChange: onChange,
+    },
+    {
+      name: "lastName",
+      required: true,
+      label: strings[currentLang].jur.LAST_NAME,
+      onChange: onChange,
+    },
+    {
+      name: "email",
+      required: true,
+      onChange: onChange,
+      label: strings[currentLang].jur.EMAIL_ADDRESS,
+      type: "email",
+    },
+    {
+      name: "phone",
+      required: true,
+      onChange: onChange,
+      label: strings[currentLang].nat.PHONE_NUMBER,
+      type: "phone",
+      help: "Please provide the number in the following format: +43 1 23456789",
+    },
+  ];
 
   return (
-    <Form {...formLayout} labelAlign="left">
+    <>
       <Row justify="end">
-        <Button
-          type="link"
-          size="small"
-          icon={<DeleteOutlined />}
-          danger
-          onClick={onRemove}
-        >
-          {strings[currentLang].REMOVE}
+        <Button type="link" danger onClick={onRemove}>
+          Remove
         </Button>
       </Row>
-      <Row gutter={[24, 0]}>
-        <Col xs={24} md={12}>
-          <Form.Item required label={strings[currentLang].jur.FIRST_NAME}>
-            <Input
-              placeholder={strings[currentLang].jur.FIRST_NAME}
-              onBlur={(e) => {
-                onChange("firstName", e.target.value);
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} md={12}>
-          <Form.Item label={strings[currentLang].jur.LAST_NAME} required>
-            <Input
-              placeholder={strings[currentLang].jur.LAST_NAME}
-              onBlur={(e) => {
-                onChange("lastName", e.target.value);
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} md={12}>
-          <Form.Item label={strings[currentLang].jur.EMAIL_ADDRESS} required>
-            <Input
-              placeholder={strings[currentLang].jur.EMAIL_ADDRESS}
-              onBlur={(e) => {
-                onChange("email", e.target.value);
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Col xs={24} md={12}>
-          <Form.Item label={strings[currentLang].jur.PHONE_NUMBER} required>
-            <Input
-              placeholder={strings[currentLang].jur.PHONE_NUMBER}
-              onBlur={(e) => {
-                onChange("phone", e.target.value);
-              }}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-    </Form>
+      <CustomForm
+        formItems={formItems}
+        onValid={onValid}
+        onInvalid={onInvalid}
+      />
+    </>
   );
 };
 
 JurKontaktPersonCard.propTypes = {
   currentLang: PropTypes.any,
   onChange: PropTypes.func,
+  onValid: PropTypes.func,
+  onInvalid: PropTypes.func,
   onRemove: PropTypes.any,
 };
 

@@ -1,11 +1,27 @@
-import PropTypes from "prop-types";
-import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
+import PropTypes, { object } from "prop-types";
+import { Button, message, Upload } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
+import { formatBytes } from "../../util/util";
 
 class JurGeschaeftsfuehrerDokumentUpload extends Component {
-  state = { selectedFiles: [] };
+  state = { selectedFiles: {} };
+
+  validate = () => {
+    const { formData, setCurrentStepValid, isActive } = this.props;
+    const { managingDirectors } = formData;
+
+    if (isActive) {
+      if (managingDirectors) {
+        const { selectedFiles } = this.state;
+        setCurrentStepValid(
+          managingDirectors.filter((md) => !selectedFiles[md]).length === 0
+        );
+      } else {
+        setCurrentStepValid(false);
+      }
+    }
+  };
 
   render() {
     const { selectedFiles } = this.state;
@@ -13,26 +29,20 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
 
     const { managingDirectors } = formData;
 
-    const uploadProps = {
+    const uploadProps = (md) => ({
+      accept: ".jpg,.jpeg,.pdf",
       className: "uploader",
       name: "file",
       multiple: true,
       action: "",
-      onChange(info) {
-        const { status } = info.file;
-        if (status !== "uploading") {
-          console.log(info.file, info.fileList);
-        }
-        if (status === "done") {
-          message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
-        }
+      beforeUpload: (file) => {
+        this.setState((s) => ({
+          selectedFiles: { ...s.selectedFiles, [md.key]: file },
+        }));
+        return false;
       },
-      onDrop(e) {
-        console.log("Dropped files", e.dataTransfer.files);
-      },
-    };
+      showUploadList: false,
+    });
 
     return (
       <>
@@ -43,10 +53,10 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
           }
         </h2>
         {managingDirectors && (
-          <ul>
+          <ul style={{ listStyle: "none", padding: 0 }}>
             {managingDirectors.map((md, index) => (
               <li
-                key={`${md.firstName} ${md.lastName}`}
+                key={md.key}
                 style={{
                   borderBottom:
                     index < managingDirectors.length - 1
@@ -58,14 +68,41 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
                 <span style={{ fontSize: "14pt", fontWeight: "lighter" }}>
                   {md.firstName} {md.lastName}
                 </span>
-                <Upload.Dragger {...uploadProps}>
-                  <p className="upload-text">
-                    {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-                  </p>
-                  <p className="upload-hint">
-                    {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-                  </p>
-                </Upload.Dragger>
+                {!selectedFiles[md.key] && (
+                  <div>
+                    <Upload.Dragger {...uploadProps(md)}>
+                      <p className="upload-text">
+                        {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
+                      </p>
+                      <p className="upload-hint">
+                        {strings[currentLang].CHOOSE_MULTIPLE_FILES}
+                      </p>
+                    </Upload.Dragger>
+                  </div>
+                )}
+                <div className={!selectedFiles[md] ? "fade-out" : "fade-in"}>
+                  {selectedFiles[md.key] && (
+                    <>
+                      {selectedFiles[md.key].name} (
+                      <i>{formatBytes(selectedFiles[md.key].size)}</i>){" "}
+                      <Button
+                        type="link"
+                        danger
+                        onClick={() => {
+                          this.setState((s) => {
+                            const { [md.key]: x, ...newSelectedFiles } =
+                              s.selectedFiles;
+                            return {
+                              selectedFiles: newSelectedFiles,
+                            };
+                          }, this.validate);
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
@@ -85,6 +122,8 @@ JurGeschaeftsfuehrerDokumentUpload.propTypes = {
       })
     ),
   }),
+  setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurGeschaeftsfuehrerDokumentUpload;

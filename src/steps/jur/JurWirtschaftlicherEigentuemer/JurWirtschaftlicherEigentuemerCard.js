@@ -1,155 +1,124 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import countries from "i18n-iso-countries";
-import countriesDE from "i18n-iso-countries/langs/de.json";
-import countriesEN from "i18n-iso-countries/langs/en.json";
+import PropTypes from "prop-types";
+import { Col, Form, Row, Select } from "antd";
 import strings from "../../../locale/strings.json";
+import CustomForm from "../../../util/CustomForm";
 
 class JurWirtschaftlicherEigentuemerCard extends Component {
-  state = {};
+  state = { allFieldsValid: false };
 
-  constructor(props) {
-    super(props);
+  validate = () => {
+    const { allFieldsValid } = this.state;
+    const { beneficialOwnerData, onValidated } = this.props;
 
-    const { currentLang } = props;
+    if (allFieldsValid === true && beneficialOwnerData.powerOfRepresentation) {
+      onValidated(true);
+    } else {
+      onValidated(false);
+    }
+  };
 
-    countries.registerLocale(currentLang === "de" ? countriesDE : countriesEN);
-    this.state.countries = countries.getNames(currentLang, {
-      select: "official",
-    });
-  }
+  componentDidMount = () => {
+    const { onChangeBeneficialOwnerData } = this.props;
+    onChangeBeneficialOwnerData("powerOfRepresentation", "sole");
+  };
 
   render() {
-    const { countries } = this.state;
-    const { currentLang, onChangeBeneficialOwnerData, style } = this.props;
+    const { currentLang, onChangeBeneficialOwnerData } = this.props;
 
     const formLayout = {
       wrapperCol: { xs: 24, xl: 24 },
       labelCol: { xs: 24, xl: 24 },
     };
 
+    const formItems = [
+      {
+        name: "firstName",
+        required: true,
+        label: strings[currentLang].jur.FIRST_NAME,
+        onChange: onChangeBeneficialOwnerData,
+      },
+      {
+        name: "lastName",
+        required: true,
+        label: strings[currentLang].jur.LAST_NAME,
+        onChange: onChangeBeneficialOwnerData,
+      },
+      {
+        name: "dateOfBirth",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: strings[currentLang].jur.DATE_OF_BIRTH,
+        type: "birthday",
+      },
+      {
+        name: "nationality",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: strings[currentLang].jur.NATIONALITY,
+        type: "country",
+      },
+      {
+        name: "street",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: `${strings[currentLang].jur.RESIDENTIAL_ADDRESS}`,
+        validationFunc: (val) => {
+          const x = val.trim();
+          return x.indexOf(" ") > 0;
+        },
+        errorMsg: "The address must contain a street name and a number.",
+      },
+      {
+        name: "zip",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: `${strings[currentLang].jur.POSTAL_CODE}`,
+      },
+      {
+        name: "city",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: `${strings[currentLang].jur.CITY}`,
+      },
+      {
+        name: "country",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: `${strings[currentLang].jur.COUNTRY}`,
+        type: "country",
+      },
+      {
+        name: "email",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: strings[currentLang].jur.EMAIL_ADDRESS,
+        type: "email",
+      },
+      {
+        name: "phone",
+        required: true,
+        onChange: onChangeBeneficialOwnerData,
+        label: strings[currentLang].nat.PHONE_NUMBER,
+        type: "phone",
+        help: "Please provide the number in the following format: +43 1 23456789",
+      },
+    ];
+
     return (
       <>
+        <CustomForm
+          currentLang={currentLang}
+          formItems={formItems}
+          onValid={() => {
+            this.setState({ allFieldsValid: true }, this.validate);
+          }}
+          onInvalid={() => {
+            this.setState({ allFieldsValid: false }, this.validate);
+          }}
+        />
         <Form {...formLayout}>
           <Row gutter={[24, 0]}>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.FIRST_NAME}>
-                <Input
-                  placeholder={strings[currentLang].jur.FIRST_NAME}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("firstName", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.LAST_NAME}>
-                <Input
-                  placeholder={strings[currentLang].jur.LAST_NAME}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("lastName", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.DATE_OF_BIRTH}>
-                <DatePicker
-                  format="DD.MM.YYYY"
-                  allowClear
-                  style={{ width: "100%" }}
-                  onChange={(date) => {
-                    onChangeBeneficialOwnerData(
-                      "dateOfBirth",
-                      date.format("YYYY-MM-DD")
-                    );
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.NATIONALITY}>
-                <Select
-                  placeholder={strings[currentLang].jur.SELECT_COUNTRY}
-                  options={Object.keys(countries).map((countryCode) => ({
-                    label: countries[countryCode],
-                    value: countryCode,
-                  }))}
-                  optionFilterProp="label"
-                  showSearch
-                  onChange={(country) => {
-                    onChangeBeneficialOwnerData("nationality", country);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.RESIDENTIAL_ADDRESS}>
-                <Input
-                  placeholder={`${strings[currentLang].jur.STREET}, ${strings[currentLang].jur.STREET_NUMBER}`}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("street", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.POSTAL_CODE}>
-                <Input
-                  placeholder={strings[currentLang].jur.POSTAL_CODE_SHORT}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("zip", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.CITY}>
-                <Input
-                  placeholder={strings[currentLang].jur.CITY}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("city", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.COUNTRY}>
-                <Select
-                  placeholder={strings[currentLang].jur.SELECT_COUNTRY}
-                  options={Object.keys(countries).map((countryCode) => ({
-                    label: countries[countryCode],
-                    value: countryCode,
-                  }))}
-                  optionFilterProp="label"
-                  showSearch
-                  onChange={(country) => {
-                    onChangeBeneficialOwnerData("country", country);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.EMAIL_ADDRESS}>
-                <Input
-                  placeholder={strings[currentLang].jur.EMAIL_ADDRESS}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("email", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
-              <Form.Item label={strings[currentLang].jur.PHONE_NUMBER}>
-                <Input
-                  placeholder={strings[currentLang].jur.PHONE_NUMBER}
-                  onBlur={(e) => {
-                    onChangeBeneficialOwnerData("phone", e.target.value);
-                  }}
-                />
-              </Form.Item>
-            </Col>
             <Col xs={24} md={24}>
               <Form.Item
                 label={strings[currentLang].jur.POWER_OF_REPRESENTATION}
@@ -170,6 +139,7 @@ class JurWirtschaftlicherEigentuemerCard extends Component {
                       "powerOfRepresentation",
                       e.target.value
                     );
+                    this.validate();
                   }}
                 />
               </Form.Item>
@@ -182,9 +152,10 @@ class JurWirtschaftlicherEigentuemerCard extends Component {
 }
 
 JurWirtschaftlicherEigentuemerCard.propTypes = {
-  currentLang: PropTypes.string,
+  beneficialOwnerData: PropTypes.any,
+  currentLang: PropTypes.oneOf(["de", "en"]),
   onChangeBeneficialOwnerData: PropTypes.func,
-  style: PropTypes.any,
+  onValidated: PropTypes.func,
 };
 
 export default JurWirtschaftlicherEigentuemerCard;

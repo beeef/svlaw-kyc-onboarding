@@ -97,11 +97,9 @@ class JurStammdaten extends Component {
           formItems={formItems}
           currentLang={currentLang}
           onValid={() => {
-            console.log("onValid");
             setCurrentStepValid(true);
           }}
           onInvalid={() => {
-            console.log("onInvalid");
             setCurrentStepValid(false);
           }}
         />

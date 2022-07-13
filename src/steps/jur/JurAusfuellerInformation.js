@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Button, Col, Form, Input, Radio, Row } from "antd";
 import strings from "../../locale/strings.json";
+import CustomForm from "../../util/CustomForm";
 
 class JurAusfuellerInformation extends Component {
   state = { countries: null };
@@ -39,6 +40,8 @@ class JurAusfuellerInformation extends Component {
 
       if (!x) x = beneficialOwners.find((bo) => bo.key === val);
 
+      console.log("x", x);
+
       if (x) {
         onChangeFormData("userData", {
           firstName: x.firstName,
@@ -51,7 +54,7 @@ class JurAusfuellerInformation extends Component {
   };
 
   render() {
-    const { currentLang, formData } = this.props;
+    const { currentLang, formData, setCurrentStepValid } = this.props;
 
     let { userData } = formData;
 
@@ -63,6 +66,40 @@ class JurAusfuellerInformation extends Component {
     if (formData.managingDirectors)
       managingDirectors = formData.managingDirectors;
     if (formData.beneficialOwners) beneficialOwners = formData.beneficialOwners;
+
+    const formItems = [
+      {
+        name: "firstName",
+        required: true,
+        label: strings[currentLang].jur.FIRST_NAME,
+        onChange: this.handleUserDataChange,
+        defaultValue: userData.firstName,
+      },
+      {
+        name: "lastName",
+        required: true,
+        label: strings[currentLang].jur.LAST_NAME,
+        onChange: this.handleUserDataChange,
+        defaultValue: userData.lastName,
+      },
+      {
+        name: "email",
+        required: true,
+        onChange: this.handleUserDataChange,
+        label: strings[currentLang].jur.EMAIL_ADDRESS,
+        type: "email",
+        defaultValue: userData.email,
+      },
+      {
+        name: "phone",
+        required: true,
+        onChange: this.handleUserDataChange,
+        label: strings[currentLang].nat.PHONE_NUMBER,
+        type: "phone",
+        help: "Please provide the number in the following format: +43 1 23456789",
+        defaultValue: userData.phone,
+      },
+    ];
 
     return (
       <>
@@ -98,74 +135,21 @@ class JurAusfuellerInformation extends Component {
             </Radio.Group>
           </Col>
         </Row>
-        <Row>
-          <Col xs={24}>
-            <Form
-              wrapperCol={{ xs: 24, xl: 24 }}
-              labelCol={{ xs: 24, xl: 24 }}
-              labelAlign="left"
-            >
-              <Row gutter={[24, 0]}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    required
-                    label={strings[currentLang].jur.FIRST_NAME}
-                  >
-                    <Input
-                      placeholder={strings[currentLang].jur.FIRST_NAME}
-                      value={userData.firstName || ""}
-                      onChange={(e) => {
-                        this.handleUserDataChange("firstName", e.target.value);
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label={strings[currentLang].jur.LAST_NAME}
-                    required
-                  >
-                    <Input
-                      placeholder={strings[currentLang].jur.LAST_NAME}
-                      value={userData.lastName || ""}
-                      onChange={(e) => {
-                        this.handleUserDataChange("lastName", e.target.value);
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label={strings[currentLang].jur.EMAIL_ADDRESS}
-                    required
-                  >
-                    <Input
-                      placeholder={strings[currentLang].jur.EMAIL_ADDRESS}
-                      value={userData.email || ""}
-                      onChange={(e) => {
-                        this.handleUserDataChange("email", e.target.value);
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label={strings[currentLang].jur.PHONE_NUMBER}
-                    required
-                  >
-                    <Input
-                      placeholder={strings[currentLang].jur.PHONE_NUMBER}
-                      value={userData.phone || ""}
-                      onChange={(e) => {
-                        this.handleUserDataChange("phone", e.target.value);
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form>
-          </Col>
-        </Row>
+        {formData && formData.userData && (
+          <Row>
+            <Col xs={24}>
+              <CustomForm
+                formItems={formItems}
+                onValid={() => {
+                  setCurrentStepValid(true);
+                }}
+                onInvalid={() => {
+                  setCurrentStepValid(false);
+                }}
+              />
+            </Col>
+          </Row>
+        )}
       </>
     );
   }
@@ -184,6 +168,7 @@ JurAusfuellerInformation.propTypes = {
     }),
   }),
   onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
 };
 
 export default JurAusfuellerInformation;

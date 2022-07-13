@@ -54,8 +54,9 @@ class StepNatJurPerson extends Component {
               icon={<UserOutlined />}
               onClick={() => {
                 onChangeFormData("clientType", "nat");
-                this.setState({ selectedType: "nat" });
-                setCurrentStepValid(true);
+                this.setState({ selectedType: "nat" }, () => {
+                  setCurrentStepValid(true);
+                });
               }}
             >
               {strings[currentLang].NATURAL_PERSON}
@@ -66,8 +67,9 @@ class StepNatJurPerson extends Component {
               icon={<BankOutlined />}
               onClick={() => {
                 onChangeFormData("clientType", "jur");
-                this.setState({ selectedType: "jur" });
-                setCurrentStepValid(true);
+                this.setState({ selectedType: "jur" }, () => {
+                  setCurrentStepValid(true);
+                });
               }}
             >
               {strings[currentLang].LEGAL_ENTITY}
@@ -103,6 +105,7 @@ StepNatJurPerson.propTypes = {
   currentLang: PropTypes.oneOf(["de", "en"]),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default StepNatJurPerson;

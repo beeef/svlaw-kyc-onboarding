@@ -43,7 +43,7 @@ class App extends Component {
     currentLang: "en",
     swiperInstance: null,
     formData: {},
-    validSteps: {},
+    validSteps: { 0: false },
   };
 
   handleChangeFormData = (key, value, callback) => {
@@ -123,221 +123,284 @@ class App extends Component {
                 }}
               >
                 <SwiperSlide tabIndex={-1}>
-                  <StepNatJurPerson
-                    currentLang={currentLang}
-                    onChangeFormData={this.handleChangeFormData}
-                    setCurrentStepValid={this.setCurrentStepValid}
-                  />
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatStammdaten
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurStammdaten
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatMandantSteuerpflichtig
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurMandantSteuerpflichtig
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatRechtsgeschaefte
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurRechtsgeschaefte
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          formData={formData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatPEP
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurGeschaeftsfuehrer
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatDokumentUpload
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurPEP
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatAusfuellerInformation
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurGeschaeftsfuehrerDokumentUpload
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          formData={formData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatZusaetzlicheInformationen
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurWirtschaftlicherEigentuemer
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {CT && (
-                    <>
-                      {CT === "nat" && (
-                        <NatZusammenfassung
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          formData={formData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                      {CT === "jur" && (
-                        <JurPEP2
-                          formData={formData}
-                          currentLang={currentLang}
-                          onChangeFormData={this.handleChangeFormData}
-                          setCurrentStepValid={this.setCurrentStepValid}
-                        />
-                      )}
-                    </>
-                  )}
-                </SwiperSlide>
-                {CT && CT === "jur" && (
-                  <SwiperSlide tabIndex={-1}>
-                    <JurWirtschaftlicherEigentuemerDokumentUpload
-                      formData={formData}
+                  {({ isActive }) => (
+                    <StepNatJurPerson
+                      isActive={isActive}
                       currentLang={currentLang}
                       onChangeFormData={this.handleChangeFormData}
                       setCurrentStepValid={this.setCurrentStepValid}
                     />
+                  )}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatStammdaten
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurStammdaten
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatMandantSteuerpflichtig
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurMandantSteuerpflichtig
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatRechtsgeschaefte
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurRechtsgeschaefte
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              formData={formData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatPEP
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurGeschaeftsfuehrer
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatDokumentUpload
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurPEP
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatAusfuellerInformation
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurGeschaeftsfuehrerDokumentUpload
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              formData={formData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatZusaetzlicheInformationen
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurWirtschaftlicherEigentuemer
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                <SwiperSlide tabIndex={-1}>
+                  {({ isActive }) => {
+                    if (CT) {
+                      return (
+                        <>
+                          {CT === "nat" && (
+                            <NatZusammenfassung
+                              isActive={isActive}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              formData={formData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                          {CT === "jur" && (
+                            <JurPEP2
+                              isActive={isActive}
+                              formData={formData}
+                              currentLang={currentLang}
+                              onChangeFormData={this.handleChangeFormData}
+                              setCurrentStepValid={this.setCurrentStepValid}
+                            />
+                          )}
+                        </>
+                      );
+                    }
+                  }}
+                </SwiperSlide>
+                {CT && CT === "jur" && (
+                  <SwiperSlide tabIndex={-1}>
+                    {({ isActive }) => (
+                      <JurWirtschaftlicherEigentuemerDokumentUpload
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
                   <SwiperSlide tabIndex={-1}>
-                    <JurKontaktperson
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
+                    {({ isActive }) => (
+                      <JurKontaktperson
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
                   <SwiperSlide tabIndex={-1}>
-                    <JurAusfuellerInformation
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
+                    {({ isActive }) => (
+                      <JurAusfuellerInformation
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
                   <SwiperSlide tabIndex={-1}>
-                    <JurZusaetzlicheDokumenteUpload
-                      formData={formData}
-                      currentLang={currentLang}
-                      onChangeFormData={this.handleChangeFormData}
-                      setCurrentStepValid={this.setCurrentStepValid}
-                    />
+                    {({ isActive }) => (
+                      <JurZusaetzlicheDokumenteUpload
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
                   </SwiperSlide>
                 )}
               </Swiper>

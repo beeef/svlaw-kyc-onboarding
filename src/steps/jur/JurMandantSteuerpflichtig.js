@@ -21,22 +21,24 @@ class JurMandantSteuerpflichtig extends Component {
   }
 
   validate = () => {
-    const { setCurrentStepValid, formData } = this.props;
+    const { setCurrentStepValid, formData, isActive } = this.props;
     const { selectedAnswer } = this.state;
 
-    if (selectedAnswer != null) {
-      if (selectedAnswer === "1") {
-        setCurrentStepValid(true);
-      } else if (
-        formData &&
-        formData.clientSubjectToTaxationInCountry != null
-      ) {
-        setCurrentStepValid(true);
+    if (isActive) {
+      if (selectedAnswer != null) {
+        if (selectedAnswer === "1") {
+          setCurrentStepValid(true);
+        } else if (
+          formData &&
+          formData.clientSubjectToTaxationInCountry != null
+        ) {
+          setCurrentStepValid(true);
+        } else {
+          setCurrentStepValid(false);
+        }
       } else {
         setCurrentStepValid(false);
       }
-    } else {
-      setCurrentStepValid(false);
     }
   };
 
@@ -138,6 +140,7 @@ JurMandantSteuerpflichtig.propTypes = {
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurMandantSteuerpflichtig;

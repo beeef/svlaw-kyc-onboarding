@@ -24,23 +24,25 @@ class JurGeschaeftsfuehrer extends Component {
 
   validate = () => {
     const { managingDirectorKeyValid } = this.state;
-    const { setCurrentStepValid } = this.props;
+    const { setCurrentStepValid, isActive } = this.props;
 
-    if (
-      managingDirectorKeyValid &&
-      Object.keys(managingDirectorKeyValid).length > 0
-    ) {
+    if (isActive) {
       if (
-        Object.values(managingDirectorKeyValid).findIndex(
-          (val) => val === false
-        ) >= 0
+        managingDirectorKeyValid &&
+        Object.keys(managingDirectorKeyValid).length > 0
       ) {
-        setCurrentStepValid(false);
+        if (
+          Object.values(managingDirectorKeyValid).findIndex(
+            (val) => val === false
+          ) >= 0
+        ) {
+          setCurrentStepValid(false);
+        } else {
+          setCurrentStepValid(true);
+        }
       } else {
         setCurrentStepValid(true);
       }
-    } else {
-      setCurrentStepValid(true);
     }
   };
 
@@ -210,7 +212,7 @@ class JurGeschaeftsfuehrer extends Component {
 
                         this.setState(
                           { managingDirectorKeyValid },
-                          this.validate()
+                          this.validate
                         );
                       }}
                     />
@@ -248,6 +250,7 @@ JurGeschaeftsfuehrer.propTypes = {
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurGeschaeftsfuehrer;

@@ -5,16 +5,44 @@ import { v4 as uuidv4 } from "uuid";
 import JurWirtschaftlicherEigentuemerCard from "./JurWirtschaftlicherEigentuemerCard";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import strings from "../../../locale/strings.json";
+import _, { unset } from "lodash";
 
 class JurWirtschaftlicherEigentuemer extends Component {
-  state = { loading: false };
+  state = { beneficialOwnerKeyValid: {} };
 
   componentDidMount = () => {
     const { onChangeFormData, formData } = this.props;
     const { beneficialOwners } = formData;
 
+    const uuid = uuidv4();
+
     if (!beneficialOwners) {
-      onChangeFormData("beneficialOwners", [{ key: uuidv4() }]);
+      onChangeFormData("beneficialOwners", [{ key: uuid }]);
+      this.setState({ beneficialOwnerKeyValid: { [uuid]: false } });
+    }
+  };
+
+  validate = () => {
+    const { beneficialOwnerKeyValid } = this.state;
+    const { setCurrentStepValid, isActive } = this.props;
+
+    if (isActive) {
+      if (
+        beneficialOwnerKeyValid &&
+        Object.keys(beneficialOwnerKeyValid).length > 0
+      ) {
+        if (
+          Object.values(beneficialOwnerKeyValid).findIndex(
+            (val) => val === false
+          ) >= 0
+        ) {
+          setCurrentStepValid(false);
+        } else {
+          setCurrentStepValid(true);
+        }
+      } else {
+        setCurrentStepValid(true);
+      }
     }
   };
 
@@ -25,17 +53,27 @@ class JurWirtschaftlicherEigentuemer extends Component {
     const { onChangeFormData, formData } = this.props;
     const { beneficialOwners } = formData;
 
+    const uuid = uuidv4();
+
     if (beneficialOwners) {
       onChangeFormData("beneficialOwners", [
         ...beneficialOwners,
         { key: uuidv4() },
       ]);
     } else {
-      onChangeFormData("beneficialOwners", [{ key: uuidv4() }]);
+      onChangeFormData("beneficialOwners", [{ key: uuid }]);
     }
+
+    this.setState(
+      ({ beneficialOwnerKeyValid }) => ({
+        beneficialOwnerKeyValid: { ...beneficialOwnerKeyValid, [uuid]: false },
+      }),
+      this.validate
+    );
   };
 
   removeBeneficialOwner = (key) => {
+    const { beneficialOwnerKeyValid } = this.state;
     const { onChangeFormData, formData } = this.props;
     const { beneficialOwners } = formData;
 
@@ -43,6 +81,10 @@ class JurWirtschaftlicherEigentuemer extends Component {
       "beneficialOwners",
       beneficialOwners.filter((md) => md.key !== key)
     );
+
+    unset(beneficialOwnerKeyValid, key);
+
+    this.setState({ beneficialOwnerKeyValid }, this.validate);
   };
 
   changeBeneficialOwnerData = (mdKey, key, value) => {
@@ -53,6 +95,18 @@ class JurWirtschaftlicherEigentuemer extends Component {
     beneficialOwners[index][key] = value;
 
     onChangeFormData("beneficialOwners", beneficialOwners);
+  };
+
+  componentDidUpdate = (prevProps) => {
+    const { formData: prevFormData } = prevProps;
+    const { formData } = this.props;
+
+    const { beneficialOwners: prevBeneficialOwners } = prevFormData;
+    const { beneficialOwners } = formData;
+
+    if (!_.isEqual(beneficialOwners, prevBeneficialOwners)) {
+      this.validate();
+    }
   };
 
   render() {
@@ -148,6 +202,16 @@ class JurWirtschaftlicherEigentuemer extends Component {
                       onChangeBeneficialOwnerData={(key, value) => {
                         this.changeBeneficialOwnerData(x.key, key, value);
                       }}
+                      beneficialOwnerData={x}
+                      onValidated={(valid) => {
+                        const { beneficialOwnerKeyValid } = this.state;
+                        beneficialOwnerKeyValid[x.key] = valid;
+
+                        this.setState(
+                          { beneficialOwnerKeyValid },
+                          this.validate
+                        );
+                      }}
                     />
                   </Collapse.Panel>
                 ))}
@@ -182,6 +246,8 @@ JurWirtschaftlicherEigentuemer.propTypes = {
     }),
   }),
   onChangeFormData: PropTypes.func,
+  setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurWirtschaftlicherEigentuemer;

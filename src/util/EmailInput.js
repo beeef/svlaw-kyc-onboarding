@@ -90,6 +90,22 @@ class EmailInput extends Component {
     return null;
   };
 
+  componentDidMount = () => {
+    const { defaultValue } = this.props;
+    if (defaultValue) {
+      this.setState({ currentValue: defaultValue }, this.validateValue);
+    }
+  };
+
+  componentDidUpdate = (prevProps) => {
+    const { defaultValue } = this.props;
+    const { defaultValue: prevDefaultValue } = prevProps;
+
+    if (defaultValue !== prevDefaultValue) {
+      this.setState({ currentValue: defaultValue }, this.validateValue);
+    }
+  };
+
   render() {
     const { currentValue, loading } = this.state;
     const {
@@ -171,6 +187,7 @@ EmailInput.propTypes = {
   onChange: PropTypes.func,
   onValid: PropTypes.func,
   onInvalid: PropTypes.func,
+  defaultValue: PropTypes.any,
 };
 
 export default EmailInput;

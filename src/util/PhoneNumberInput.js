@@ -94,6 +94,46 @@ class PhoneNumberInput extends Component {
     return null;
   };
 
+  componentDidMount = () => {
+    const { defaultValue } = this.props;
+    if (defaultValue) {
+      const areaCode =
+        defaultValue.length >= 2 ? defaultValue.substring(0, 2) : defaultValue;
+      const number = defaultValue.length > 2 ? defaultValue.substring(2) : "";
+      this.setState(
+        { currentValue: number, currentAreaCode: areaCode },
+        this.validateValue
+      );
+    }
+  };
+
+  componentDidUpdate = (prevProps) => {
+    const { defaultValue } = this.props;
+    const { defaultValue: prevDefaultValue } = prevProps;
+
+    if (defaultValue !== prevDefaultValue) {
+      if (defaultValue) {
+        const areaCode =
+          defaultValue.length >= 2
+            ? defaultValue.substring(0, 2)
+            : defaultValue;
+        const number = defaultValue.length > 2 ? defaultValue.substring(2) : "";
+
+        console.log("areaCode", areaCode);
+        console.log("number", number);
+        this.setState(
+          { currentValue: number, currentAreaCode: areaCode },
+          this.validateValue
+        );
+      } else {
+        this.setState(
+          { currentAreaCode: "", currentValue: "" },
+          this.validateValue
+        );
+      }
+    }
+  };
+
   render() {
     const { currentAreaCode, currentValue, loading } = this.state;
     const {
@@ -143,6 +183,7 @@ class PhoneNumberInput extends Component {
                 this.validateValue();
               });
             }}
+            value={currentAreaCode}
             size={size || "middle"}
             placeholder="43"
             prefix="+"
@@ -191,6 +232,7 @@ PhoneNumberInput.propTypes = {
   onChange: PropTypes.func,
   onValid: PropTypes.func,
   onInvalid: PropTypes.func,
+  defaultValue: PropTypes.string,
 };
 
 export default PhoneNumberInput;

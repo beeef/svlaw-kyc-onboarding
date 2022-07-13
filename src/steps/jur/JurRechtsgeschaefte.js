@@ -8,15 +8,17 @@ class JurRechtsgeschaefte extends Component {
 
   validate = () => {
     const { otherChecked } = this.state;
-    const { formData, setCurrentStepValid } = this.props;
+    const { formData, setCurrentStepValid, isActive } = this.props;
     const { legalServices, otherLegalService } = formData;
 
-    if (otherChecked) {
-      setCurrentStepValid(otherLegalService && otherLegalService.length > 0);
-    } else if (legalServices && legalServices.length > 0) {
-      setCurrentStepValid(true);
-    } else {
-      setCurrentStepValid(false);
+    if (isActive) {
+      if (otherChecked) {
+        setCurrentStepValid(otherLegalService && otherLegalService.length > 0);
+      } else if (legalServices && legalServices.length > 0) {
+        setCurrentStepValid(true);
+      } else {
+        setCurrentStepValid(false);
+      }
     }
   };
 
@@ -139,6 +141,7 @@ JurRechtsgeschaefte.propTypes = {
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurRechtsgeschaefte;

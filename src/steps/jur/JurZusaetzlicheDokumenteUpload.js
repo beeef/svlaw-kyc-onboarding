@@ -1,11 +1,20 @@
 import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
-import { Card, message, Space, Upload } from "antd";
+import { Button, Card, message, Space, Table, Upload } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 
 class JurZusaetzlicheDokumenteUpload extends Component {
   state = { selectedFiles: [] };
+
+  componentDidUpdate = (prevProps) => {
+    const { isActive, setCurrentStepValid } = this.props;
+    const { isActive: wasActive } = prevProps;
+
+    if (isActive && isActive !== wasActive) {
+      setCurrentStepValid(true);
+    }
+  };
 
   render() {
     const { selectedFiles } = this.state;
@@ -50,81 +59,36 @@ class JurZusaetzlicheDokumenteUpload extends Component {
               .STEP_PLEASE_UPLOAD_THE_FOLLOWING_INFORMATION
           }
         </h2>
-        <Space style={{ width: "100%" }} direction="vertical" size="middle">
-          <Card>
-            <p style={{ margin: "0 0 12px 0", padding: 0, fontSize: "1.1rem" }}>
-              {strings[currentLang].jur.CURRENT_COMPANY_REGISTER_EXTRACT}
-            </p>
-            <Upload.Dragger {...uploadProps}>
-              <p className="upload-text">
-                {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-              </p>
-              <p className="upload-hint">
-                {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-              </p>
-            </Upload.Dragger>
-          </Card>
-          <Card>
-            <p style={{ margin: "0 0 12px 0", padding: 0, fontSize: "1.1rem" }}>
-              {
-                strings[currentLang].jur
-                  .CURRENT_EXTRACT_FROM_THE_BENIFICIAL_OWNER_REGISTER
-              }
-            </p>
-            <Upload.Dragger {...uploadProps}>
-              <p className="upload-text">
-                {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-              </p>
-              <p className="upload-hint">
-                {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-              </p>
-            </Upload.Dragger>
-          </Card>
-          <Card>
-            {" "}
-            <p style={{ margin: "0 0 12px 0", padding: 0, fontSize: "1.1rem" }}>
-              {strings[currentLang].jur.ORGANIZATION_CHART_SHAREHOLDERS}
-            </p>
-            <Upload.Dragger {...uploadProps}>
-              <p className="upload-text">
-                {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-              </p>
-              <p className="upload-hint">
-                {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-              </p>
-            </Upload.Dragger>
-          </Card>
-          <Card>
-            {" "}
-            <p style={{ margin: "0 0 12px 0", padding: 0, fontSize: "1.1rem" }}>
-              {
-                strings[currentLang].jur
-                  .COMPANYS_LAST_AUDITED_FINANCIAL_STATEMENTS
-              }
-            </p>
-            <Upload.Dragger {...uploadProps}>
-              <p className="upload-text">
-                {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-              </p>
-              <p className="upload-hint">
-                {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-              </p>
-            </Upload.Dragger>
-          </Card>
-          <Card>
-            <p style={{ margin: "0 0 12px 0", padding: 0, fontSize: "1.1rem" }}>
-              {strings[currentLang].jur.COMPANYS_ARTICLES_OF_ASSOCIATION}
-            </p>
-            <Upload.Dragger {...uploadProps}>
-              <p className="upload-text">
-                {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-              </p>
-              <p className="upload-hint">
-                {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-              </p>
-            </Upload.Dragger>
-          </Card>
-        </Space>
+        <Table
+          rowKey="name"
+          pagination={false}
+          columns={[
+            { key: "name", dataIndex: "name", width: "60%" },
+            {
+              key: "file",
+              render: () => (
+                <Upload beforeUpload={() => false} showUploadList={false}>
+                  <Button>Select file</Button>
+                </Upload>
+              ),
+              align: "center",
+            },
+          ]}
+          dataSource={[
+            { name: strings[currentLang].jur.CURRENT_COMPANY_REGISTER_EXTRACT },
+            {
+              name: strings[currentLang].jur
+                .CURRENT_EXTRACT_FROM_THE_BENIFICIAL_OWNER_REGISTER,
+            },
+            { name: strings[currentLang].jur.ORGANIZATION_CHART_SHAREHOLDERS },
+            {
+              name: strings[currentLang].jur
+                .COMPANYS_LAST_AUDITED_FINANCIAL_STATEMENTS,
+            },
+            { name: strings[currentLang].jur.COMPANYS_ARTICLES_OF_ASSOCIATION },
+          ]}
+          showHeader={false}
+        />
       </>
     );
   }
@@ -138,6 +102,8 @@ JurZusaetzlicheDokumenteUpload.propTypes = {
       lastName: PropTypes.any,
     }),
   }),
+  isActive: PropTypes.bool,
+  setCurrentStepValid: PropTypes.func,
 };
 
 export default JurZusaetzlicheDokumenteUpload;

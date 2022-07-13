@@ -20,40 +20,42 @@ class JurPEP extends Component {
 
   validate = () => {
     const { selectedAnswer1, selectedAnswer2 } = this.state;
-    const { formData, setCurrentStepValid } = this.props;
+    const { formData, setCurrentStepValid, isActive } = this.props;
 
     const {
       managingDirectorsPepExplanation1,
       managingDirectorsPepExplanation2,
     } = formData;
 
-    if (selectedAnswer1 && selectedAnswer1 === strings[currentLang].NO) {
-      if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
-        setCurrentStepValid(true);
+    if (isActive) {
+      if (selectedAnswer1 && selectedAnswer1 === strings[currentLang].NO) {
+        if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
+          setCurrentStepValid(true);
+        } else if (
+          selectedAnswer2 &&
+          selectedAnswer2 === strings[currentLang].YES &&
+          managingDirectorsPepExplanation2
+        ) {
+          setCurrentStepValid(true);
+        } else {
+          setCurrentStepValid(false);
+        }
       } else if (
-        selectedAnswer2 &&
-        selectedAnswer2 === strings[currentLang].YES &&
-        managingDirectorsPepExplanation2
+        selectedAnswer1 &&
+        selectedAnswer1 === strings[currentLang].YES &&
+        managingDirectorsPepExplanation1
       ) {
-        setCurrentStepValid(true);
-      } else {
-        setCurrentStepValid(false);
-      }
-    } else if (
-      selectedAnswer1 &&
-      selectedAnswer1 === strings[currentLang].YES &&
-      managingDirectorsPepExplanation1
-    ) {
-      if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
-        setCurrentStepValid(true);
-      } else if (
-        selectedAnswer2 &&
-        selectedAnswer2 === strings[currentLang].YES &&
-        managingDirectorsPepExplanation2
-      ) {
-        setCurrentStepValid(true);
-      } else {
-        setCurrentStepValid(false);
+        if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
+          setCurrentStepValid(true);
+        } else if (
+          selectedAnswer2 &&
+          selectedAnswer2 === strings[currentLang].YES &&
+          managingDirectorsPepExplanation2
+        ) {
+          setCurrentStepValid(true);
+        } else {
+          setCurrentStepValid(false);
+        }
       }
     }
   };
@@ -177,6 +179,7 @@ JurPEP.propTypes = {
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurPEP;
