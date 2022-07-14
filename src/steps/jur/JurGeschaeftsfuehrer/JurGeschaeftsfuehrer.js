@@ -8,7 +8,7 @@ import strings from "../../../locale/strings.json";
 import _, { unset } from "lodash";
 
 class JurGeschaeftsfuehrer extends Component {
-  state = { managingDirectorKeyValid: {} };
+  state = { managingDirectorKeyValid: {}, activeKey: null };
 
   componentDidMount = () => {
     const { onChangeFormData, formData } = this.props;
@@ -18,7 +18,10 @@ class JurGeschaeftsfuehrer extends Component {
 
     if (!managingDirectors) {
       onChangeFormData("managingDirectors", [{ key: uuid }]);
-      this.setState({ managingDirectorKeyValid: { [uuid]: false } });
+      this.setState({
+        managingDirectorKeyValid: { [uuid]: false },
+        activeKey: uuid,
+      });
     }
   };
 
@@ -69,6 +72,7 @@ class JurGeschaeftsfuehrer extends Component {
           ...managingDirectorKeyValid,
           [uuid]: false,
         },
+        activeKey: uuid,
       }),
       this.validate
     );
@@ -112,7 +116,7 @@ class JurGeschaeftsfuehrer extends Component {
   };
 
   render() {
-    const { managingDirectorKeyValid } = this.state;
+    const { managingDirectorKeyValid, activeKey } = this.state;
     const { formData, currentLang } = this.props;
     const { managingDirectors: managingDirectors } = formData;
     let nameLegalEntity = "";
@@ -139,7 +143,7 @@ class JurGeschaeftsfuehrer extends Component {
                 icon={<PlusOutlined />}
                 onClick={this.addNewManagingDirector}
               >
-                Add managing director
+                Add another managing director
               </Button>
             </Col>
           </Row>
@@ -147,11 +151,10 @@ class JurGeschaeftsfuehrer extends Component {
             <Col xs={24}>
               <Collapse
                 accordion
-                defaultActiveKey={
-                  managingDirectors && managingDirectors.length > 0
-                    ? managingDirectors[0].key
-                    : null
-                }
+                activeKey={activeKey}
+                onChange={(key) => {
+                  this.setState({ activeKey: key });
+                }}
               >
                 {(managingDirectors || []).map((x) => (
                   <Collapse.Panel

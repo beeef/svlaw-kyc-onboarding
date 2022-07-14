@@ -87,8 +87,6 @@ class App extends Component {
   setCurrentStepValid = (valid) => {
     const { validSteps, currentStep } = this.state;
 
-    console.log("setCurrentStepValid", validSteps, currentStep, valid);
-
     this.setState({ validSteps: { ...validSteps, [currentStep]: valid } });
   };
 
@@ -222,6 +220,7 @@ class App extends Component {
                           {CT === "nat" && (
                             <NatPEP
                               isActive={isActive}
+                              formData={formData}
                               currentLang={currentLang}
                               onChangeFormData={this.handleChangeFormData}
                               setCurrentStepValid={this.setCurrentStepValid}
@@ -258,6 +257,7 @@ class App extends Component {
                           {CT === "jur" && (
                             <JurPEP
                               isActive={isActive}
+                              formData={formData}
                               currentLang={currentLang}
                               onChangeFormData={this.handleChangeFormData}
                               setCurrentStepValid={this.setCurrentStepValid}

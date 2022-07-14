@@ -140,7 +140,7 @@ h2 {
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  row-gap: 128px;
+  row-gap: 32px;
 }
 
 .main-container
@@ -189,10 +189,32 @@ h2 {
   color: rgba(255, 255, 255, 0.5);
 }
 
+.main-container
+  .right
+  .ant-steps-vertical
+  > .ant-steps-item
+  .ant-steps-item-content {
+  min-height: 34px;
+}
+
+.main-container
+  .right
+  .ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after,
+.main-container
+  .right
+  .ant-steps-item-wait
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
 .main-container .right img.svlaw-logo {
   width: 60%;
   height: auto;
   flex-grow: 0;
+  margin-top: 32px;
 }
 
 .main-container .mySwiper {

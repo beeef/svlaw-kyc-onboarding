@@ -116,7 +116,6 @@ class TextInput extends Component {
     const { defaultValue: prevDefaultValue } = prevProps;
 
     if (defaultValue !== prevDefaultValue) {
-      this.inputRef.current.value = defaultValue;
       this.setState({ currentValue: defaultValue }, this.validateValue);
     }
   };
@@ -148,8 +147,21 @@ class TextInput extends Component {
           placeholder={label}
           minLength={minLength || 2}
           maxLength={maxLength || 64}
+          value={currentValue}
           onBlur={(e) => {
-            this.setState({ currentValue: e.target.value.trim() }, () => {
+            if (this.validationTimeout) clearTimeout(this.validationTimeout);
+
+            const { value } = e.target;
+            const firstChar = (
+              value && value.trim().length > 0
+                ? value.trim().substring(0, 1)
+                : ""
+            ).toLocaleUpperCase();
+            const rest =
+              value && value.trim().length > 1 ? value.trim().substring(1) : "";
+
+            this.setState({ currentValue: `${firstChar}${rest}` }, () => {
+              onChange(name, `${firstChar}${rest}`);
               this.validateValue();
             });
           }}
@@ -163,7 +175,6 @@ class TextInput extends Component {
               }, 400);
             });
           }}
-          ref={this.inputRef}
         />
       </Form.Item>
     );

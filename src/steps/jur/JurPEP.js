@@ -20,7 +20,7 @@ class JurPEP extends Component {
 
   validate = () => {
     const { selectedAnswer1, selectedAnswer2 } = this.state;
-    const { formData, setCurrentStepValid, isActive } = this.props;
+    const { formData, setCurrentStepValid, isActive, currentLang } = this.props;
 
     const {
       managingDirectorsPepExplanation1,
@@ -34,7 +34,8 @@ class JurPEP extends Component {
         } else if (
           selectedAnswer2 &&
           selectedAnswer2 === strings[currentLang].YES &&
-          managingDirectorsPepExplanation2
+          managingDirectorsPepExplanation2 &&
+          managingDirectorsPepExplanation2.length > 2
         ) {
           setCurrentStepValid(true);
         } else {
@@ -90,7 +91,7 @@ class JurPEP extends Component {
         <Radio.Group
           value={selectedAnswer1}
           onChange={(e) => {
-            this.setState({ selectedAnswer1: e.target.value });
+            this.setState({ selectedAnswer1: e.target.value }, this.validate);
           }}
         >
           <Space direction="vertical">
@@ -132,7 +133,7 @@ class JurPEP extends Component {
         <Radio.Group
           value={selectedAnswer2}
           onChange={(e) => {
-            this.setState({ selectedAnswer2: e.target.value });
+            this.setState({ selectedAnswer2: e.target.value }, this.validate);
           }}
         >
           <Space direction="vertical">

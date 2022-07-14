@@ -29,8 +29,9 @@ class StepNatJurPerson extends Component {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           height: "100%",
+          paddingTop: "24px",
         }}
       >
         <ReactMarkdown>{strings[currentLang].WELCOME_TEXT}</ReactMarkdown>
