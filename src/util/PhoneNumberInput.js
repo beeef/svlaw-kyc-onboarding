@@ -14,6 +14,15 @@ class PhoneNumberInput extends Component {
     inputSuccess: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.areaCodeInputRef = React.createRef();
+    this.phoneNumberInputRef = React.createRef();
+
+    this.validationTimeout = null;
+  }
+
   validateValue = () => {
     const { currentAreaCode, currentValue } = this.state;
     const {
@@ -119,13 +128,16 @@ class PhoneNumberInput extends Component {
             : defaultValue;
         const number = defaultValue.length > 2 ? defaultValue.substring(2) : "";
 
-        console.log("areaCode", areaCode);
-        console.log("number", number);
+        this.areaCodeInputRef.current.value = areaCode;
+        this.phoneNumberInputRef.current.value = number;
+
         this.setState(
           { currentValue: number, currentAreaCode: areaCode },
           this.validateValue
         );
       } else {
+        this.areaCodeInputRef.current.value = "";
+        this.phoneNumberInputRef.current.value = "";
         this.setState(
           { currentAreaCode: "", currentValue: "" },
           this.validateValue
@@ -139,7 +151,6 @@ class PhoneNumberInput extends Component {
     const {
       minLength,
       maxLength,
-      immediateValidation,
       size,
       label,
       help,
@@ -178,12 +189,23 @@ class PhoneNumberInput extends Component {
         <Input.Group compact>
           <Input
             onChange={(e) => {
-              this.setState({ currentAreaCode: e.target.value }, () => {
-                onChange(name, `${currentAreaCode}${currentValue}`);
+              const { value } = e.target;
+              this.setState({ currentAreaCode: value }, () => {
+                if (this.validationTimeout)
+                  clearTimeout(this.validationTimeout);
+                this.validationTimeout = setTimeout(() => {
+                  onChange(name, `${value}${currentValue}`);
+                }, 400);
                 this.validateValue();
               });
             }}
-            value={currentAreaCode}
+            onBlur={(e) => {
+              this.setState(
+                { currentAreaCode: e.target.value.trim() },
+                this.validateValue
+              );
+            }}
+            ref={this.areaCodeInputRef}
             size={size || "middle"}
             placeholder="43"
             prefix="+"
@@ -195,19 +217,24 @@ class PhoneNumberInput extends Component {
             value={currentValue}
             minLength={minLength || 2}
             maxLength={maxLength || 64}
-            onBlur={() => {
-              if (!immediateValidation) {
-                this.validateValue();
-              }
+            onBlur={(e) => {
+              this.setState(
+                { currentValue: e.target.value.trim() },
+                this.validateValue
+              );
             }}
             onChange={(e) => {
-              this.setState({ currentValue: e.target.value }, () => {
-                onChange(name, `${currentAreaCode}${currentValue}`);
-                if (immediateValidation) {
+              const { value } = e.target;
+              this.setState({ currentValue: value }, () => {
+                if (this.validationTimeout)
+                  clearTimeout(this.validationTimeout);
+                this.validationTimeout = setTimeout(() => {
+                  onChange(name, `${currentAreaCode}${value}`);
                   this.validateValue();
-                }
+                }, 400);
               });
             }}
+            ref={this.phoneNumberInputRef}
             style={{ width: "72%" }}
           />
         </Input.Group>
@@ -219,7 +246,6 @@ class PhoneNumberInput extends Component {
 PhoneNumberInput.propTypes = {
   errorMsg: PropTypes.string,
   help: PropTypes.string,
-  immediateValidation: PropTypes.bool,
   label: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   minLength: PropTypes.number,

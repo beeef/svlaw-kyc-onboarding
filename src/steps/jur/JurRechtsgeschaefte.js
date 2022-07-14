@@ -6,6 +6,13 @@ import strings from "../../locale/strings.json";
 class JurRechtsgeschaefte extends Component {
   state = { otherChecked: false };
 
+  shouldComponentUpdate = (nextProps) => {
+    const { isActive } = this.props;
+    const { isActive: willBeActive } = nextProps;
+
+    return willBeActive && isActive != willBeActive;
+  };
+
   validate = () => {
     const { otherChecked } = this.state;
     const { formData, setCurrentStepValid, isActive } = this.props;

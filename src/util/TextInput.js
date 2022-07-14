@@ -11,6 +11,14 @@ class TextInput extends Component {
     inputSuccess: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+
+    this.validationTimeout = null;
+  }
+
   validateValue = () => {
     const { currentValue } = this.state;
     const {
@@ -108,6 +116,7 @@ class TextInput extends Component {
     const { defaultValue: prevDefaultValue } = prevProps;
 
     if (defaultValue !== prevDefaultValue) {
+      this.inputRef.current.value = defaultValue;
       this.setState({ currentValue: defaultValue }, this.validateValue);
     }
   };
@@ -117,14 +126,12 @@ class TextInput extends Component {
     const {
       minLength,
       maxLength,
-      immediateValidation,
       size,
       label,
       help,
       required,
       onChange,
       name,
-      defaultValue,
     } = this.props;
 
     return (
@@ -139,25 +146,24 @@ class TextInput extends Component {
         <Input
           size={size || "middle"}
           placeholder={label}
-          value={currentValue}
           minLength={minLength || 2}
           maxLength={maxLength || 64}
           onBlur={(e) => {
             this.setState({ currentValue: e.target.value.trim() }, () => {
-              if (!immediateValidation) {
-                this.validateValue();
-              }
+              this.validateValue();
             });
           }}
           onChange={(e) => {
             const value = e.target.value;
-            this.setState({ currentValue: e.target.value }, () => {
-              onChange(name, value);
+            this.setState({ currentValue: value }, () => {
+              if (this.validationTimeout) clearTimeout(this.validationTimeout);
+              this.validationTimeout = setTimeout(() => {
+                onChange(name, value);
+                this.validateValue();
+              }, 400);
             });
-            if (immediateValidation) {
-              this.validateValue();
-            }
           }}
+          ref={this.inputRef}
         />
       </Form.Item>
     );
@@ -167,7 +173,6 @@ class TextInput extends Component {
 TextInput.propTypes = {
   errorMsg: PropTypes.string,
   help: PropTypes.string,
-  immediateValidation: PropTypes.bool,
   label: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   minLength: PropTypes.number,

@@ -7,6 +7,13 @@ import CustomForm from "../../util/CustomForm";
 class JurStammdaten extends Component {
   state = {};
 
+  shouldComponentUpdate = (nextProps) => {
+    const { isActive } = this.props;
+    const { isActive: willBeActive } = nextProps;
+
+    return willBeActive && isActive != willBeActive;
+  };
+
   render() {
     const { currentLang, setCurrentStepValid } = this.props;
 
@@ -113,6 +120,7 @@ JurStammdaten.propTypes = {
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
   setCurrentStepInvalid: PropTypes.func,
+  isActive: PropTypes.bool,
 };
 
 export default JurStammdaten;

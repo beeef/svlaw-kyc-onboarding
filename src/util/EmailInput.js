@@ -13,6 +13,13 @@ class EmailInput extends Component {
     inputSuccess: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+    this.validationTimeout = null;
+  }
+
   validateValue = () => {
     const { currentValue } = this.state;
     const {
@@ -102,16 +109,16 @@ class EmailInput extends Component {
     const { defaultValue: prevDefaultValue } = prevProps;
 
     if (defaultValue !== prevDefaultValue) {
+      this.inputRef.current.value = defaultValue;
       this.setState({ currentValue: defaultValue }, this.validateValue);
     }
   };
 
   render() {
-    const { currentValue, loading } = this.state;
+    const { loading } = this.state;
     const {
       minLength,
       maxLength,
-      immediateValidation,
       size,
       label,
       help,
@@ -150,21 +157,25 @@ class EmailInput extends Component {
         <Input
           placeholder={label}
           size={size || "middle"}
-          value={currentValue}
           minLength={minLength || 2}
           maxLength={maxLength || 64}
-          onBlur={() => {
-            if (!immediateValidation) {
-              this.validateValue();
-            }
+          onBlur={(e) => {
+            this.setState(
+              { currentValue: e.target.value.trim() },
+              this.validateValue
+            );
           }}
           onChange={(e) => {
-            onChange(name, e.target.value);
-            this.setState({ currentValue: e.target.value });
-            if (immediateValidation) {
+            const { value } = e.target;
+            if (this.validationTimeout) clearTimeout(this.validationTimeout);
+            this.validationTimeout = setTimeout(() => {
+              onChange(name, value);
               this.validateValue();
-            }
+            }, 400);
+
+            this.setState({ currentValue: value });
           }}
+          ref={this.inputRef}
         />
       </Form.Item>
     );
@@ -174,7 +185,6 @@ class EmailInput extends Component {
 EmailInput.propTypes = {
   errorMsg: PropTypes.string,
   help: PropTypes.string,
-  immediateValidation: PropTypes.bool,
   label: PropTypes.string.isRequired,
   maxLength: PropTypes.number,
   minLength: PropTypes.number,
