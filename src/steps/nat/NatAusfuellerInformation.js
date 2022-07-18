@@ -48,6 +48,7 @@ class NatAusfuellerInformation extends Component {
   };
 
   resetUserData = () => {
+    const { onChangeFormData } = this.props;
     this.setState(
       {
         userData: { firstName: "", lastName: "", email: "", phone: "" },
