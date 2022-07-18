@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import {
   Checkbox,
@@ -172,5 +173,9 @@ class NatFuerWenLeistungen extends Component {
     );
   }
 }
+
+NatFuerWenLeistungen.propTypes = {
+  currentLang: PropTypes.string,
+};
 
 export default NatFuerWenLeistungen;

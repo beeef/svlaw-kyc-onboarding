@@ -15,12 +15,10 @@ class VatNumberInput extends Component {
     const { currentValue } = this.state;
     const { countryCode, successMsg, errorMsg } = this.props;
 
-    if (countryCode && currentValue) {
-      this.setState({ loading: true }, () => {
-        setTimeout(() => {
-          this.setState({ loading: false, inputError: true });
-        }, 2000);
-      });
+    if (!currentValue || currentValue.trim() === "") {
+      this.setState({ inputError: false, inputSuccess: false });
+    } else if (countryCode && currentValue) {
+      this.setState({ loading: false, inputSuccess: true, inputError: false });
     } else {
       this.setState({
         loading: false,
@@ -64,9 +62,9 @@ class VatNumberInput extends Component {
   render() {
     const { currentValue, loading } = this.state;
     const {
+      countryCode,
       minLength,
       maxLength,
-      immediateValidation,
       size,
       label,
       help,
@@ -84,21 +82,29 @@ class VatNumberInput extends Component {
         rules={[{ type: "string" }]}
       >
         <Input
+          prefix={countryCode || ""}
           size={size || "middle"}
           value={currentValue}
+          placeholder={label}
           minLength={minLength || 2}
-          maxLength={maxLength || 64}
-          onBlur={() => {
-            if (!immediateValidation) {
+          maxLength={maxLength || 18}
+          onBlur={(e) => {
+            if (this.validationTimeout) clearTimeout(this.validationTimeout);
+            const { value } = e.target;
+
+            this.setState({ currentValue: value }, () => {
+              onChange(name, value);
               this.validateValue();
-            }
+            });
           }}
           onChange={(e) => {
-            onChange(name, e.target.value);
-            this.setState({ currentValue: e.target.value }, () => {
-              if (immediateValidation) {
+            const value = e.target.value;
+            this.setState({ currentValue: value }, () => {
+              if (this.validationTimeout) clearTimeout(this.validationTimeout);
+              this.validationTimeout = setTimeout(() => {
+                onChange(name, value);
                 this.validateValue();
-              }
+              }, 400);
             });
           }}
         />
@@ -111,7 +117,6 @@ VatNumberInput.propTypes = {
   countryCode: PropTypes.string,
   errorMsg: PropTypes.string,
   help: PropTypes.string,
-  immediateValidation: PropTypes.bool,
   label: PropTypes.string,
   maxLength: PropTypes.number,
   minLength: PropTypes.number,

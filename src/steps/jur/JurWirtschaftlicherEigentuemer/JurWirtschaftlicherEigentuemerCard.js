@@ -121,13 +121,14 @@ class JurWirtschaftlicherEigentuemerCard extends Component {
           <Row gutter={[24, 0]}>
             <Col xs={24} md={24}>
               <Form.Item
+                required
                 label={strings[currentLang].jur.POWER_OF_REPRESENTATION}
-                help={strings[currentLang].jur.POWER_OF_REPRESENTATION_HELP}
+                // help={strings[currentLang].jur.POWER_OF_REPRESENTATION_HELP}
               >
                 <Select
                   placeholder={strings[currentLang].PLEASE_CHOOSE}
+                  defaultValue="sole"
                   options={[
-                    { label: "None", value: "none" },
                     { label: "Sole", value: "sole" },
                     {
                       label: "Jointly with one other authorized person",

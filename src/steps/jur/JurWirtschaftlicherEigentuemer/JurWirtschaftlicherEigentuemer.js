@@ -3,23 +3,41 @@ import React, { Component } from "react";
 import { Button, Col, Collapse, Modal, Row, Space, Tag } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import JurWirtschaftlicherEigentuemerCard from "./JurWirtschaftlicherEigentuemerCard";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleTwoTone,
+  PlusOutlined,
+} from "@ant-design/icons";
 import strings from "../../../locale/strings.json";
 import _, { unset } from "lodash";
 
 class JurWirtschaftlicherEigentuemer extends Component {
-  state = { beneficialOwnerKeyValid: {} };
+  state = { isOptional: false, beneficialOwnerKeyValid: {}, activeKey: null };
 
-  componentDidMount = () => {
-    const { onChangeFormData, formData } = this.props;
-    const { beneficialOwners } = formData;
+  checkIfStepIsOptional = () => {
+    const { formData, onChangeFormData } = this.props;
+    const { legalServices, otherLegalService, beneficialOwners } = formData;
 
-    const uuid = uuidv4();
+    this.setState(
+      {
+        isOptional:
+          (!legalServices ||
+            (Array.isArray(legalServices) && legalServices.length === 0)) &&
+          otherLegalService,
+      },
+      () => {
+        const { isOptional } = this.state;
 
-    if (!beneficialOwners) {
-      onChangeFormData("beneficialOwners", [{ key: uuid }]);
-      this.setState({ beneficialOwnerKeyValid: { [uuid]: false } });
-    }
+        if (!beneficialOwners && !isOptional) {
+          const uuid = uuidv4();
+          onChangeFormData("beneficialOwners", [{ key: uuid }]);
+          this.setState({
+            beneficialOwnerKeyValid: { [uuid]: false },
+            activeKey: uuid,
+          });
+        }
+      }
+    );
   };
 
   validate = () => {
@@ -58,7 +76,7 @@ class JurWirtschaftlicherEigentuemer extends Component {
     if (beneficialOwners) {
       onChangeFormData("beneficialOwners", [
         ...beneficialOwners,
-        { key: uuidv4() },
+        { key: uuid },
       ]);
     } else {
       onChangeFormData("beneficialOwners", [{ key: uuid }]);
@@ -67,6 +85,7 @@ class JurWirtschaftlicherEigentuemer extends Component {
     this.setState(
       ({ beneficialOwnerKeyValid }) => ({
         beneficialOwnerKeyValid: { ...beneficialOwnerKeyValid, [uuid]: false },
+        activeKey: uuid,
       }),
       this.validate
     );
@@ -84,7 +103,7 @@ class JurWirtschaftlicherEigentuemer extends Component {
 
     unset(beneficialOwnerKeyValid, key);
 
-    this.setState({ beneficialOwnerKeyValid }, this.validate);
+    this.setState({ beneficialOwnerKeyValid, activeKey: null }, this.validate);
   };
 
   changeBeneficialOwnerData = (mdKey, key, value) => {
@@ -98,18 +117,23 @@ class JurWirtschaftlicherEigentuemer extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    const { formData: prevFormData } = prevProps;
-    const { formData } = this.props;
+    const { formData: prevFormData, isActive: wasActive } = prevProps;
+    const { formData, isActive } = this.props;
 
     const { beneficialOwners: prevBeneficialOwners } = prevFormData;
     const { beneficialOwners } = formData;
 
-    if (!_.isEqual(beneficialOwners, prevBeneficialOwners)) {
+    if (
+      !_.isEqual(beneficialOwners, prevBeneficialOwners) ||
+      (isActive && !wasActive)
+    ) {
       this.validate();
+      this.checkIfStepIsOptional();
     }
   };
 
   render() {
+    const { isOptional, activeKey } = this.state;
     const { formData, currentLang } = this.props;
     const { beneficialOwners } = formData;
     let nameLegalEntity = "";
@@ -120,6 +144,15 @@ class JurWirtschaftlicherEigentuemer extends Component {
 
     return (
       <>
+        {isOptional && (
+          <h2>
+            <ExclamationCircleTwoTone
+              twoToneColor="orange"
+              style={{ marginRight: "6px" }}
+            />
+            <b>This step is optional</b>
+          </h2>
+        )}
         <h2>
           {this.insertNameIntoHeader(
             nameLegalEntity,
@@ -144,11 +177,10 @@ class JurWirtschaftlicherEigentuemer extends Component {
             <Col xs={24}>
               <Collapse
                 accordion
-                defaultActiveKey={
-                  beneficialOwners && beneficialOwners.length > 0
-                    ? beneficialOwners[0].key
-                    : null
-                }
+                activeKey={activeKey}
+                onChange={(key) => {
+                  this.setState({ activeKey: key });
+                }}
               >
                 {(beneficialOwners || []).map((x) => (
                   <Collapse.Panel
@@ -244,6 +276,8 @@ JurWirtschaftlicherEigentuemer.propTypes = {
     clientData: PropTypes.shape({
       nameLegalEntity: PropTypes.any,
     }),
+    legalServices: PropTypes.array,
+    otherLegalService: PropTypes.string,
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,

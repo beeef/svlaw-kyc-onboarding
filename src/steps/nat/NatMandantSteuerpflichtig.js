@@ -1,13 +1,15 @@
-import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { Radio, Select, Space } from "antd";
+import PropTypes from "prop-types";
+import ReactMarkdown from "react-markdown";
+import DomicileHapitualResidenceDefinitionEN from "../../locale/Domicile_Hapitual-Residence_en.md";
 import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
-import { Radio, Select, Space } from "antd";
 
 class NatMandantSteuerpflichtig extends Component {
-  state = { countries: null, selectedAnswer: null };
+  state = { countries: null, selectedAnswer: null, domicileDefinition: null };
 
   constructor(props) {
     super(props);
@@ -18,6 +20,12 @@ class NatMandantSteuerpflichtig extends Component {
     this.state.countries = countries.getNames(currentLang, {
       select: "official",
     });
+
+    fetch(DomicileHapitualResidenceDefinitionEN)
+      .then((res) => res.text())
+      .then((text) => {
+        this.state.domicileDefinition = text;
+      });
   }
 
   validate = () => {
@@ -41,11 +49,15 @@ class NatMandantSteuerpflichtig extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (
-      prevProps.formData.clientSubjectToTaxationInCountry !==
-      this.props.formData.clientSubjectToTaxationInCountry
-    ) {
-      this.validate();
+    const { isActive } = this.props;
+
+    if (isActive) {
+      if (
+        prevProps.formData.clientSubjectToTaxationInCountry !==
+        this.props.formData.clientSubjectToTaxationInCountry
+      ) {
+        this.validate();
+      }
     }
   };
 
@@ -57,7 +69,7 @@ class NatMandantSteuerpflichtig extends Component {
   };
 
   render() {
-    const { countries, selectedAnswer } = this.state;
+    const { countries, selectedAnswer, domicileDefinition } = this.state;
     const { currentLang, formData, onChangeFormData } = this.props;
 
     const { clientData } = formData;
@@ -129,12 +141,18 @@ class NatMandantSteuerpflichtig extends Component {
             />
           </div>
         </Space>
+        {domicileDefinition && (
+          <div style={{ marginTop: "auto" }}>
+            <ReactMarkdown>{domicileDefinition}</ReactMarkdown>
+          </div>
+        )}
       </>
     );
   }
 }
 
 NatMandantSteuerpflichtig.propTypes = {
+  isActive: PropTypes.bool,
   currentLang: PropTypes.string,
   formData: PropTypes.shape({
     clientData: PropTypes.shape({

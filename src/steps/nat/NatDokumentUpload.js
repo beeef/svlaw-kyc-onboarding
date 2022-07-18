@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
+import { Button, message, Upload } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
+import { formatBytes } from "../../util/util";
 
 class NatDokumentUpload extends Component {
   state = { selectedFiles: [] };
@@ -16,7 +17,7 @@ class NatDokumentUpload extends Component {
 
   render() {
     const { selectedFiles } = this.state;
-    const { currentLang, formData } = this.props;
+    const { currentLang, formData, onChangeFormData } = this.props;
 
     const { clientData } = formData;
     let firstName = "";
@@ -31,15 +32,15 @@ class NatDokumentUpload extends Component {
       accept: ".pdf,.jpg,.jpeg",
       className: "uploader",
       name: "file",
-      multiple: true,
+      multiple: false,
       action: "",
       beforeUpload: (file) => {
         this.setState({ selectedFiles: [file] }, this.validate);
+        onChangeFormData("clientData", { ...clientData, photoId: file });
+
         return false;
       },
-      onRemove: () => {
-        this.setState({ selectedFiles: [] }, this.validate);
-      },
+      showUploadList: false,
     };
 
     return (
@@ -54,15 +55,34 @@ class NatDokumentUpload extends Component {
             </li>
           </ul>
         )}
-        <Upload.Dragger {...uploadProps} fileList={selectedFiles}>
-          <InboxOutlined className="icon" />
-          <p className="upload-text">
-            {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
-          </p>
-          <p className="upload-hint">
-            {strings[currentLang].CHOOSE_MULTIPLE_FILES}
-          </p>
-        </Upload.Dragger>
+        {selectedFiles.length === 0 && (
+          <Upload.Dragger {...uploadProps} fileList={selectedFiles}>
+            <InboxOutlined className="icon" />
+            <p className="upload-text">
+              {strings[currentLang].CLICK_OR_DRAG_TO_UPLOAD}
+            </p>
+            <p className="upload-hint">
+              {strings[currentLang].CHOOSE_MULTIPLE_FILES}
+            </p>
+          </Upload.Dragger>
+        )}
+        <div className={selectedFiles.length === 0 ? "fade-out" : "fade-in"}>
+          {selectedFiles.length > 0 && (
+            <>
+              {selectedFiles[0].name} (
+              <i>{formatBytes(selectedFiles[0].size)}</i>){" "}
+              <Button
+                type="link"
+                danger
+                onClick={() => {
+                  this.setState({ selectedFiles: [] }, this.validate);
+                }}
+              >
+                Remove
+              </Button>
+            </>
+          )}
+        </div>
       </>
     );
   }
@@ -77,6 +97,7 @@ NatDokumentUpload.propTypes = {
     }),
   }),
   setCurrentStepValid: PropTypes.func,
+  onChangeFormData: PropTypes.func,
 };
 
 export default NatDokumentUpload;

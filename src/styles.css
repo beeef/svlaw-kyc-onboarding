@@ -40,9 +40,10 @@ body:after {
 
 p {
   font-family: "Calibri Light", sans-serif;
-  font-size: 1.1rem;
   text-align: left;
   width: 100%;
+  font-size: 1.2em;
+  font-weight: 400;
 }
 
 @keyframes rotate {
@@ -228,6 +229,8 @@ h2 {
   padding-right: 12px;
   padding-bottom: 24px;
   visibility: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-container .mySwiper .swiper-slide-active {
@@ -240,6 +243,21 @@ h2 {
   box-shadow: 0 0px 6px rgba(0, 0, 0, 0.4);
 }
 
+@media screen and (max-width: 900px) {
+  .main-container .right {
+    justify-content: center;
+    margin-top: 0;
+  }
+  .main-container .right .steps-nat,
+  .main-container .right .steps-jur {
+    display: none;
+  }
+
+  .main-container .right img.svlaw-logo {
+    margin-top: 10px;
+  }
+}
+
 @media screen and (min-width: 900px) {
   h1 {
     text-align: left;
@@ -248,7 +266,11 @@ h2 {
 
   h2 {
     text-align: left;
-    font-size: 1.6em;
+    font-size: 1.4em;
+  }
+
+  p {
+    font-size: 1.2em;
   }
 
   .main-container {

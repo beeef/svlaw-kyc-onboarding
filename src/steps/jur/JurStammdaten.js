@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
-import { validateEmail } from "../../util/validation";
 import CustomForm from "../../util/CustomForm";
 
 class JurStammdaten extends Component {
-  state = {};
+  state = { clientData: {} };
 
   shouldComponentUpdate = (nextProps) => {
     const { isActive } = this.props;
@@ -16,6 +15,7 @@ class JurStammdaten extends Component {
 
   render() {
     const { currentLang, setCurrentStepValid } = this.props;
+    const { clientData } = this.state;
 
     const onValChange = (key, value) => {
       const { clientData } = this.state;
@@ -94,6 +94,8 @@ class JurStammdaten extends Component {
         name: "vatNumber",
         label: strings[currentLang].jur.VAT_NUMBER,
         onChange: onValChange,
+        type: "vat",
+        countryCode: (clientData && clientData.countryOfRegistration) || null,
       },
     ];
 

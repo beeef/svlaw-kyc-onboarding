@@ -1,20 +1,35 @@
+import { Checkbox, Input, Space } from "antd";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Checkbox, Input, Space } from "antd";
 import ReactJson from "react-json-view";
 import strings from "../../locale/strings.json";
 
-class NatZusammenfassung extends Component {
+class JurZusammenfassung extends Component {
   state = { confirmed: false };
+
+  constructor(props) {
+    super(props);
+
+    this.textareaChangeTimeout = null;
+  }
+
+  componentDidUpdate = (prevProps) => {
+    const { isActive, setCurrentStepValid } = this.props;
+    const { isActive: wasActive } = prevProps;
+
+    if (isActive && isActive !== wasActive) {
+      setCurrentStepValid(true);
+    }
+  };
 
   render() {
     const { confirmed } = this.state;
-    const { currentLang, formData, setCurrentStepValid, onChangeFormData } =
+    const { currentLang, formData, onChangeFormData, setCurrentStepValid } =
       this.props;
 
     return (
       <>
-        <h2>{strings[currentLang].nat.STEP_ADDITIONAL_REMARKS}</h2>
+        <h2>{strings[currentLang].jur.STEP_ADDITIONAL_REMARKS}</h2>
         <Space style={{ width: "100%" }} direction="vertical" size="large">
           <Input.TextArea
             rows={5}
@@ -41,7 +56,7 @@ class NatZusammenfassung extends Component {
               });
             }}
           >
-            {strings[currentLang].nat.I_CONFIRM_PROVIDED_INFORMATION}
+            {strings[currentLang].jur.I_CONFIRM_PROVIDED_INFORMATION}
           </Checkbox>
         </Space>
       </>
@@ -49,11 +64,12 @@ class NatZusammenfassung extends Component {
   }
 }
 
-NatZusammenfassung.propTypes = {
-  currentLang: PropTypes.any,
+JurZusammenfassung.propTypes = {
   formData: PropTypes.any,
+  currentLang: PropTypes.any,
   setCurrentStepValid: PropTypes.func,
+  isActive: PropTypes.bool,
   onChangeFormData: PropTypes.func,
 };
 
-export default NatZusammenfassung;
+export default JurZusammenfassung;

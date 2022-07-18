@@ -7,6 +7,11 @@ import strings from "../../locale/strings.json";
 class NatRechtsgeschaefte extends Component {
   state = { otherChecked: false };
 
+  constructor(props) {
+    super(props);
+    this.inputChangeTimeout = null;
+  }
+
   validate = () => {
     const { otherChecked } = this.state;
     const { formData, setCurrentStepValid } = this.props;
@@ -43,19 +48,23 @@ class NatRechtsgeschaefte extends Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (
-      (prevProps.formData.legalServices ||
-        prevProps.formData.otherLegalService) &&
-      (!_.isEqual(
-        prevProps.formData.legalServices,
-        this.props.formData.legalServices
-      ) ||
-        !_.isEqual(
-          prevProps.formData.otherLegalService,
-          this.props.formData.otherLegalService
-        ))
-    ) {
-      this.validate();
+    const { isActive, formData } = this.props;
+    const { legalServices } = formData;
+
+    if (isActive) {
+      if (
+        legalServices &&
+        (!_.isEqual(
+          prevProps.formData.legalServices,
+          this.props.formData.legalServices
+        ) ||
+          !_.isEqual(
+            prevProps.formData.otherLegalService,
+            this.props.formData.otherLegalService
+          ))
+      ) {
+        this.validate();
+      }
     }
   };
 
@@ -105,7 +114,13 @@ class NatRechtsgeschaefte extends Component {
               placeholder={strings[currentLang].PLEASE_EXPLAIN}
               // value={otherLegalService}
               onChange={(e) => {
-                this.onOtherLegalServiceChange(e.target.value);
+                const { value } = e.target;
+                if (this.inputChangeTimeout != null)
+                  clearTimeout(this.inputChangeTimeout);
+                this.inputChangeTimeout = setTimeout(() => {
+                  this.onOtherLegalServiceChange(value);
+                  this.validate();
+                }, 400);
               }}
             />
           </div>
@@ -116,16 +131,11 @@ class NatRechtsgeschaefte extends Component {
 }
 
 NatRechtsgeschaefte.propTypes = {
+  isActive: PropTypes.bool,
   currentLang: PropTypes.any,
   formData: PropTypes.shape({
-    legalServices: PropTypes.shape({
-      filter: PropTypes.func,
-      indexOf: PropTypes.func,
-      length: PropTypes.number,
-    }),
-    otherLegalService: PropTypes.shape({
-      length: PropTypes.number,
-    }),
+    legalServices: PropTypes.array,
+    otherLegalService: PropTypes.string,
   }),
   onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,

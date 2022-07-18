@@ -15,8 +15,6 @@ class EmailInput extends Component {
 
   constructor(props) {
     super(props);
-
-    this.inputRef = React.createRef();
     this.validationTimeout = null;
   }
 
@@ -109,13 +107,12 @@ class EmailInput extends Component {
     const { defaultValue: prevDefaultValue } = prevProps;
 
     if (defaultValue !== prevDefaultValue) {
-      this.inputRef.current.value = defaultValue;
       this.setState({ currentValue: defaultValue }, this.validateValue);
     }
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, currentValue } = this.state;
     const {
       minLength,
       maxLength,
@@ -165,6 +162,7 @@ class EmailInput extends Component {
               this.validateValue
             );
           }}
+          value={currentValue}
           onChange={(e) => {
             const { value } = e.target;
             if (this.validationTimeout) clearTimeout(this.validationTimeout);

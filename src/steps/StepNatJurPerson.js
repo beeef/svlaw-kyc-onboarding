@@ -3,20 +3,15 @@ import React, { Component } from "react";
 import { Button, Col, Row } from "antd";
 import { BankOutlined, FilePdfOutlined, UserOutlined } from "@ant-design/icons";
 import strings from "../locale/strings.json";
-import countries from "i18n-iso-countries";
 import ReactMarkdown from "react-markdown";
 
 class StepNatJurPerson extends Component {
   state = {
-    countries: null,
     selectedType: null,
   };
 
   constructor(props) {
     super(props);
-
-    countries.registerLocale(require("i18n-iso-countries/langs/de.json"));
-    this.state.countries = countries.getNames("de", { select: "official" });
   }
 
   render() {
@@ -85,7 +80,8 @@ class StepNatJurPerson extends Component {
               style={{
                 display: "flex",
                 alignItems: "flex-start",
-                marginTop: "12px",
+                justifyContent: "center",
+                padding: "12px",
               }}
             >
               <FilePdfOutlined style={{ fontSize: "2rem", color: "coral" }} />

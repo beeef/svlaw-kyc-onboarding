@@ -20,13 +20,11 @@ class JurKontaktperson extends Component {
       allContactPersonsValid &&
       selectedPersons.length > 0
     ) {
-      console.log("hier1");
       setCurrentStepValid(true);
     } else if (
       selectedPersons.length > 0 &&
       (!contactData || contactData.length === 0)
     ) {
-      console.log("hier2");
       setCurrentStepValid(true);
     } else if (
       selectedPersons.length === 0 &&
@@ -34,10 +32,8 @@ class JurKontaktperson extends Component {
       contactData.length > 0 &&
       allContactPersonsValid
     ) {
-      console.log("hier3");
       setCurrentStepValid(true);
     } else {
-      console.log("hier4");
       setCurrentStepValid(false);
     }
   };

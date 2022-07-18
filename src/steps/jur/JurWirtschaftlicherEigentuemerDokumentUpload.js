@@ -1,11 +1,24 @@
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Upload } from "antd";
-import React, { Component } from "react";
 import strings from "../../locale/strings.json";
 import { formatBytes } from "../../util/util";
+import { ExclamationCircleTwoTone } from "@ant-design/icons";
 
 class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
-  state = { selectedFiles: {} };
+  state = { selectedFiles: {}, isOptional: false };
+
+  checkIfStepIsOptional = () => {
+    const { formData, onChangeFormData } = this.props;
+    const { legalServices, otherLegalService, beneficialOwners } = formData;
+
+    this.setState({
+      isOptional:
+        (!legalServices ||
+          (Array.isArray(legalServices) && legalServices.length === 0)) &&
+        otherLegalService,
+    });
+  };
 
   validate = () => {
     const { formData, setCurrentStepValid } = this.props;
@@ -22,13 +35,23 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
     }
   };
 
+  componentDidUpdate = (prevProps) => {
+    const { isActive: wasActive } = prevProps;
+    const { isActive } = this.props;
+
+    if (isActive && !wasActive) {
+      this.validate();
+      this.checkIfStepIsOptional();
+    }
+  };
+
   render() {
-    const { selectedFiles } = this.state;
+    const { selectedFiles, isOptional } = this.state;
     const { currentLang, formData } = this.props;
 
     const { beneficialOwners } = formData;
 
-    const uploadProps = (md) => ({
+    const uploadProps = (bo) => ({
       accept: ".jpg,.jpeg,.pdf",
       className: "uploader",
       name: "file",
@@ -37,10 +60,16 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
       beforeUpload: (file) => {
         this.setState(
           (s) => ({
-            selectedFiles: { ...s.selectedFiles, [md.key]: file },
+            selectedFiles: { ...s.selectedFiles, [bo.key]: file },
           }),
           this.validate
         );
+
+        // das file zum Managing Director anfügen
+        const idx = beneficialOwners.findIndex((bo2) => bo2.key === bo.key);
+        beneficialOwners[idx].photoId = file;
+        onChangeFormData("beneficialOwners", [...beneficialOwners]);
+
         return false;
       },
       showUploadList: false,
@@ -48,6 +77,15 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
 
     return (
       <>
+        {isOptional && (
+          <h2>
+            <ExclamationCircleTwoTone
+              twoToneColor="orange"
+              style={{ marginRight: "6px" }}
+            />
+            <b>This step is optional.</b>
+          </h2>
+        )}
         <h2>
           {
             strings[currentLang].jur
@@ -117,15 +155,14 @@ class JurWirtschaftlicherEigentuemerDokumentUpload extends Component {
 }
 
 JurWirtschaftlicherEigentuemerDokumentUpload.propTypes = {
+  isActive: PropTypes.bool,
   currentLang: PropTypes.any,
   formData: PropTypes.shape({
-    beneficialOwners: PropTypes.arrayOf(
-      PropTypes.shape({
-        length: PropTypes.number,
-        map: PropTypes.func,
-      })
-    ),
+    beneficialOwners: PropTypes.array,
+    legalServices: PropTypes.array,
+    otherLegalService: PropTypes.string,
   }),
+  onChangeFormData: PropTypes.func,
   setCurrentStepValid: PropTypes.func,
 };
 

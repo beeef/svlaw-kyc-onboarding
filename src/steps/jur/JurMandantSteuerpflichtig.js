@@ -4,10 +4,17 @@ import strings from "../../locale/strings.json";
 import countries from "i18n-iso-countries";
 import countriesDE from "i18n-iso-countries/langs/de.json";
 import countriesEN from "i18n-iso-countries/langs/en.json";
-import { Checkbox, Form, Radio, Select, Space } from "antd";
+import DomicileHapitualResidenceDefinitionEN from "../../locale/Domicile_Hapitual-Residence_en.md";
+import { Radio, Select, Space } from "antd";
+import ReactMarkdown from "react-markdown";
 
 class JurMandantSteuerpflichtig extends Component {
-  state = { countries: null, selectedType: null, selectedAnswer: null };
+  state = {
+    countries: null,
+    selectedType: null,
+    selectedAnswer: null,
+    domicileDefinition: null,
+  };
 
   constructor(props) {
     super(props);
@@ -18,6 +25,12 @@ class JurMandantSteuerpflichtig extends Component {
     this.state.countries = countries.getNames(currentLang, {
       select: "official",
     });
+
+    fetch(DomicileHapitualResidenceDefinitionEN)
+      .then((res) => res.text())
+      .then((text) => {
+        this.state.domicileDefinition = text;
+      });
   }
 
   validate = () => {
@@ -55,7 +68,7 @@ class JurMandantSteuerpflichtig extends Component {
   };
 
   render() {
-    const { countries, selectedAnswer } = this.state;
+    const { countries, selectedAnswer, domicileDefinition } = this.state;
     const { currentLang, formData, onChangeFormData } = this.props;
 
     const { clientData } = formData;
@@ -125,6 +138,11 @@ class JurMandantSteuerpflichtig extends Component {
             />
           </div>
         </Space>
+        {domicileDefinition && (
+          <div style={{ marginTop: "auto" }}>
+            <ReactMarkdown>{domicileDefinition}</ReactMarkdown>
+          </div>
+        )}
       </>
     );
   }

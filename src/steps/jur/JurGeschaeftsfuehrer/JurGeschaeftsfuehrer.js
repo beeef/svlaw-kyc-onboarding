@@ -142,6 +142,11 @@ class JurGeschaeftsfuehrer extends Component {
                 size="small"
                 icon={<PlusOutlined />}
                 onClick={this.addNewManagingDirector}
+                disabled={
+                  Object.values(managingDirectorKeyValid).findIndex(
+                    (val) => val === false
+                  ) >= 0
+                }
               >
                 Add another managing director
               </Button>

@@ -35,7 +35,7 @@ const JurKontaktPersonCard = ({
       name: "phone",
       required: true,
       onChange: onChange,
-      label: strings[currentLang].nat.PHONE_NUMBER,
+      label: strings[currentLang].jur.PHONE_NUMBER,
       type: "phone",
       help: "Please provide the number in the following format: +43 1 23456789",
     },

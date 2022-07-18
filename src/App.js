@@ -35,7 +35,7 @@ import JurWirtschaftlicherEigentuemerDokumentUpload from "./steps/jur/JurWirtsch
 import JurKontaktperson from "./steps/jur/JurKontaktPerson/JurKontaktPerson";
 import JurAusfuellerInformation from "./steps/jur/JurAusfuellerInformation";
 import JurZusaetzlicheDokumenteUpload from "./steps/jur/JurZusaetzlicheDokumenteUpload";
-import JurZusaetzlicheInformationen from "./steps/jur/JurZusaetzlicheInformationen";
+import JurZusammenfassung from "./steps/jur/JurZusammenfassung";
 
 class App extends Component {
   state = {
@@ -302,10 +302,11 @@ class App extends Component {
                       return (
                         <>
                           {CT === "nat" && (
-                            <NatZusaetzlicheInformationen
+                            <NatZusammenfassung
                               isActive={isActive}
                               currentLang={currentLang}
                               onChangeFormData={this.handleChangeFormData}
+                              formData={formData}
                               setCurrentStepValid={this.setCurrentStepValid}
                             />
                           )}
@@ -323,36 +324,21 @@ class App extends Component {
                     }
                   }}
                 </SwiperSlide>
-                <SwiperSlide tabIndex={-1}>
-                  {({ isActive }) => {
-                    if (CT) {
-                      return (
-                        <>
-                          {CT === "nat" && (
-                            <NatZusammenfassung
-                              isActive={isActive}
-                              currentLang={currentLang}
-                              onChangeFormData={this.handleChangeFormData}
-                              formData={formData}
-                              setCurrentStepValid={this.setCurrentStepValid}
-                            />
-                          )}
-                          {CT === "jur" && (
-                            <JurPEP2
-                              isActive={isActive}
-                              formData={formData}
-                              currentLang={currentLang}
-                              onChangeFormData={this.handleChangeFormData}
-                              setCurrentStepValid={this.setCurrentStepValid}
-                            />
-                          )}
-                        </>
-                      );
-                    }
-                  }}
-                </SwiperSlide>
                 {CT && CT === "jur" && (
-                  <SwiperSlide tabIndex={-1}>
+                  <SwiperSlide>
+                    {({ isActive }) => (
+                      <JurPEP2
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
                     {({ isActive }) => (
                       <JurWirtschaftlicherEigentuemerDokumentUpload
                         isActive={isActive}
@@ -365,7 +351,7 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide tabIndex={-1}>
+                  <SwiperSlide>
                     {({ isActive }) => (
                       <JurKontaktperson
                         isActive={isActive}
@@ -378,7 +364,7 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide tabIndex={-1}>
+                  <SwiperSlide>
                     {({ isActive }) => (
                       <JurAusfuellerInformation
                         isActive={isActive}
@@ -391,9 +377,22 @@ class App extends Component {
                   </SwiperSlide>
                 )}
                 {CT && CT === "jur" && (
-                  <SwiperSlide tabIndex={-1}>
+                  <SwiperSlide>
                     {({ isActive }) => (
                       <JurZusaetzlicheDokumenteUpload
+                        isActive={isActive}
+                        formData={formData}
+                        currentLang={currentLang}
+                        onChangeFormData={this.handleChangeFormData}
+                        setCurrentStepValid={this.setCurrentStepValid}
+                      />
+                    )}
+                  </SwiperSlide>
+                )}
+                {CT && CT === "jur" && (
+                  <SwiperSlide>
+                    {({ isActive }) => (
+                      <JurZusammenfassung
                         isActive={isActive}
                         formData={formData}
                         currentLang={currentLang}
@@ -454,7 +453,7 @@ class App extends Component {
               alt="STADLER VÖLKEL Logo"
             />
             {CT && CT === "nat" && (
-              <div style={{ width: "100%" }}>
+              <div style={{ width: "100%" }} className="steps-nat">
                 <p style={{ marginTop: "auto", color: "#ffffff" }}>
                   {strings[currentLang].CLICK_TO_SWITCH_BETWEEN_STEPS}
                 </p>
@@ -486,16 +485,12 @@ class App extends Component {
                     title="Contact information"
                     onStepClick={this.onStepClick}
                   />
-                  <Steps.Step
-                    title="Additional remarks"
-                    onStepClick={this.onStepClick}
-                  />
                   <Steps.Step title="Summary" onStepClick={this.onStepClick} />
                 </Steps>
               </div>
             )}
             {CT && CT === "jur" && (
-              <div style={{ width: "100%" }}>
+              <div style={{ width: "100%" }} className="steps-jur">
                 <p style={{ marginTop: "auto", color: "#ffffff" }}>
                   {strings[currentLang].CLICK_TO_SWITCH_BETWEEN_STEPS}
                 </p>

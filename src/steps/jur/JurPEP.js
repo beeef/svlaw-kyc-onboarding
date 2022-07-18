@@ -16,6 +16,8 @@ class JurPEP extends Component {
       .then((text) => {
         this.state.pepDefinition = text;
       });
+
+    this.textareaChangedTimeout = null;
   }
 
   validate = () => {
@@ -44,22 +46,48 @@ class JurPEP extends Component {
       } else if (
         selectedAnswer1 &&
         selectedAnswer1 === strings[currentLang].YES &&
-        managingDirectorsPepExplanation1
+        managingDirectorsPepExplanation1 &&
+        managingDirectorsPepExplanation1.length > 2
       ) {
         if (selectedAnswer2 && selectedAnswer2 === strings[currentLang].NO) {
           setCurrentStepValid(true);
         } else if (
           selectedAnswer2 &&
           selectedAnswer2 === strings[currentLang].YES &&
-          managingDirectorsPepExplanation2
+          managingDirectorsPepExplanation2 &&
+          managingDirectorsPepExplanation2.length > 2
         ) {
           setCurrentStepValid(true);
         } else {
           setCurrentStepValid(false);
         }
+      } else {
+        setCurrentStepValid(false);
       }
     }
   };
+
+  // componentDidUpdate = (prevProps) => {
+  //   const { formData } = this.props;
+  //   const { formData: prevFormData } = prevProps;
+
+  //   const {
+  //     managingDirectorsPepExplanation1,
+  //     managingDirectorsPepExplanation2,
+  //   } = formData;
+  //   const {
+  //     managingDirectorsPepExplanation1: prev1,
+  //     managingDirectorsPepExplanation2: prev2,
+  //   } = prevFormData;
+
+  //   if (
+  //     (managingDirectorsPepExplanation1 || managingDirectorsPepExplanation2) &&
+  //     (managingDirectorsPepExplanation1 !== prev1 ||
+  //       managingDirectorsPepExplanation2 !== prev2)
+  //   ) {
+  //     this.validate();
+  //   }
+  // };
 
   render() {
     const { selectedAnswer1, selectedAnswer2, pepDefinition } = this.state;
@@ -118,10 +146,14 @@ class JurPEP extends Component {
             rows={3}
             style={{ resize: "none" }}
             onChange={(e) => {
-              onChangeFormData(
-                "managingDirectorsPepExplanation1",
-                e.target.value
-              );
+              if (this.textareaChangedTimeout) clearTimeout(this.text);
+              this.textareaChangedTimeout = setTimeout(() => {
+                onChangeFormData(
+                  "managingDirectorsPepExplanation1",
+                  e.target.value
+                );
+                this.validate();
+              }, 400);
             }}
           />
         </div>
@@ -160,10 +192,14 @@ class JurPEP extends Component {
             rows={3}
             style={{ resize: "none" }}
             onChange={(e) => {
-              onChangeFormData(
-                "managingDirectorsPepExplanation2",
-                e.target.value
-              );
+              if (this.textareaChangedTimeout) clearTimeout(this.text);
+              this.textareaChangedTimeout = setTimeout(() => {
+                onChangeFormData(
+                  "managingDirectorsPepExplanation2",
+                  e.target.value
+                );
+                this.validate();
+              }, 400);
             }}
           />
         </div>

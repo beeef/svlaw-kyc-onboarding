@@ -6,12 +6,11 @@ import strings from "../../locale/strings.json";
 class JurRechtsgeschaefte extends Component {
   state = { otherChecked: false };
 
-  shouldComponentUpdate = (nextProps) => {
-    const { isActive } = this.props;
-    const { isActive: willBeActive } = nextProps;
+  constructor(props) {
+    super(props);
 
-    return willBeActive && isActive != willBeActive;
-  };
+    this.inputChangeTimeout = null;
+  }
 
   validate = () => {
     const { otherChecked } = this.state;
@@ -121,7 +120,13 @@ class JurRechtsgeschaefte extends Component {
               placeholder={strings[currentLang].PLEASE_EXPLAIN}
               // value={otherLegalService}
               onChange={(e) => {
-                this.onOtherLegalServiceChange(e.target.value);
+                const { value } = e.target;
+                if (this.inputChangeTimeout != null)
+                  clearTimeout(this.inputChangeTimeout);
+                this.inputChangeTimeout = setTimeout(() => {
+                  this.onOtherLegalServiceChange(value);
+                  this.validate();
+                }, 400);
               }}
             />
           </div>
@@ -137,13 +142,7 @@ JurRechtsgeschaefte.propTypes = {
     clientData: PropTypes.shape({
       nameLegalEntity: PropTypes.any,
     }),
-    legalServices: PropTypes.arrayOf(
-      PropTypes.shape({
-        filter: PropTypes.func,
-        indexOf: PropTypes.func,
-        length: PropTypes.number,
-      })
-    ),
+    legalServices: PropTypes.array,
     otherLegalService: PropTypes.string,
   }),
   onChangeFormData: PropTypes.func,

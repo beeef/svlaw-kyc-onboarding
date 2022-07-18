@@ -14,8 +14,6 @@ class TextInput extends Component {
   constructor(props) {
     super(props);
 
-    this.inputRef = React.createRef();
-
     this.validationTimeout = null;
   }
 

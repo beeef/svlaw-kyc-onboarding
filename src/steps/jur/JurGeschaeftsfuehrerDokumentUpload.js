@@ -1,4 +1,4 @@
-import PropTypes, { object } from "prop-types";
+import PropTypes from "prop-types";
 import { Button, message, Upload } from "antd";
 import React, { Component } from "react";
 import strings from "../../locale/strings.json";
@@ -14,8 +14,12 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
     if (isActive) {
       if (managingDirectors) {
         const { selectedFiles } = this.state;
+        console.log(
+          managingDirectors.filter((md) => selectedFiles[md.key] == null)
+        );
         setCurrentStepValid(
-          managingDirectors.filter((md) => !selectedFiles[md]).length === 0
+          managingDirectors.filter((md) => selectedFiles[md.key] == null)
+            .length === 0
         );
       } else {
         setCurrentStepValid(false);
@@ -23,9 +27,18 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
     }
   };
 
+  componentDidUpdate = (prevProps) => {
+    const { isActive } = this.props;
+    const { isActive: wasActive } = prevProps;
+
+    if (isActive && !wasActive) {
+      this.validate();
+    }
+  };
+
   render() {
     const { selectedFiles } = this.state;
-    const { currentLang, formData } = this.props;
+    const { currentLang, formData, onChangeFormData } = this.props;
 
     const { managingDirectors } = formData;
 
@@ -36,9 +49,18 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
       multiple: true,
       action: "",
       beforeUpload: (file) => {
-        this.setState((s) => ({
-          selectedFiles: { ...s.selectedFiles, [md.key]: file },
-        }));
+        this.setState(
+          (s) => ({
+            selectedFiles: { ...s.selectedFiles, [md.key]: file },
+          }),
+          this.validate
+        );
+
+        // das file zum Managing Director anfügen
+        const idx = managingDirectors.findIndex((md2) => md2.key === md.key);
+        managingDirectors[idx].photoId = file;
+        onChangeFormData("managingDirectors", [...managingDirectors]);
+
         return false;
       },
       showUploadList: false,
@@ -80,7 +102,9 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
                     </Upload.Dragger>
                   </div>
                 )}
-                <div className={!selectedFiles[md] ? "fade-out" : "fade-in"}>
+                <div
+                  className={!selectedFiles[md.key] ? "fade-out" : "fade-in"}
+                >
                   {selectedFiles[md.key] && (
                     <>
                       {selectedFiles[md.key].name} (
@@ -115,15 +139,11 @@ class JurGeschaeftsfuehrerDokumentUpload extends Component {
 JurGeschaeftsfuehrerDokumentUpload.propTypes = {
   currentLang: PropTypes.any,
   formData: PropTypes.shape({
-    managingDirectors: PropTypes.arrayOf(
-      PropTypes.shape({
-        length: PropTypes.number,
-        map: PropTypes.func,
-      })
-    ),
+    managingDirectors: PropTypes.array,
   }),
   setCurrentStepValid: PropTypes.func,
   isActive: PropTypes.bool,
+  onChangeFormData: PropTypes.func,
 };
 
 export default JurGeschaeftsfuehrerDokumentUpload;

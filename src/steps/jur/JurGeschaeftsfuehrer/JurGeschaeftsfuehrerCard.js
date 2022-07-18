@@ -122,7 +122,7 @@ class JurGeschaeftsfuehrerCard extends Component {
             <Col xs={24} md={24}>
               <Form.Item
                 label={strings[currentLang].jur.POWER_OF_REPRESENTATION}
-                help={strings[currentLang].jur.POWER_OF_REPRESENTATION_HELP}
+                // help={strings[currentLang].jur.POWER_OF_REPRESENTATION_HELP}
                 required
               >
                 <Select

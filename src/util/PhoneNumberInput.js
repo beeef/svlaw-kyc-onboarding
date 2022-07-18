@@ -17,9 +17,6 @@ class PhoneNumberInput extends Component {
   constructor(props) {
     super(props);
 
-    this.areaCodeInputRef = React.createRef();
-    this.phoneNumberInputRef = React.createRef();
-
     this.validationTimeout = null;
   }
 
@@ -128,16 +125,11 @@ class PhoneNumberInput extends Component {
             : defaultValue;
         const number = defaultValue.length > 2 ? defaultValue.substring(2) : "";
 
-        this.areaCodeInputRef.current.value = areaCode;
-        this.phoneNumberInputRef.current.value = number;
-
         this.setState(
           { currentValue: number, currentAreaCode: areaCode },
           this.validateValue
         );
       } else {
-        this.areaCodeInputRef.current.value = "";
-        this.phoneNumberInputRef.current.value = "";
         this.setState(
           { currentAreaCode: "", currentValue: "" },
           this.validateValue
@@ -205,6 +197,7 @@ class PhoneNumberInput extends Component {
                 this.validateValue
               );
             }}
+            value={currentAreaCode}
             ref={this.areaCodeInputRef}
             size={size || "middle"}
             placeholder="43"
